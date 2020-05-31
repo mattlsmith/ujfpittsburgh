@@ -1,0 +1,505 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["1","Major Gifts"],["8","National Young Leadership"]];
+arySubCat[10]=[["7","Test Department"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - Reflections from Mission Atidim</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_11220/">2005 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?71911">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?71909">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_116865/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_168262/">i-connect Teen Trip</a></li><li><a class="submenu" href="../content_display_ArticleID_163049/">Mission Atidim</a></li><li><a class="submenu" href="../content_display_ArticleID_158106/">Family Missions</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?71909">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?71911" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_165640/" target="_self"><img src="../getimage.asp_id_70237.jpg" width="112" height="112" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Missions</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_17/">Missions</a>&nbsp;&gt;&nbsp;Reflections from Mission Atidim</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_17/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Reflections from Mission Atidim<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+					By Lynne and Michael Garfinkel, Mission Atidim Chairs <br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p><em>How was the trip? What did we do? What did we accomplish? What lies ahead for the Pittsburgh young adult community?</em></p>
+<p>Although words cannot do justice to the incredible experiences we had and the strong bonding that occurred on this mission,&nbsp;we will attempt to present you with a taste of Mission Atidim.</p>
+<p>The first thing we did was visit out Partnership 2000 Region Karmiel/Misgav. After the Shehecheyanu we were greeted by Mayor Adi Eldar of Ka<table width="260" cellpadding="0" cellspacing="0" border="0" align="right"><tr align="center"><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td><td width="250"><img style="WIDTH: 212px; HEIGHT: 163px" height="188" alt="" src="../getimage.asp_id_82424.jpg" width="250" align="right" border="0" name="Day-1A-35_472082424" originalheight="188" originalwidth="250" caption></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>rmiel and Mayor Erez Kriezler of Misgav. We presented Adi with an official Pittsburgh flag. To Erez, we presented one of our community "mitzvah projects"; a beautiful quilt designed by Shanna Tellerman, constructed by Sara and Emily Farkas, and decorated with pieces contributed by all mission participants. After baking pita and learning some Bedouin drum beats, and enjoying lunch with the Partnership 2000 steering committee we got right into the "business of our mission." However, in reality, the "business of our mission" had already started in the airport, on the airplane, and on the bus to the region -- the bonding of 84 young adults from throuhgout the Pittsburgh area had begun.</p>
+<p><strong>First, the projects:</strong><br>The projects we visited in our partnership region are some of the most innovative, heart-warm<table width="260" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="250"><img style="WIDTH: 225px; HEIGHT: 169px" height="188" alt="" src="../getimage.asp_id_82428.jpg" width="250" align="left" border="0" name="Day-1A-59_42682428" originalheight="188" originalwidth="250" caption></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>ing, socially redeeming projects you can dream of. The Children’s Village of Karmiel was inspiring to everyone, but especially to parents in the group who sometimes struggle to manage our own couple of children. To talk with parents like us who adopt eleven extra, sometimes troubled children from mostly broken homes, for periods of up to five years was awe-inspiring. Our second "mitzvah project" culminated at the Children’s Village -- each mission participant purchased a back pack and filled it with school supplies collected by schools and synagogues in Pittsburgh. Presenting close to 90 back packs was a small but much appreciated gesture.&nbsp;&nbsp; Another mitzvah project we enjoyed was helping children in Karmiel pack Purim basketsfor "lone soldiers" who have no family in Israel.</p>
+<p>At&nbsp;Kibbutz Eshbal we met some amazing young adults who have dedicated their lives to helping Ethiopian youth out of a life of drugs, poverty, jail or worse.&nbsp; They provide a very structured, but loving environment to help them acquire the keys they need to become productive members of Israeli society: a high school education and army service.&nbsp;The revolutionary Arab-Israeli school in the Misgav region gave us hope for the future. We witnessed Israeli Arab and Jewish children playing and learning together. Learning each other’s languages and cultures, similarities and differences is certainly a first step toward future peace for their generation. </p>
+<p>As part of the UJC Tel Aviv One Conference we visited an Ethiopian National Project high school. We witnessed one of Karen Shapira’s dreams coming true. We talked with a 13 year old girl, Dahlia, who has 10 brothers and sisters. Her family had dreamed of coming to Israel, their homeland, and starting over. Dahlia speaks Hebrew, plays with other Israeli children and is integrated into the quilt that makes up the Israeli people. </p>
+<p>These are only a few of the projects we visited, but to see them and speak with the people involved with them and benefiting from them gave us tangible evidence of how the UJF is helping Jews in Israel.</p>
+<p><strong>The bonding:</strong><br>The bonds we created with each other and Israeli’s will be long lasting. In the early stages of planning for the mission, David and Meryl Ainsman clued&nbsp;us in to the fact that one of the keys to the successful creation of bonds would be the bars in our hotels. This couldn’t have been more true. Each night we all stayed up late and shared our incredible experiences from the day with each other. On Shabbat, after eating as a group in the hotel we collectively moved to the bar and drank and laughed late into the night. People did not stay safe and sit with their cliques or people they already knew from Pittsburgh, we sat at tables with new faces and truly got to know one another. More than one night in Tel Aviv we all sat on the beach with bottles of wine, laughing and just enjoying being together. </p>
+<p><table width="235" cellpadding="0" cellspacing="0" border="0" align="right"><tr align="center"><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td><td width="225"><img height="169" alt="" src="../getimage.asp_id_82944.jpg" width="225" align="right" border="0" name="day-5-69_223982944" originalheight="188" originalwidth="250" caption></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>Upon arrival at the Tel Aviv One conference we cheered the "Here we go Steelers" song in the lobby of the David Intercontinental Hotel. The echoes carried across the ears of those from Cleveland, Seattle, Denver, etc. When Howard Reiger welcomed the 1000 plus young adults to the conference we cheered again and he pulled a Terrible Towel from his sleeve and waved it proudly over his head. We bonded with young adults from other cities. It may have taken the 60 Clevelanders a little extra time to warm up to us after we left a sign that said, "go Steelers" on their bus when they weren’t there. A few of the singles on the trip may have even formed different bonds with other young adults, but we won’t go there. </p>
+<p>The bonds we formed with Israelis were no less powerful. Our first night in the region, we dined with young adults from the area. We sat together and learned about their lives, their struggles, and their hope for peace and their dreams for their children. We sat next to a young man who had grown up in the Children’s Village. He is now a film editor and he plans to make his own movie that will tell his story of being saved from the worst life can offer, and being taken into a loving family. He now donates 10% of his income directly to the Children’s Village. The next night, we split into small groups and received home hospitality, and got to see firsthand how our brothers and sisters in the region live. We were received with open arms and delicious food and we invited many of our new friends to come to Pittsburgh and receive the warm welcome they gave us. In fact, there were so many families in the region that wanted to host us, we needed to split into smaller groups than originally planned to accommodate the overwhelming response.</p>
+<p><table width="210" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="200"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>Emotionally, each participant was touched at different times. For some it was listening to the volunteer director at Yad L’Banim (the memorial to the fallen soldiers in Karmiel). She is a mother who lost her son and several others in her family. For some it was experiencing Shabbat at the Kotel, lighting candles on the Southern Steps, some touching the wall for the first time. I am fairly certain that there were no dry eyes at the Children’s Memorial at Yad Vashem, or at our special ceremony at the Valley of Jewish Communities led by Jonty Blackman. </p>
+<p>For us, the caucus was an emotional high. It was a powerful tool that drew out Jewish feelings that the mission had evoked. One of our mixed marriage participants was able to come to terms with her feelings about her husband’s demand that their children be raised Jewish. What she could not understand at home became very clear to her during this mission in Israel. Another couple who were natives of another city declared their plans to stay in Pittsburgh for life to raise their daughter in the strong Pittsburgh Jewish community and credited the mission for this new sense of belonging. Another fairly secular participant told of how he had taken a cab from Tel Aviv to Jerusalem so that he could lay tfilin at the wall for the first time after being inspired by his whole mission experience. </p>
+<p>The Tel Aviv One Conference separated the Pittsburgh group into smaller groups. During the day we each chose different forums and tours. In the evenings, when we reunited as the Pittsburgh delegation, we celebrated and talked about how we had missed each other. To me this was a true measure of our success in bonding as a community. We already have 20 families interested in the family mission&nbsp;we hope to co-chair in 6 years that we began talking about during Mission Atidim.</p>
+<p><strong>The future:</strong><br>We&nbsp;save the&nbsp;fund-raising piece for last because although it also is a measure of the success of the mission, it came as a natural result of the other goals of the mission… it came from everyone’s hearts.&nbsp;We presented a dvar Torah on Shabbat (Trumah) and addressed giving generously and the need for everyone to participate, to come together as a community and make this happen. For each vessel, the command reads ‘and you shall make..’ in the singular form, implying that it could be done alone. But the command to build the ark that holds the Torah is different. It reads, ‘and they shall make a Holy Ark’ implying it would take the work of the entire community, individuals working together, to build it correctly. The implications for our mission are obvious. Working together, we can build a stronger community. Working together, we can achieve much more than any one of us alone. Working together, giving generously, we can make the world a better place. </p>
+<p>Mission Atidim raised $103,000 dollars for campaign representing mover a 160%&nbsp;person-for-person&nbsp;increase.</p>
+<p>What about the future? UJF staff is meeting with each participant to expand on individuals interests in areas of future participation with the UJF and its beneficiary agencies.</p>
+<p>In the end,&nbsp; the leadership had a vision and sold it to us in the form of a cheap trip to Israel. It was advertised… we bought it, but we got much, much more than we bargained for: a lifelong bond to Israel and the Jewish community of Pittsburgh. We all GOT IT. Giving new meaning to the term "Israel Bonds."</p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="../emailarticle_ArticleID_178936/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="../emailarticle_ArticleID_178936/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(178936,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(178936,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline2" size="2" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Related Links:<br></font><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="http://www.ujfpittsburgh.org/content_display.html?ArticleID=177475" target="_self" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Check Out Virtual Mission Atidim</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - Reflections from Mission Atidim";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Jessica B. Smith, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

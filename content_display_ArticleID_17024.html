@@ -1,0 +1,539 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - Jewish Life Cycle/Rituals: Adult Bar/Bat Mitzvah</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201401">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201403">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201399">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?201401" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Jewish Life</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_16/">Jewish Life</a>&nbsp;&gt;&nbsp;Jewish Life Cycle/Rituals: Adult Bar/Bat Mitzvah</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_16/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Adult Bar and Bat Mitzvah: Meaningful at Every Age <br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+					By Ellen Jaffe-Gill <br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p>Most descriptions of an adult Bar or Bat Mitzvah tend to focus on people of a certain age: women old enough to have grown up when females had no ritual purpose on the <i style="mso-bidi-font-style: normal">bimah</i> (podium) of any synagogue and 83-year-old men who celebrate a second bar mitzvah, having lived a life span of 70 years since the first, much as actor Kirk Douglas did recently. </p>
+<p><table width="200" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="190"><img name="Man and Girls With Torah - medium" credit="" id="762" caption="" src="../getimage.asp_id_762.jpg" alt="Man and Girls With Torah " align="right" border="0" height="169" originalheight="169" width="190" originalwidth="190"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>But adult Bar or Bat Mitzvah happens at many ages and for many reasons. The Bar or Bat Mitzvah isn't a mandatory rite of passage; by Jewish law, a boy reaches adulthood when he turns 13 and a girl at 12, no ceremony required. The very lack of necessity makes such an effort even more remarkable as a concrete, hard-won, and public affirmation of Jewish identity and commitment. </p>
+<p>Most of the reasons that Jews don't have Bar or Bat Mitzvahs when they're children fall into two broad categories: couldn't or didn't want to. "I was feeling kind of atheistic at that point in my life," said Ron, a film producer in Los Angeles who grew up belonging to a Conservative synagogue on Long Island. "I remember talking with the other boys at my temple, and they all said they were doing it for a big party and lots of presents. And I just felt at that point that, not having the religious conviction, I didn't want to go through this ceremony just to have a party and presents. It felt very hypocritical to me." </p>
+<p>"My parents were not at all religious, and they just didn't believe in having a Bar Mitzvah," said David, a Toronto businessman raised in Queens by "left-wing Jewish educators."</p>
+<p>The spiritual alienation felt at 13 by Jane, a Los Angeles copy editor, came from a different source. "That was right when my parents got divorced, and I hated them," she said. "I didn't feel very religious at that point." </p>
+<p>Converts to Judaism, who of course weren't Jewish at 12 and 13, form a natural and ever-expanding source of adult Bar and Bat Mitzvah candidates. Joe, a vice president of his Reform temple on Cape Cod, celebrated his Bar Mitzvah at age 45, 13 years after his conversion. "In those 13 years, I had become a Jew. Clearly it was time for me to take the next step. I wanted to set an example for my children, and they weren't old enough until recently to appreciate (or remember) such an event." On the personal level, Joe adds, "I wanted a deeper understanding and appreciation for my chosen religion." </p>
+<p>By contrast, Susan was already studying for her Bat Mitzvah at her suburban New York synagogue at the time she became Jewish. "I needed and wanted to know more. As a Jew, I have the right to embrace all that this religion has to offer, and I have every intention of doing just that." </p>
+<p>Ron revised his thinking about religion in his mid-twenties. "I had rediscovered my Judaism, and I had rediscovered my belief in God," he said. "I think the experience of going through [Bar Mitzvah] when it meant something to me personally and spiritually was so much richer than it might have been doing it as a stupid 13-year-old kid." </p>
+<p>Sue had chosen summer camp over the type of Bat Mitzvah girls in most Conservative synagogues were offered in the 1960s. She decided, after losing a husband to cancer at age 22 and finding solace in an egalitarian congregation, that "I finally felt like a grown-up and it was time to make a public proclamation to that effect with a Bat Mitzvah." </p>
+<p>Jane, who will be 25 when she celebrates her Bat Mitzvah in June at a Conservative synagogue, said she doesn't need to rebel any more. Her mother, whose family was "not that religious" when she was growing up, will share the day with Jane, in part to set an example of Jewish commitment for Jane's 7-year-old sister. </p>
+<p>David says his Bar Mitzvah at age 42 wasn't the culmination of a spiritual quest but was more about identity. "I felt I needed to read from the Torah; I felt it was something that I didn't do as a youngster and that being Jewish and having a Jewish identity was important to me," David said. "As much as I will deny having any type of spiritual connection, I have to say that reading from the Torah was a magical experience." </p>
+<p>Adults who pursue Bar or Bat Mitzvah generally study in a synagogue-based class or one-on-one with a rabbi, sometimes for a year or more, learning Hebrew and the skills needed to conduct part of the service, and analyzing the relevant Torah portion. Studies can also include Torah chanting, haftarah (commentary on the Torah), theology, and Jewish history and tradition. The ceremony may be a solo effort or a shared experience among the members of a class. </p>
+<p>"I enjoyed sitting around the table with the rabbi and the other students, discussing different aspects of Judaism and Torah and Hebrew," Ron said. </p>
+<p>Susan called the friendships that formed in her class "the icing on the cake. The eight of us remain friends and are there for each other in good times and bad." </p>
+<p>"The event was one of the most joyous and fulfilling experiences of my life," Joe said of his class's ceremony. Along with families and friends, he said, the hall "was packed with members of the congregation who came just because it was an important event that they wanted to witness. Many parents came with their children." </p>
+<p>Susan called the enormous turnout at her Bat Mitzvah "truly a community celebration." But just as important, she said, the ceremony didn't represent the end of a path, but a milestone in her journey as a learner. "The class served as a wonderful overview of this religion, but it's only the tip of the iceberg," she told the congregation from the <i style="mso-bidi-font-style: normal">bimah</i> (podium). "My education has just begun." </p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="../emailarticle_ArticleID_17024/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="../emailarticle_ArticleID_17024/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(17024,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(17024,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline2" size="2" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Related Links:<br></font><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="../preview_articleID_17023/" target="_self" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Jewish Life Cycle/Rituals: Bar Mitzvah Book Review</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="http://collections.ic.gc.ca/art_context/tbar.htm" target="_new" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">A Brief History of Bar/Bat Mitzvah</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - Jewish Life Cycle/Rituals: Adult Bar/Bat Mitzvah";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

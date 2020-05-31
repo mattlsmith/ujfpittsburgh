@@ -1,0 +1,154 @@
+/* nav styles */
+li.navItem
+{
+	position: relative;
+	width: 130px;
+	text-align: right;
+	/*border: solid black 1px;*/
+}
+
+#MainNavLink
+{
+	width: 116px;
+	line-height: 12px;
+}
+
+/* Hide from IE5-mac. Only IE-win sees this. \*/
+* html li.navItem
+{
+	width: 135px;
+}
+
+
+/* this sets the horizontal position of sub menu */
+li.navItem ul
+{
+	position: absolute;
+	display: none;
+	left: 135px;
+	top: 0px;
+}
+
+
+li.navItem>ul
+{
+	left: 164px;
+}
+
+
+ul.navBar li.navItem:hover ul.subNav, 
+ul.subNav li.navItem:hover
+{
+	display: block;
+	width: 300px; /* is 100px more than non-IE css file */
+}
+
+
+/* This is for javascript-assigned hover events */
+ul.navBar li.over ul
+{
+    display: block;
+    width: 200px;
+}
+
+
+ul.navBar li a
+{
+	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	font-size: 12px;
+	color: #333333;
+	padding: 6px 0px 6px 6px;
+	width: 100%;
+	cursor: hand;
+	display: ;
+}
+
+
+ul.navBar li a:hover
+{
+	color: #3A55A5;
+	text-decoration: none;
+}
+
+
+ul.navBar li a:visited
+{
+	color: #3A71A5;
+	text-decoration: none;
+}
+
+
+ul.navBar li a:visited:hover
+{
+	color: #3A55A5;
+	text-decoration: none;
+}
+
+
+li>a
+{ 
+	width: auto;
+}
+
+
+ul.subNav li a.submenu
+{
+	background-color: #DBF4FE;
+	font: bold 12px Arial, Helvetica, sans-serif;
+	text-align: left;
+	text-decoration: none;
+	color: #333333;
+	padding: 6px;
+	width: 100%;
+	border-top: 0px solid #666666;
+	border-right: 1px solid #999999;
+	border-bottom: 1px solid #666666;
+	border-left: 1px solid #CCC;
+	display: block;
+	z-index: 100;
+}
+
+
+ul.subNav li a.submenu:hover
+{
+	background-color: #DBF4FE;
+	color: #3A55A5;
+	z-index: 100;
+}
+
+
+
+/* nav links and badges */
+p.navlinks
+{
+	margin-bottom: 0px;
+	font: 12px Arial, Helvetica, sans-serif;
+	/*border: dashed green 1px;*/
+}
+
+ul.navlinkslist
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left:0px;
+	padding-left: 18px;
+	padding-bottom: 24px;
+	width: 120px;
+	/*border: dashed blue 1px;*/
+}
+
+ul.navlinkslist li
+{
+	padding: 2px 0px;
+	list-style-image: url('../../images_main/bullet.gif');
+	list-style-type: none;
+}
+
+p.badges
+{
+	width: 120px;
+	text-align: center;
+	/*border: dashed red 1px;*/
+}

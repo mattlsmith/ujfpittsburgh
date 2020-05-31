@@ -1,0 +1,561 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - A Brief History of the Jews</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201401">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201403">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?148423">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?201401" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Jewish Life</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_16/">Jewish Life</a>&nbsp;&gt;&nbsp;A Brief History of the Jews</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_16/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">A Brief History of the Jews<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+					By Gary M. Grobman<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p>When we come to federation we come to a place built on Jewish history, on the core Jewish values that have guided Jews throughout history and, in particular, on the history of every Jew being responsible for one another.</p>
+<p><table width="200" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="190"><img name="Globe with Jewish Star - medium " credit="" id="943" caption="" src="../getimage.asp_id_943.jpg" alt="The Jewish World" align="center" border="0" height="169" originalheight="169" width="190" originalwidth="190"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>"A people's memory is history; and as a person without a memory, so a people without a history cannot grow wiser, better." — Peretz, Vegn Geshichte, 1890</p>
+***</p>
+<p><strong>From Abraham to the Destruction of the First Temple</strong></p>
+<p>The history of the Jews, as described in the Bible, begins with the patriarch Abraham. Abraham was the first to forsake the polytheism and idol worshipping of his people for a belief in one God. Abraham's son, Isaac, and Isaac's son, Jacob, are also considered to be patriarchs by the Jews. </p>
+<p>The story of Joseph, one of Jacob's twelve sons, is also found in the Bible. His own brothers sold him as a slave to the Egyptians. As a result of a famine, the remainder of Joseph's family resettled in Egypt where they and their descendants lived in peace for several generations. However, in approximately 1580 B.C.E., a new Pharaoh (ruler) in Egypt felt threatened by the Jews as well as other peoples who had settled there, so he made them slaves. </p>
+<p>In the Book of Exodus, the story of Moses and his liberation of the Jews from Egyptian bondage is told. Moses led the Jews out of Egypt after the Egyptians were afflicted with ten plagues. The Israelites then spent 40 years wandering in the desert under Moses' leadership. While in the desert, Moses ascended Mt. Sinai and, according to tradition, returned with the Ten Commandments from God as well as the Torah. Moses died before the Israelites entered the "Promised Land" of Israel.</p>
+<p>Following the death of Moses, the twelve tribes of Israel (one tribe descending from each of Jacob's twelve sons) were led by Joshua into the Promised Land, then inhabited by the Canaanites. After capturing Jericho, the Israelites systematically conquered the rest of Israel. Challenges from Canaanites and Philistines were repelled, the latter people suffering a defeat at the hands of Samson. </p>
+<p>The Israelites, seeking an alternative to theocratic leadership, convinced the religious leader at the time, the prophet Samuel, to anoint a king. The first king was Saul (1020-1000 B.C.E.), a member of the tribe of Benjamin, who won victories over the Ammonites and the Philistines. </p>
+<p>However, Samuel became disillusioned over the autocratic way King Saul ruled the country. Instead of passing leadership of the nation onto Saul's son, Jonathan, Samuel secretly anointed David, a member of the tribe of Judah, as Israel's second king. David had won renown as the warrior who had slain the giant Goliath. David was the eventual victor of a power struggle, which eventually made him king over all of Israel. During David's reign, the Israelites captured Jerusalem and made it both their religious and secular capital. The heir to King David's throne was Solomon, the son of the King and Bath-Sheba. </p>
+<p>King Solomon's reign (961-922 B.C.E.) was peaceful. He was noted for lavish building projects, including the First Temple in Jerusalem. There was discontent among the tribes which settled in the north concerning the heavy taxation and forced labor policies of King Solomon, which he felt necessary to create his lavish palaces and public buildings.</p>
+<p>Following his death, the ten northern tribes broke away and established their own kingdom, while the tribes of Judah and Benjamin remained loyal to Solomon's successor, King Rehoboam. The capital of the Northern Kingdom was established in Samaria, and the capital of the Southern Kingdom remained in Jerusalem, the historic city in Judah under Jewish control.</p>
+<p>In 722 B.C.E., Samaria was conquered by the Assyrians. The fate of the Jews of Samaria is unknown, and they are referred to as the "Ten Lost Tribes of Israel." </p>
+<p>In 598 B.C.E., King Nebuchadnezzar of Babylonia invaded Judah. Much of the population of the Israelites was sent into exile in Babylonia. Jerusalem itself fell under siege in 586 B.C.E. and was destroyed. The destruction of the First Temple of Jerusalem is commemorated by the Fast of Tishah be-Av, the ninth of the Jewish month of Av. </p>
+<p>In exile, the Israelites found themselves to be able to participate in the economic and social life of their new land, and to reorganize and maintain Jewish life. When the Persians conquered Babylon in 538 B.C.E., the Persian King Cyrus permitted all conquered peoples to return to their homelands. About 50,000 Jews returned to Judah, although many stayed in Babylon, having established a new life there.</p>
+<p><strong>The Second Temple</strong></p>
+<p>After several decades of delays, the Second Temple was built and dedicated in 516 B.C.E. Following centuries of relative peace and calm in which the ancient land of Israel was ruled by the Egyptians, the Syrians gained the upper hand in 198 B.C.E. </p>
+<p>At first, Syrian rule was benign. When Antiochus IV Epiphanes began his rule, he sought to forbid the practice of Judaism in favor of Hellenism. He required the erection of a statue of the Greek god Zeus in the Temple, which kindled a revolt. The military commander for the Jews was Judah Maccabee, who overcame a superior force of highly equipped Syrians to win several battles. </p>
+<p>Following these victories, which bordered on the miraculous, Judah Maccabee reentered the Temple, cleansed it of its desecrations, and rededicated it. The Festival of Hanukkah commemorates these victories. </p>
+<p>Triumph over the Syrians was short-lived. The Roman Empire engulfed the area, and with brief exceptions, controlled what became known as Palestine for almost 700 years. King Herod (37-4 B.C.E.) ruled over Judah with the sanction of the Roman Senate. He was a master builder, creating magnificent temples, public works, ports and palaces. The ruins of many of his works, including the reconstructed Second Temple, may still be viewed today.</p>
+<p>The Jews revolted against Roman rule in 70 C.E. After a siege, the Second Temple was destroyed (once again, on the 9th of Av of the Jewish calendar) and resistance was crushed except for a company of zealots who took over a fortress at Masada, near the Dead Sea. The Roman army tried for three years to crush that resistance. When defeat of the revolt was inevitable, the defenders drew lots and killed themselves rather than surrender. Jerusalem was restored by the Romans as a pagan city.</p>
+<p><strong>The Oral Law is Written</strong></p>
+<p>The focus of Jewish intellectual life following the destruction of the Second Temple was established in Yavneh. Jewish scholars met here and during the end of the second century and beginning of the third established an oral Jewish law to complement the Torah. This oral law was written down at the end of the second century C.E. by R. Judah ha-Nasi, and is known as the Mishnah. Discussion on the Mishnah was also put to writing, and is known as the Gemara. The Mishnah and Gemara together are called the Talmud. The Jewish scholars in Babylon also developed a Talmud, which eventually supplanted the Palestinian version as the ultimate authority in Jewish legal matters. New centers of Jewish scholarship were established in the Diaspora, principally in North Africa and Muslim Spain by the end of the 10th century.</p>
+<p>Christianity became the official religion of the Roman Empire at the beginning of the fourth century. Jewish legal rights were restricted. During the first three centuries of Christianity, the issue that separated Jew from Christian was whether Jesus was the true Messiah. By the beginning of the fourth century, Christianity had evolved with customs, rituals and laws far different from Judaism.</p>
+<p>Palestine was conquered by the Arabs in the 7th century. Many Jews served in the Arab armies, which conquered the Iberian Peninsula and settled in Spain. For centuries, Jews flourished in Spain and North Africa, and recorded achievements in science, medicine, music, philosophy and culture.</p>
+<p>Jewish life in the Middle Ages was for the most part a story of social and economic isolation, persecution and massacres. Jews were isolated both physically and socially from the fabric of life in the Middle Ages and the period following the Middle Ages. Yet they filled an important niche. Christianity outlawed usury, the lending of money. Jews were permitted to fill this vacuum by acting as moneylenders and financiers. </p>
+<p><strong>Ghettos</strong></p>
+<p>At first, Jews in the Diaspora segregated voluntarily. This was partly for self-protection, but it was perhaps more the result of the requirements of the Jewish religion: to be close to a synagogue and other religious institutions. The concept of segregating Jews involuntarily behind walls was developed in ancient times, but it was not actually implemented as a policy until 1462 in Frankfurt, Germany. The idea caught on in the rest of Europe and became the norm in the 16th century. </p>
+<p>Unlike its modern 20th century counterpart, the ghetto of 16th century Europe permitted Jews to leave during the day and do their business. While the ghettos permitted Jews to live peacefully, conditions were often crowded and inadequate. However, the isolation of Jews in ghettos had the effect of eliminating assimilation with the host communities, and preserved and enhanced the survival of the Jewish culture. </p>
+<p>Those governments unwilling even to tolerate Jews who were segregated in ghettos expelled them. At one time or another, all Jews were expelled from England (1290), France (1306 and 1394), Austria (1420), and Spain (1492).</p>
+<p>There were local expulsions throughout Europe including those in Germany. Some expulsion policies were reversed when governments realized that the Jews served a useful purpose.</p>
+<p><strong>The Enlightenment</strong></p>
+<p>It was not until the Enlightenment that Jews had the opportunity to participate in modern society free from persecution. The fundamentalist acceptance of Jewish law underwent a severe challenge, and the result was the development of reformist movements, which eventually culminated in the establishment of Conservative, Reform, and Reconstructionist movements.</p>
+<p>Jewish culture developed for 2,000 years in pre-World War II Europe. Jews of both Western and Eastern Europe created a culture of religious practice, arts and music, language (principally Yiddish), and education. It was an entire culture, which the Nazis sought to make extinct.</p>
+<p>There were distinct differences in the cultures of Jews who settled in the "East" and "West" in the 18th, 19th, and early 20th centuries. Generally, Jews who settled in Western Europe (France, Holland, Germany, Austria, and Italy, for example) were more assimilated than their "eastern" counterparts of the Soviet Union, Poland, Lithuania, Latvia, Rumania, and Hungary. They were more likely to speak the language of their host nation, less likely to be religiously observant, more likely to intermarry, more likely to be urban settlers, more likely to be middle-class, more likely to be formally educated, and more likely to affiliate with generic political parties which represented more than just Jewish interests. </p>
+<p>Western European Jews were more likely to be accepted by their host countries as full citizens. For the most part, they were able to live side by side with their non-Jewish neighbors, free from the threat of physical attacks and anti-Semitism. Eastern European Jews did not feel safe from pogroms. For many Jews in Western Europe, they were Jewish by religion, but identified with their host country. Thus, when the Jews of Germany were targeted by the Nazis, most of them had a history of feeling that they were "German" rather than "Jewish."</p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><font size="1" class="body1" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><i><br>Copyright 1990 by Gary M. Grobman. All rights reserved.</i><br><br></font>
+							Page 1: A Brief History of the Jews<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="2" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://ujfpittsburgh.org/content_display.html?ArticleID=16999&page=2" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+							Page 2: A Brief History of the Jews: Israel</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="2" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="../emailarticle_ArticleID_16999/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="../emailarticle_ArticleID_16999/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(16999,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(16999,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline2" size="2" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Related Links:<br></font><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="../content_display_articleID_17003/" target="_self" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Holidays: Yom Ha'atzmaut</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="http://www.jajz-ed.org.il/history/body1.htm" target="_new" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">A Timeline of Jewish History</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="http://www.jewish-history.com/civilwar.htm" target="_new" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Jews in the Civil War</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - A Brief History of the Jews";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

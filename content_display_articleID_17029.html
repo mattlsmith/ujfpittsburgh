@@ -1,0 +1,544 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - Jewish Life Cycle/Rituals: Marriage</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201401">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201403">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?148423">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?201401" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Jewish Life</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_16/">Jewish Life</a>&nbsp;&gt;&nbsp;Jewish Life Cycle/Rituals: Marriage</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_16/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Wedding Customs: Old, New, and Renovated <br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+					By Marlena Thompson<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p>According to Jewish law, getting married is an exceedingly simple affair: The bride accepts something worth more than a dime (in today's currency) from the groom, the groom utters words of acquisition and consecration, these two actions are witnessed, and voila, the happy couple is married. All the rest, i.e., the white gown, the veil, the portable chuppah (wedding canopy), etc., are but customs which have grown up around Jewish weddings through the ages This is not to diminish their importance, for customs add measureless beauty and meaning to life-cycle milestones. </p>
+<p><table width="179" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="169"><img name="Happy couple - medium" credit="" id="936" caption="" src="../getimage.asp_id_936.jpg" alt="Couple" align="right" border="0" height="238" originalheight="238" width="169" originalwidth="169"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>Today, in fact, some of the most ancient practices are currently being rediscovered and "renovated" by couples seeking to blend tradition with a modern outlook on marriage. One of the most enduring wedding customs, the wearing of the veil, has its origins in the Bible. Upon seeing her husband-to-be, Isaac, for the first time, Rebecca "took her veil and covered herself." (Gen. 25:65)</p>
+<p>Another veiling custom, Badekin (the veiling of the bride by the groom just before the wedding), also has biblical roots. Those familiar with the story of Jacob and his two wives, Leah and Rachel, will remember how Jacob's father in law, Laban, tricked Jacob into marrying Leah instead of his beloved Rachel by veiling Leah heavily before the wedding. By placing the veil over the bride's face himself, a Jewish groom makes sure he doesn't repeat Jacob's mistake. (A more poetic interpretation of badekin is that by covering the bride's face, the groom shows that he values her for more than mere external beauty.)</p>
+<p>But despite its fascinating history and continued popularity, the veil is not a requirement. Some modern women reject it because of its similarity to the purdah (the requisite face covering worn by married Middle Eastern women), an emblem of modesty to some and of oppression to others.</p>
+<p>A lawful Jewish marriage requires an act of kinyan (that the bride be given – and that she accept – something of nominal value from the groom). In ancient times, coins were typically given. (They are still used by many Sephardic and Oriental Jews). Since the 7th century C.E., rings replaced coins in most of Europe as the "gift of choice." Some commentators suggest that the preference for rings is attributable to their circular form, which symbolizes endless love between a husband and wife. Others see the circle as representing a link to the past and a commitment to the future. </p>
+<p>But for whatever reason, in North America today it is almost universally the custom to give a ring as the object of exchange. According to Jewish law, the ring must belong to the groom, be of solid metal, and be free of gems. (The inclusion of precious stones produces significant variations in ring values, which, presumed the rabbis, could cause a bride to reconsider.) An interesting custom in post-Renaissance Europe was the use of communal rings – large, ornate objets d'art decorated either with representations of the Jerusalem Temple or a local synagogue. Such rings were objects of pride to the entire community and were lent to couples for their bridal celebrations. </p>
+<p><b style="mso-bidi-font-weight: normal">The double ring ceremony</b> popular today is a relatively recent custom, and one that raises some objections amongst traditional Jews. Some think that an exchange of rings invalidates kinyan (the formal acquisition of a thing of value by the bride). However, Conservative, Reform, and Reconstructionist rabbis find no legal objection to the double-ring ceremony. </p>
+<p>A modern trend is to inscribe biblical or other significant Hebrew phrases on the ring. Up until fairly recently a common inscription was, Eshet Chayil Ateret Balalah (A Woman Of Valor Is Her Husband's Crown). </p>
+<p>These days, it is more usual to inscribe the gender neutral, Ani L'Dodi V'L' Dodi Li (I Belong To My Beloved And My Beloved Belongs To Me).</p>
+<p>The <b style="mso-bidi-font-weight: normal">white bridal dress </b>is so intrinsic to modern weddings – including Jewish weddings – that it is common to assume this attire to be universal, which it is not. In fact, Oriental and Sephardic brides have traditionally worn brightly colored dresses set off with veils made of streaming gold coins. In fact, many Jewish brides of Moroccan and Yemenite descent still marry in this type of garb, especially in Israel. In ancient Greece, both bride and groom wore white garments adorned with garlands. The classic bridal costume for Iraqi Jewish brides included silver bells and golden nose rings.</p>
+<p>The white bridal gown became customary amongst Ashkenazic Jews who followed the example of their Christian neighbors, although white was not the preferred color among all Christians. In France of the Middle Ages and beyond, brides rarely wore white, electing blue or rose because white was the color of mourning. Ironically, while the white gown has come to symbolize bridal virginity in Christian culture, in the Jewish tradition the gown denotes something quite different –that no matter how sexually active a bride may have been before marriage, the wedding purifies her. White is worn as a symbol of the purity conferred upon her by the wedding.</p>
+<p>In many Orthodox communities, a bride gives a <b style="mso-bidi-font-weight: normal">tallit</b> to the groom, which he wears only from the day he is married, despite being a Bar Mitzvah for years. According to some Jewish mystics, the tallit is associated with sexual temptation, which, for a man, is more of an issue after marriage than at the traditional age of becoming a Bar Mitzvah. The biblical command to wear the fringes of the tallit states: "...you shall look at them and not be tempted to follow your heart and eyes." Thus, for a married man, the tallit now functions as a reminder to keep his mind off forbidden sexual situations. </p>
+<p>We know that <b style="mso-bidi-font-weight: normal"><u><a href="http://www.uahc.org/rjmag/396mb.html" type="external"><b style="mso-bidi-font-weight: normal"><u>the mikvah</u></b></a></u></b> is a very ancient institution because vestiges of one were found in the remains of the destroyed Jewish fortress at Masada. In fact, the Christian ritual of baptism is based on mikvah immersion. In Jewish tradition, the institution of the mikvah is not custom but law. </p>
+<p>According to the Torah, sexual relations between a husband and wife are prohibited during the wife's menstrual period and for seven days after. During that time, the woman is called tamay (impure). This means she is forbidden to take part in certain religious practices. Before sexual relations can resume, the wife must go to the mikvah. (Although most women visit an indoor mikvah, any body of natural water – a lake, a river, an ocean – can be used.) A woman then immerses herself two or three times and says an appropriate blessing.</p>
+<p>The only unmarried woman expected to go to the mikvah is the bride, just prior her wedding. However, because of the association of the mikvah with the so-called "impurity" of menstruating women, many women have shunned it, considering it to be a relic of an archaic, patriarchal age. Very recently, however, the mikvah has been making a comeback as a symbol of spiritual purification. In fact, there has been a revival of the Sephardic custom of turning the pre-wedding visit to the mikvah into a celebration. It is not unusual these days for a prospective bride to visit the mikvah with women friends who strew flower petals in her path as she emerges from the water and regale her with wine, sweets, and song. Other future brides gather with their female friends and relatives on the shores of a river or lake and recite poems and blessings prior to her immersion. A picnic, made even more memorable with singing and dancing, often follows.</p>
+<p>Another ancient custom that has lately been transformed is the <strong>marriage contract</strong>, or <strong><a href="http://preview.html/?articleID=17030" type="internal"><strong>ketubah</strong></a></strong>, he earliest formulation was written by Shimon ben Shetach, head of the ancient rabbinical court at the end of the first century C.E. Spelling out a husband's obligations to his wife, the ketubah was a radical document in its day because it provided women with legal status and rights in marriage. Up until recently, the text for ketubot has remained virtually unchanged. But many couples that consider the traditional ketubah to be out of touch with contemporary views on relationships are creating new ones. </p>
+<p>Whereas the original ketubot were about a man's obligations to his wife, modern versions of the document are typically egalitarian. Many ketubot now include parallel declarations of commitment made by both bride and groom with a joint declaration of faith in God and a connection to the Jewish people. Whereas the original ketubot were written in Aramaic, modern documents are usually drafted in both Hebrew and English. Having a ketubah professionally calligraphed and made even more special with customized decorations has also become popular.</p>
+<p>The chuppah<b style="mso-bidi-font-weight: normal"> </b>under which the bride and groom stand during the ceremony symbolizes a marriage chamber. The bride leaves her father's house and enters her husband's home as a married woman. The Book of Joel (2:16) states: "Let the bridegroom go forth from his chamber and the bride out of her pavilion" (chuppah). In Eastern Europe during the 16th century, the portable canopy held up by four poles came into use. In some communities, it was traditional for the bride and groom to marry beneath a tallit, often a family heirloom. An especially poignant custom involving the chuppah was popular at one time In Israel: A cedar tree was planted on the occasion of a child's birth. When the child married, the branches and leaves from the tree were then used in the construction of the chuppah. Today, although most synagogues own a stationary chuppah they will lend upon request, some creative couples are choosing to make their own.</p>
+<p>Since there are no legal requirements as to a chuppah's shape or dimensions, couples have created chuppahs and new chuppah traditions that expressed their unique personalities. Some women hold chuppah parties--a gathering that resembles old-fashioned "quiltings" in that friends of the bride create individual squares that are later sewn together.</p>
+<p>Or, other women who have friends less adept with a needle and thread have their friends decorate a piece of cloth with special sayings and personal well wishes, using fabric pens and paints. And some couples are returning to the custom of marrying beneath a tallit that has special family significance.</p>
+<p>Although wedding customs may be cherished simply because of the history and tradition they represent, ultimately what keeps them alive is their relevance in a changing world. Ancient wedding customs imbued with a modern spirit provide couples with both a link to the past and a hand in shaping the future they will be sharing.</p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="../emailarticle_ArticleID_17029/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="../emailarticle_ArticleID_17029/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(17029,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(17029,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline2" size="2" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Related Links:<br></font><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="../content_display_articleID_17030/" target="_self" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">The Ketubah</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="http://www.holylandmall.net/evjewwedbook.html" target="_new" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">The Everything Jewish Wedding Book</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a tabindex="-1" style="cursor:hand" class="ariallinkbl" href="http://www.ivillage.com/relationships/weddings/articles/0,9632,166880_83340,00.html" target="_new" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">A Glossary of Jewish Wedding Terms</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - Jewish Life Cycle/Rituals: Marriage";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

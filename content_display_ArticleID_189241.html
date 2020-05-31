@@ -1,0 +1,635 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"],["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - Israel Solidarity Mission Blog</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?144717">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?144720">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li><li><a class="submenu" href="../content_display_ArticleID_198329/">Young Adult Initiative Grants</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?148423">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?144717" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Israel Emergency Campaign</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_1297/">Israel Emergency Campaign</a>&nbsp;&gt;&nbsp;Israel Solidarity Mission Blog</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_1297/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><p><strong><font size="3"><table width="368" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="358"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table></font></strong></p>
+<p><strong><font size="3"></font></strong>&nbsp;</p>
+<p><strong><font size="3"></font></strong>&nbsp;</p>
+<p><strong><font size="3"></font></strong>&nbsp;</p>
+<p><font face="tahoma"><font color="#666666"><font face="tahoma"><font color="#666666"><strong>Wednesday&nbsp;July 26, 2006 |&nbsp;Nahariya, Israel</strong></font></font></p>
+<p><font face="tahoma" color="#000099"><strong>"Bring Udi Home"<br>by Harriet J. Dobin</strong></font></p><font face="tahoma">
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">“I will bring the moon for him, we are two bodies and one soul.”</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">Displaying a remarkable combination of grit and controlled emotion, 30-year-old Karnit Goldwasser of Nahariya stepped to the podium on Day Four of the UJC Solidarity Mission. Calmly and passionately, she told 70 American Jewish visitors that she writes every night to Ehud, or “Udi,” her husband, one of the two soldiers captured in a raid by Hizbollah on July 12<sup>th</sup>.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">“I know that he will be back.”</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">For mission members, the surprise visit by Karnit, her mother, and Ehud’s father was the highlight of an emotional final day. The day’s itinerary included a tour of an Israeli Air Force base, and a visit to the thriving coastal city of <?xml:namespace prefix = st1 /><st1:place w:st="on"><st1:city w:st="on">Ashkelon</st1:city></st1:place>, where Hamas rockets<span style="mso-spacerun: yes">&nbsp; </span>are a constant threat. They also heard closing remarks by former Prime Minister Ehud Bara, who thanked the delegates for “crossing half the globe in these testing times to be here with us.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">“We are all united in our right to have a Jewish, flourishing, democratic, Zionist state,” said Prime Minister Barak.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">July 12 was going to be&nbsp;special&nbsp;for the newlyweds, who graduated together from the Technion and were married ten months ago.<span style="mso-spacerun: yes">&nbsp; </span>It was to be Udi’s last day of military reserve service. Karnit cooked his favorite meal as she listened to the news of his unit’s skirmish. “I sent him a message; after an hour he didn’t answer so I started calling.”<span style="mso-spacerun: yes">&nbsp; </span>At 3:30 pm, four IDF officers entered her house, where family and friends gathered expectantly for his call. </font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">“They told me Udi was either dead or kidnapped.”</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">Ehud turned 31 in captivity last week, but his birthday celebration went on as planned. She will show him the video. She wants people to know more about her “soulmate and the love of her life.” Udi recently earned a skipper’s license, and he loves photography, nature and biking.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">“I get a lot of energy and strength from meeting you here,” Karnit told the attentive group. “We are going to bring Udi back home. The moon is coming closer and closer because of you.”</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">Surrounded by mission members as she left the stage, Karnit admired mission participant Iris Feinberg’s unusual necklace–a gold Lion of Judah pendant. She wondered why so many in the audience were wearing the same piece. “It’s beautiful,” she said.&nbsp;Iris explained that thousands of Jewish women around the world wear the Lion of Judah to show their love of the Jewish people. On an impulse, Iris unclasped the choker, placed it around Karnit’s neck, and said “We’re here with you, we’re standing behind you.” </font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">Welcome and Shalom, Karnit Goldwasser. We are proud to call you a true Lion of Judah.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000000">&nbsp;</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><i><font face="tahoma" color="#000000">Karnit welcomes your wishes of support. Contact her at </font><a title="mailto:karnitgold@gmail.com" href="mailto:karnitgold@gmail.com"><font face="tahoma" color="#000000">karnitgold@gmail.com</font></a></i></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><em></em><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>This experience has reinforced that we are one people, and when one part is injured, we are all injured.<span style="mso-spacerun: yes">&nbsp; </span>Karnit’s strength is magnificent.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma"><font color="#000099"><strong>- Marc Borovoy, <st1:city w:st="on"><st1:place w:st="on">Detroit</st1:place></st1:city></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>The Israeli soldier is a part-time soldier, but a full time <i>mensch</i> and human being– perhaps an engineer, chemist, doctor, lawyer, composer–a person of great promise for the future.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000099"><strong>- Terry Steen, Ventnor</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>Every resilient, strong, and determined Israeli we meet thanks us for being here and tells us it makes a difference. We need you now to help. It is our obligation and responsibility to keep <st1:country-region w:st="on"><st1:place w:st="on">Israel</st1:place></st1:country-region> safe and secure.&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma"><font color="#000099"><strong>- Karen Alpiner, <st1:city w:st="on"><st1:place w:st="on">Detroit</st1:place></st1:city></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>This Shabbat when I light the candles I made with the Ethiopian Israeli children, I’ll think of the kids who went from war-torn <st1:country-region w:st="on"><st1:place w:st="on">Ethiopia</st1:place></st1:country-region> to absorption centers to bomb shelters to these summer camps to be safe.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#000099"><strong>- Andrew Berger, Baltimore</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma" color="#666666"><strong>I’ve been on 60-70 missions, and have been here during every war since 1973.<span style="mso-spacerun: yes">&nbsp; </span>As tough as it is this week, there is not a person in this country that will let anyone interfere in their daily life.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><font face="tahoma"><font color="#000099"><strong>- Jane Sherman, <st1:city w:st="on"><st1:place w:st="on">Detroit</st1:place></st1:city></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><em></em><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt"><i><?xml:namespace prefix = o /><o:p></o:p></i><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"></font></font></font><font face="tahoma"><font color="#666666"><strong>Tuesday&nbsp;July 25, 2006 |&nbsp;Haifa, Israel</strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#000099"></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#000099"><strong>"Haifa Terror, Up Close"<br>by Harriet J. Dobin</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto">
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma">Seventy American Jews will never forget where they were today.&nbsp; Fox News called them the “Mercy Mission.”&nbsp; Israeli Prime Minister Ehud Olmert personally praised them for “solidarity and support, carrying the full weight of the Jewish people.”&nbsp; But the men and women who put their lives on hold for a week to fly to <st1:place w:st="on"><st1:country-region w:st="on">Israel</st1:country-region></st1:place> will remember this as the day they came face to face with terror.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="Tahoma"></font>&nbsp;</p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma">In a private noon session after his meeting with U.S. Secretary of State Condaleeza Rice,&nbsp;the UJC Solidarity Mission heard Israeli Prime Minister Olmert warn, Hezbollah “will have to pay, we are not running away.” <i>[<a href="http://www.ujc.org/content_display.html?ArticleID=189328" type="internal">click here to read Prime Minister's&nbsp;Olmert 's remarks</a>.] </i><span style="mso-spacerun: yes">&nbsp;</span>Then they drove up the coast to <st1:place w:st="on"><st1:city w:st="on">Haifa</st1:city></st1:place>, where they were eyewitnesses to the aftermath of a deadly Kaytusha rocket attack on <st1:street w:st="on"><st1:address w:st="on">Shalom Kassan Street</st1:address></st1:street>. Escorted by Haifa Police chief Nir Maryash, UJC officials and a team of armed security men, the nervous mission members received instructions on what to do when a siren goes off and where to stand for shelter. </font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="Tahoma"></font>&nbsp;</p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma">The rocket--one of 16 missiles Hezbollah fired at <st1:place w:st="on"><st1:city w:st="on">Haifa</st1:city></st1:place> today--blew a crater in the side of a beige stucco apartment building behind a small shopping center in a middle-class neighborhood. The usually busy shopping center was deserted. The dentist, hairdresser, bank and shnitzel restaurant are closed for business during this week of violence. Two UJC mission busses arrived just hours after the attack, in time to view a shrapnel-torn silver car on a tow truck.&nbsp; Shattered windows, crushed doors and hundreds of deadly holes were vicious reminders of the horrors Israeli civilians in the North have been confronting for two weeks. </font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="Tahoma"></font>&nbsp;</p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma">Despite the violence, Israeli flags were hanging next to wet laundry on the window grates. Families waved and thanked mission members, who yelled “Am Yisrael chai!” (The people of <st1:place w:st="on"><st1:country-region w:st="on">Israel</st1:country-region></st1:place> live) before being whisked back to the buses. They met with the mayor of <st1:place w:st="on"><st1:city w:st="on">Haifa</st1:city></st1:place> and took a quick drive through the center of town–empty of regular traffic--before heading back to Tel Aviv, laden with images they will never forget.</font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="Tahoma"></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><strong><font color="#666666">How brave and inspirational the Israelis are. A <st1:place w:st="on"><st1:city w:st="on">Haifa</st1:city></st1:place> resident told us not to worry, even after his building was hit.<br></font><font color="#000099">- Sam Greenblatt, <st1:place w:st="on"><st1:city w:st="on">Philadelphia</st1:city></st1:place></font></strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#666666"><st1:place w:st="on"><st1:city w:st="on"></st1:city></st1:place></font></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>The devastated vehicle within 200 yards of the missile&nbsp;looked like it was riddled by a machine gun—an effect caused by thousands of Kaytusha pellets. Please contact your Congressmen and call President Bush, 202-456-1111, and thank them for supporting <st1:place w:st="on"><st1:country-region w:st="on">Israel</st1:country-region></st1:place>. </strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>- Tim R. Cohen, <st1:place w:st="on"><st1:city w:st="on">Washington</st1:city>, <st1:state w:st="on">D.C.</st1:state></st1:place></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#666666"><st1:place w:st="on"><st1:state w:st="on"></st1:state></st1:place></font></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong><st1:city w:st="on"><st1:place w:st="on">Haifa</st1:place></st1:city> is a ghost town.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>- Lainey Simonson, <st1:place w:st="on"><st1:city w:st="on">Philadelphia</st1:city></st1:place></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#666666"><st1:place w:st="on"><st1:city w:st="on"></st1:city></st1:place></font></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>My friend from Ranaana visited me before paying a shiva call on the family of a young soldier killed in the north. The rabbi who buried him performed his wedding three weeks ago.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>- Elaine Schreiber, <st1:city w:st="on"><st1:place w:st="on">Phoenix</st1:place></st1:city></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>I came here to <st1:city w:st="on"><st1:place w:st="on">Haifa</st1:place></st1:city> to see my friend Vered, whom I met through the Boston-Haifa partnership.&nbsp; Her city is being bombed, and I came to support <st1:place w:st="on"><st1:country-region w:st="on">Israel</st1:country-region></st1:place> and my friend.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong><font color="#000099">- Stephanie Gertz, <st1:city w:st="on"><st1:place w:st="on">Boston</st1:place></st1:city></font><br style="mso-special-character: line-break"><br style="mso-special-character: line-break"></strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>Miri Eisen, the press director from the Prime Minister’s office, taught us how we need to approach the press and public when we return. In <st1:place w:st="on"><st1:city w:st="on">Haifa</st1:city></st1:place> we drove past Microsoft, Intel and Hewlett Packard at <st1:time w:st="on" minute="0" hour="15">3 pm</st1:time>, and the parking lots were deserted.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>- Laura Green, <st1:place w:st="on"><st1:city w:st="on">Salt Lake City</st1:city></st1:place></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#666666"><st1:place w:st="on"><st1:city w:st="on"></st1:city></st1:place></font></font><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>Right and left, all are united in their support of <st1:country-region w:st="on"><st1:place w:st="on">Israel</st1:place></st1:country-region>.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><st1:place w:st="on"><font face="tahoma"><font color="#000099"><strong><st1:city w:st="on">- Yisroel Schulman</st1:city>, <st1:state w:st="on">New York</st1:state></strong></font></font></st1:place></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><st1:place w:st="on"><font face="tahoma"><font color="#666666"><st1:state w:st="on"></st1:state></font></font></st1:place><strong>&nbsp;</strong></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>Driving through downtown <st1:city w:st="on"><st1:place w:st="on">Haifa</st1:place></st1:city> with barely a car in sight, I only wished for a traffic jam. The spirit of the mayor left no doubt that the energy, vitality and growth of <st1:place w:st="on"><st1:city w:st="on">Haifa</st1:city></st1:place> will resume. Bring on the cars.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>- Noah Levine, <st1:place w:st="on"><st1:city w:st="on">Atlanta</st1:city></st1:place></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><br><font face="tahoma" color="#666666"><strong>The average citizen is determined, confident and resolute to change the paradigm where the people of <st1:place w:st="on"><st1:country-region w:st="on">Israel</st1:country-region></st1:place> need to live with terrorists on their border who want to kill them.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#000099"><strong>- Steven Nasatir, Chicago</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma" color="#666666"><strong>Miri Eisen, with her young son, told us, “We are empathetic, but we will not be apologetic.” <st1:place w:st="on"><st1:country-region w:st="on">Israel</st1:country-region></st1:place> is strong, they will prevail.&nbsp;</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>- Steven Lear, <st1:place w:st="on"><st1:state w:st="on">Minnesota</st1:state></st1:place></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><br><font face="tahoma" color="#666666"><strong>We went to the airport to welcome 640 new olim from <st1:place w:st="on"><st1:country-region w:st="on">France</st1:country-region></st1:place>, in the middle of a war! What a happy, meaningful moment in the midst of heartache. How proud we are to be here at this time, inspired by today’s new olim.</strong></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><font face="tahoma"><font color="#000099"><strong>Iris Feinberg, <st1:city w:st="on">Atlanta</st1:city><br>Susan Stern, <st1:state w:st="on">New York</st1:state><br>Etta Zimmerman, <st1:placename w:st="on">South</st1:placename> <st1:placename w:st="on">Palm Beach</st1:placename> <st1:placetype w:st="on">County</st1:placetype><br><st1:placename w:st="on">Lynne</st1:placename> Halpern, <st1:city w:st="on">Atlanta</st1:city><br>Beth Mann, <st1:place w:st="on"><st1:city w:st="on">New York City</st1:city></st1:place></strong></font></font></p>
+<p class="MsoNormal" style="MARGIN: 0in 0in 0pt; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto">
+<p><font face="tahoma"></font>
+<p><font face="tahoma"><font color="#666666"><strong><font face="tahoma">Monday July 24, 2006 |</font>&nbsp;Kfar Saba, Israel</strong></font></font></p>
+<p><font face="tahoma" color="#000099"><strong>"Israel's Teens Live Generously in Crisis"<br>by Harriet J. Dobin</strong></font></p>
+<p><font face="tahoma" color="#000000">"We are going to a center for displaced persons."</font></p>
+<p><font face="tahoma" color="#000000">The Misson bus guide surely did not realize the ominous sound of his words. For 70 members of the UJC Solidarity Mission en route to Kfar Saba on Monday July 24, it was a frightening reality check. Mission members were in the eye of the storm on the third front in this war. A rippling humanitarian, economic and social crisis is taking aim at Israel, along with Hizbollah's Kaytusha rockets.</font></p>
+<p><font face="tahoma" color="#000000">Factories, grocery stores, offices, nursery schools and health centers are shuttered in the North.</font></p>
+<p><font face="tahoma" color="#000000">Families with means have long gone to hotels or overseas. But there are those who simply could not leave. JAFI has opened a trauma support hot line, 11,000 personal care kits were sent up north. 2,600 hot meals are served each day to shut-ins, because everything is closed. The AMEN Israeli teen volunteer corps has mobilized to pack activity kits and entertain children in JAFI summer camps, joined by Solidarity Mission members today. The mission was joined on Day Two by a Fox News crew from New York.</font></p>
+<p><font face="tahoma" color="#000000">JDC's rescue and relief had come to mean aid in far-away countries with tongue-twister names.&nbsp; </font></p>
+<p><font face="tahoma" color="#000000">But this is not the former Soviet Union. This is Israel.</font></p>
+<p><font face="tahoma" color="#000000">Almost 8,000 children - many of them Ethiopian Israeli children who arrived just last month - have been separated from parents. Israel Crisis Fund dollars are sending them to JAFI summer camps, and paying the unbudgeted salaries of staff members who cancelled vacations and were called back to work. Volunteers - ranging from teenagers to off-duty soldiers - who are helping in any way they can. </font></p>
+<p><font face="tahoma" color="#000000">Israeli newspapers are running ads from families in central Israel opening up their homes to anyone from the North. Rishon L'Tzion is hosting 1,000 displaced Israelis. Herzliya is too. Hotels in Jerusalem and Tel Aviv are booking up fast. Galilee hotels are closed for business, unable to meet payroll, employees without wages. Departing El Al flights are full, but they return empty. Presidents of international corporation in the north are managing their companies inside a basement bomb shelter, if their employees who are still around can get to work safely.</font></p>
+<p><font face="tahoma" color="#000000">The UJC Solidarity Mission heard it all on Day Two: </font></p>
+<p><font face="tahoma" color="#000000"><font face="verdana" color="#666666"><strong>There’s no place like home. There’s no place like Israel.<br><font color="#000099">- </font><font face="tahoma"><font face="verdana" color="#000099">Karen Alpiner, Detroit</font></font></strong></font></font></p>
+<p><font face="tahoma" color="#000000"><strong><font face="verdana" color="#666666">The Israeli spirit is alive and well, as we witnessed today in a teen volunteer program in Kfar Saba. This speaks loudly and positively for the future of Israel!</font><br><font color="#000099">- Marc Borovoy, Detroit</font></strong></font></p>
+<p><font face="tahoma" color="#000000"><strong><font color="#666666">Life is going on in Jerusalem as normally as can be. Kids are in parks, roller-blading and walking on the streets. People seem to be going about business as usual. It was very interesting that teens are using their summer vacations volunteering for kids in bomb shelters. They are very serious about their work.</font><br><font color="#000099">- Rita Gann, Boston</font></strong></font></p>
+<p><font face="tahoma" color="#000000"><strong><font color="#666666">I am meant to be visiting Israel at this moment in time. I thank my family for supporting me, all of them encouraged me to go without hesitation.<br></font><font color="#000099">- Janine Sobel, Southern New Jersey</font></strong></font></p>
+<p><font face="tahoma" color="#000000"><strong><font color="#666666">I met Neta, a 15 year old young girl who spends four days a week volunteering in Kfar Saba as a math tutor, packing boxes for kids trapped in bomb shelters. I am so proud of Israel?s young people.</font><br><font color="#000099">- Ande Adelman, Philadelphia</font></strong></font></p>
+<p><font face="tahoma" color="#000000"><strong><font color="#666666">So far, the spirit is strong, with concern for those immediately affected. I will take back images of the Ethiopian Israeli kids dancing Amharic rock with Lester!</font><br><font color="#000099">- Midge Shafton, Chicago</font></strong></font></p>
+<p><font face="tahoma" color="#000000"><strong><font color="#666666">The enthusiasm of the kids volunteering in the sweltering heat was contagious. This country is united like I have never seen it and it's wonderful to see such good things come out of these troubled times.</font><br><font color="#000099">- Mark Levenson, Clifton-Passaic, New Jersey</font></strong></font></p>
+<p><strong><font face="tahoma"><font color="#666666">S</font></font><font face="tahoma"><font color="#666666">unday</font></font><font face="tahoma"><font color="#666666">&nbsp;July 23, 2006</font> | <font color="#666666">Jerusalem, Israel</font></font></strong></p>
+<p><strong><font face="tahoma"><font color="#000099">“The family is in trouble and we’ve arrived”<br></font><font color="#000099">by Harriet J. Dobin</font></font><br></strong><font face="tahoma">Two million Israeli citizens – a third of the country’s population – went to sleep in bomb shelters tonight, as two busloads of American Jews arrived in Jerusalem from Ben Gurion Airport for a four day UJC Solidarity Mission. While Hezbollah rockets continued to attack Haifa and the north, more than 60 Federation leaders from 25 North American cities landed armed with nothing more than love, compassion and a heart-felt need to comfort the people of Israel.</font></p>
+<p><font face="tahoma">They flew in from the big cities –Atlanta, Boston, Chicago, Detroit, New York and from Washington DC. The small cities sent people too - Omaha, Nashville, Tampa, Hartford and York, Pa. </font></p>
+<p><font face="tahoma">They spoke in different accents but in one united voice:</font></p>
+<p><strong><font face="tahoma" color="#666666">I’ve been coming to Israel since 1960. Since the Six Day War, I’ve never seen the people of Israel as together as they are today. We are letting Israel know you are here. Thank you for dropping everything, canceling appointments, and leaving family behind. You can’t imagine what that says to every family in Israel.<br></font><font face="tahoma"><font color="#000099">- Jane Sherman, Detroit</font></font></strong></p>
+<p><strong><font face="tahoma"><font color="#666666">Daily life has effectively stopped in the North. I found eerie silence in Nahariya last week, where we came across a 73-year-old Russian woman drenched with sweat trying to buy food for her pets. She was panicked, crying and traumatized. We saw a hand painted sign that said “Thank You soldiers for defending us”.&nbsp;And the mayor of Nahariya said: “We can absorb more damage, we’re ok, keep on going.”&nbsp;It’s not enough that we be impassioned, we have to act in a powerful way. Whatever it takes, we are together with the people of Israel.</font><br></font><font face="tahoma" color="#000099">- Joel Alperson, Omaha</font></strong></p>
+<p><strong><font face="tahoma"><font color="#666666">This is about showing up.&nbsp;The family is in trouble, Israel is in trouble and we’ve arrived.&nbsp;Back home, we’ve held rallies and raised dollars.&nbsp;We are the lucky ‘shlichim’ able to be here on behalf our communities back home. Our Federations have always been about strengthening the Jewish future. This week, here, it’s all about strengthening the Jewish present.</font><br></font><font face="tahoma" color="#000099">- John Ruskay, New York</font></strong></p>
+<p><strong><font face="tahoma"><font color="#666666">Thirty seconds after the call came, I knew I had to be on that plane and take a stand. We’re with Israel in the good times and the not so good times.</font>&nbsp; <br></font><font face="tahoma" color="#000099">- Marc Terrill, Baltimore</font></strong></p>
+<p><font face="tahoma"><strong><font color="#666666">A few months ago I was at Ben Gurion Airport when we brought Ethiopian Jews home and reunited them with their families after 14 years. Arriving today I felt like I was going home and bringing all of my community with me.</font><br></strong></font><strong><font face="tahoma" color="#000099">- Iris Feinberg, Atlanta<br><br></font><font face="tahoma" color="#666666">I’m here to share my spirit and my music with the people of Israel:</font></strong></p>
+<p><strong><font face="tahoma"><em><font color="#666666">“We are here, we are proud, we are strong and free.<br>And we’ll sing it to the sky. <br>We were then, we are now, we will always be <br>Am Yisrael Chai!”</font></em> <br>Original music and lyrics by Shirav.<br></font><font face="tahoma"><font color="#000099">- Rabbi David Paskin, Canton Mass.</font></font></strong><br>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=189241" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=189241" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(189241,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(189241,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - Israel Solidarity Mission Blog";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Community Resources</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_11220/">2005 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?59327">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?59326">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_980/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Operation Promise</div></a></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_116865/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_168262/">i-connect Teen Trip</a></li><li><a class="submenu" href="../content_display_ArticleID_163049/">Mission Atidim</a></li><li><a class="submenu" href="../content_display_ArticleID_158106/">Family Missions</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?59326">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?47726" target="_self"><img src="../getimage.asp_id_26007.jpg" width="112" height="74" alt="" border="1"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_165640/" target="_self"><img src="../getimage.asp_id_70237.jpg" width="112" height="112" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<!-- nested body table start -->
+<table width="576" cellpadding="0" cellspacing="0" border="0" id="Table1">
+<!-- spacer row -->
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red" id="Table2">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0" id="Table3">
+<tr>
+<td><font class="headline5" size="5">Community Resources</font></td>
+</tr>
+<tr><td><font class="body2" size="2"></font></td></tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0" id="Table4">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_5/">Community Resources</a> &gt; Synagogues</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../ir_suggestion/"><img src="../style_images/v2bl/images_body/icon_suggestionbox.gif" width="54" height="48" border="0"></a><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""><a href="../search_sectionID_5/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td colspan="3" valign="top">
+<!-- nested info & ref table start -->
+<table width="564" border="0" cellpadding="0" cellspacing="4" id="Table5">
+<tr>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="275" height="1" alt=""></td>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="275" height="1" alt=""></td>
+</tr>
+<tr>
+	<td colspan="2">
+		<table width="100%">
+			<tr valign="top"><font class="headline2" size="2">Subcategories in Synagogues</font></tr>
+			<tr valign="top"><td><a href="../ir_subcategory_listing_id_2720_type_undefined_catid_1643_catname_Synagogues/">Reform</a><br><a href="../ir_subcategory_listing_id_2721_type_undefined_catid_1643_catname_Synagogues/">Conservative</a></td><td><a href="../ir_subcategory_listing_id_2722_type_undefined_catid_1643_catname_Synagogues/">Orthodox</a></td><td><a href="../ir_subcategory_listing_id_2723_type_undefined_catid_1643_catname_Synagogues/">Reconstructionist</a></td><td><a href="../ir_subcategory_listing_id_2724_type_undefined_catid_1643_catname_Synagogues/">Other</a></td><td></td></tr>
+		</table>
+	</td>
+</tr>
+<tr>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="275" height="1" alt=""></td>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="275" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><font class="headline2" size="2">All listings in Synagogues
+</font><font class="body1" size="2">&nbsp;&nbsp;&nbsp;<a href="http://www.ujfpittsburgh.org/ir_category_listing.html?id=1643&view=0">Show titles only</a><br></font>
+</font>
+</td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="2" alt=""></td>
+</tr>
+<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6796/">Adat Shalom</a><br>368 Guys Run Rd <br>Cheswick,  PA 15024 <br>Phone: 412-820-7000 <br>Fax: 412-820-9725 <br>E-mail: <a href="mailto:jrook@goadatshalom.org">jrook@goadatshalom.org</a><br>Website: <a href="http://www.goadatshalom.org/" target="irllink">www.goadatshalom.org</a><br>Contact: Jill Rook <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6811/">B'nai Emunoh Congregation</a><br>4315 Murray Ave   <br>Pittsburgh, PA 15217 <br>Phone: 412-521-1477 <br>Fax: 412-521-1762 <br>E-mail: <a href="mailto:bnaiemunohpgh@netzero.net">bnaiemunohpgh@netzero.net</a><br>Website: <a href="http://www.bnai-emunoh.org/" target="irllink">www.bnai-emunoh.org</a><br>Contact: Marcy Brooks <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6806/">Bet Tikvah Congregation</a><br>P.O. Box 10140  <br> Pittsburgh, PA   <br>Phone: 412-362-7025 <br>E-mail: <a href="mailto:info@bettikvah.org">info@bettikvah.org</a><br>Website: <a href="http://www.bettikvah.org/" target="irllink">www.bettikvah.org</a><br>Contact: Nachum Golan <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6807/">Beth El Congregation of the South Hills </a><br>1900 Cochran Rd    <br>Pittsburgh, PA 15220 <br>Phone: 412-561-1168 <br>Fax: 412-561-5320 <br>E-mail: <a href="mailto:bethel1900@juno.com">bethel1900@juno.com</a><br>Website: <a href="http://www.bethelcong.org/" target="irllink">www.bethelcong.org</a><br>Contact: Steve Hecht <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6808/">Beth Israel Center</a><br>Gill Hall Rd PO Box 10873 <br>Pittsburgh, PA 15236 <br>Phone: 412-655-2144 <br>E-mail: <a href="mailto:rrww@libcom.com">rrww@libcom.com</a><br>Website: <a href="http://www.bethisraelpgh.org/" target="irllink">www.bethisraelpgh.org</a><br>Contact: Ron Weiss, President <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_7027/">Beth Israel Center of Pleasant Hills</a><br>118 Gill Hall Road <br>Pleasant Hills, PA 15236 <br>Phone: 412-665-2144 <br>Website: <a href="http://www.bethisraelpgh.org/" target="irllink">www.bethisraelpgh.org</a><br>Contact: Rabbi Amy Greenbaum <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6809/">Beth Israel Congregation of Latrobe PA </a><br>414 Weldon St  <br> Latrobe , PA 15650 <br>Phone: 724-539-1450 <br>E-mail: <a href="mailto:milton.radman@verizon.net">milton.radman@verizon.net</a><br>Contact: Milton Radman <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6810/">Beth Samuel Jewish Center</a><br>810 Kennedy Dr P.O. Box 219   <br>Ambridge, PA 15003 <br>Phone: 724-266-5238 <br>E-mail: <a href="mailto:info@bethsamuel.org">info@bethsamuel.org</a><br>Website: <a href="http://www.bethsamuel.org/" target="irllink">www.bethsamuel.org</a><br>Contact: Rabbi Shoshana Kaminsky <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6817/">Chabad of Fox Chapel</a><br>107 Woodshire Dr. <br>Pittsburgh, PA  15215 <br>Phone: 412-781-1800 <br>E-mail: <a href="mailto:info@chabadfoxchapel.com">info@chabadfoxchapel.com</a><br>Website: <a href="http://www.chabadfoxchapel.com/" target="irllink">www.ChabadFoxChapel.com</a><br>Contact: Rabbi & Mrs. Ely Rosenfeld <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6818/">Chabad of the South Hills</a><br>1600 Bower Hill Rd. <br>Pittsburgh, PA 15243 <br>Phone: 412-278-3693 <br>Fax: 412-278-3694 <br>E-mail: <a href="mailto:chabadsh@comcast.net">chabadsh@comcast.net</a><br>Website: <a href="http://www.chabadsh.com/" target="irllink">www.chabadsh.com</a><br>Contact: Rabbi & Mrs. Mendy Rosenblum <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6823/">Congregation B'nai Abraham </a><br>519 N. Main Street  <br>Butler, PA 16001 <br>Phone: 724-287-5806 <br>E-mail: <a href="mailto:congbnaiabraham@aol.com">congbnaiabraham@aol.com</a><br>Contact: Hazzan Adriane Caplowe <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_7467/">Congregation Beth Shalom</a><br>5915 Beacon Street <br>Pittsburgh, PA 15217 <br>Phone: 412-421-2288 <br>Fax: 412-421-5923 <br>E-mail: <a href="mailto:office@bethshalompgh.org">office@bethshalompgh.org</a><br>Website: <a href="http://www.bethshalompgh.org/" target="irllink">www.bethshalompgh.org</a><br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6824/">Congregation Dor Hadash</a><br>PO Box 8223 <br>Pittsburgh, PA  15217 <br>Phone: 412-422-5158 <br>E-mail: <a href="mailto:dh15217@verizon.net">dh15217@verizon.net</a><br>Website: <a href="http://www.dorhadash.net/" target="irllink">www.dorhadash.net</a><br>Contact: Sarah Robbins <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_11034/">Congregation Emanu-El Israel </a><br>222 North Main St. <br>Greensburg, PA 15601  <br>Phone: 724-834-0560  <br>Fax: 724-834-7650   <br>E-mail: <a href="mailto:CEIMain50@aol.com">CEIMain50@aol.com  </a><br>Website: <a href="http://www.congregationemanuelisrael.org  /" target="irllink">www.congregationemanuelisrael.org  </a><br>Contact: Rabbi Sara Rae Perman <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6825/">Congregation Kether Torah</a><br>5706 Bartlett St  <br>Pittsburgh, PA 15217 <br>Phone: 412-421-2687 <br>Contact: Mr. Charles Rice <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_7379/">Congregation Sukkat Shalom</a><br>c/o Marcia Walsh, 268 Maple Ave <br>Pittsburgh, PA 15218 <br>Phone: 412-244-8823 <br>E-mail: <a href="mailto:SukkatShalomPgh@aol.com">SukkatShalomPgh@aol.com</a><br>Contact: Marcia Walsh <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6830/">Gemilas Chesed Synagogue</a><br>1400 Summit Street  <br>White Oak , PA 15131 <br>Phone: 412-678-8859 <br>Contact: Rabbi Irvin I. Chinn <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6867/">Lubavitch Center</a><br>2100 Wightman St. <br>Pittsburgh, PA 15217 <br>Phone: 412-422-7300 <br>Fax: 412-422-5930 <br>E-mail: <a href="mailto:lubavitvhcenter@yeshivaschools.com">lubavitvhcenter@yeshivaschools.com</a><br>Website: <a href="http://www.yeshivaschools.com/" target="irllink">www.yeshivaschools.com</a><br>Contact: Rabbi Yisroel Rosenfeld <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_11413/">OrL'Simcha Congregation</a><br>P.O. Box 81872 <br>Pittsburgh, PA 15217 <br>E-mail: <a href="mailto:ravchuck@yahoo.com">ravchuck@yahoo.com</a><br>Contact: Rabbi Chuck Diamond <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6873/">Parkway Jewish Center</a><br>300 Princeton Drive <br>Pittsburgh, PA 15235 <br>Phone: 412-823-4338 <br>Fax: 412-823-4338 <br>E-mail: <a href="mailto:hazzanrick@earthlink.net">hazzanrick@earthlink.net</a><br>Website: <a href="http://www.parkwayjewishcenter.com/" target="irllink">www.parkwayjewishcenter.com</a><br>Contact: Cantor Rick Berlin or Bob Korfin <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6881/">Poale Zedeck Synagogue</a><br>6318 Phillips Avenue  <br>Pittsburgh, PA 15217 <br>Phone: 412-421-9786 <br>Fax: 412-421-0972 <br>E-mail: <a href="mailto:admin@poalezedeck.org">admin@poalezedeck.org</a><br>Website: <a href="http://www.poalezedeck.org/" target="irllink">www.poalezedeck.org</a><br>Contact: Jay Angel <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6886/">Rodef Shalom Congregation</a><br>4905 5th Ave.   <br>Pittsburgh, PA 15213 <br>Phone: 412-621-6566 <br>Fax: 412-687-1977 <br>E-mail: <a href="mailto:herzog@rodefshalom.org">herzog@rodefshalom.org</a><br>Contact: Jeffrey Herzog <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6887/">Shaare Torah Congregation</a><br>2319 Murray Avenue   <br>Pittsburgh, PA  15217 <br>Phone: 412-421-8855 <br>Fax: 412-521-9938 <br>E-mail: <a href="mailto:shaaretora@aol.com">shaaretora@aol.com</a><br>Website: <a href="http://www.shaaretorah.net/" target="irllink">www.shaaretorah.net</a><br>Contact: Rabbi Daniel Wasserman <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6892/">State of Israel Bonds</a><br>6507 Wilkins Ave Ste 101   <br>Pittsburgh , PA 15217 <br>Phone: 412-362-5154 <br>Fax: 412-362-6887 <br>E-mail: <a href="mailto:pittsburgh@israelbonds.com">pittsburgh@israelbonds.com</a><br>Website: <a href="http://www.israelbonds.com/" target="irllink">www.israelbonds.com</a><br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6893/">Temple David </a><br>4415 Northern Pike   <br>Monroeville, PA 15146 <br>Phone: 412-372-1200 <br>Fax: 412-372-0485 <br>E-mail: <a href="mailto:Templedavid@nb.net">Templedavid@nb.net</a><br>Website: <a href="http://www.templedavid.net/" target="irllink">www.templedavid.net</a><br>Contact: Rabbi Reena Spicehandler <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6894/">Temple Emanuel of South Hills</a><br>1250 Bower Hill Rd   <br>Pittsburgh, PA  <br>Phone: 412-279-7600 <br>Fax: 412-279-7628 <br>E-mail: <a href="mailto:sreis@templeemanuelpgh.org">sreis@templeemanuelpgh.org</a><br>Website: <a href="http://www.templeemanuelpgh.org/" target="irllink">www.templeemanuelpgh.org</a><br>Contact: Saralouise Reis, Executive Director <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6911/">Temple Ohav Shalom</a><br>8400 Thompson Run Road <br>Allison Park, PA 15101 <br>Phone: 412-369-0900 <br>E-mail: <a href="mailto:rabbi@templeohavshalom.org">rabbi@templeohavshalom.org</a><br>Website: <a href="http://www.templeohavshalom.org/" target="irllink">www.templeohavshalom.org</a><br>Contact: Barb Waronek, Executive Director <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6895/">Temple Sinai</a><br>5505 Forbes Avenue <br>Pittsburgh, PA  15217 <br>Phone: 412-421-9715 <br>Fax: 412-421-8430 <br>E-mail: <a href="mailto:office@templesinaipgh.org">office@templesinaipgh.org</a><br>Website: <a href="http://www.templesinaipgh.org/" target="irllink">www.templesinaipgh.org</a><br>Contact: Phyllis G. Weinkle <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6900/">Tree of Life Congregation </a><br>5898 Wilkins Ave  <br>Pittsburgh, PA 15217 <br>Phone: 412-521-6788 <br>Fax: 412-521-7846 <br>E-mail: <a href="mailto:tolpgh@aol.com">tolpgh@aol.com</a><br>Website: <a href="http://www.tolpgh.org/" target="irllink">www.tolpgh.org</a><br>Contact: Joel Don Goldstein, Executive Director <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_6901/">Tree of Life Synagogue</a><br>PO Box 264  <br>Uniontown , PA  15401 <br>Phone: 724-438-0801 <br>Contact: Morton Opall <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_11001/">Young Israel of Greater Pittsburgh</a><br>5831 Bartlett Street <br>Pittsburgh, PA 15217 <br>Phone: 412-421-0508 <br>Website: <a href="http://www.geocities.com/youngisraelpgh" target="irllink">www.geocities.com/youngisraelpgh </a><br>Contact: Rabbi Shimon Silver <br>
+				</font>
+				</td>
+			<td valign="top">
+			<font class="body2" size="2">
+<a href="../ir_listing_type_undefined_catid_1643_catname_Synagogues_id_10918/">Young Peoples Synagogue</a><br>6404 Forbes Avenue <br>Pittsburgh, PA 15217 <br>Phone: 412-421-5080 <br>Contact: Zarky Rudavsky, President <br>
+				</font>
+				</td>
+					</tr>
+					<tr>
+					<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+					</tr>
+					<tr>
+		</tr>
+		<tr>
+		<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+		</tr>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="16" alt=""></td>
+</tr>
+</table>
+<!-- nested info & ref table end -->
+</td>
+</tr>
+</table>
+<!-- nested body table end -->
+<p>
+<p>
+<p>
+<a href="javascript:pfpage()"><img src="../images_main/icon_printableversion.gif" hspace="8" border="0" align="middle"><font class="body2">Printer-Friendly Page</font></a>
+<p>
+<a href="javascript:empage()"><img hspace="8" border="0" align="middle" src="../images_main/icon_emailfriend.gif">E-mail this Page to a Friend</a>
+<script>
+var theQs = "id=1643&view=1";
+var thePrintPage = "../ir_category_listing/";
+var emURL = "/emailfriend.html?emURL=%2Fir%5Fcategory%5Flisting%2Ehtml%3Fid%3D1643%26view%3D1";
+function pfpage()
+{
+	var pfURL = thePrintPage + '?' + theQs + '&print=1';
+	var pfWindow = window.open (pfURL, 'pf', 'menubar=yes,resizable=yes,scrollbars=yes,status=yes,width=640,height=450');
+}
+function empage()
+{
+	window.location.href = emURL;
+}
+</script></div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Jessica B. Smith, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

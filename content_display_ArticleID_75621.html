@@ -1,0 +1,816 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - The Orchard: Spring 2003</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201401">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201403">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?148423">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?201401" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Jewish Life</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_16/">Jewish Life</a>&nbsp;&gt;&nbsp;The Orchard: Spring 2003</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_16/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td rowspan="6"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td rowspan="4"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">The Orchard<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Spring 2003 -- Nisan 5763<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"></td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr>
+<td valign="top"><table width="70%">
+<tbody>
+<tr>
+<td>
+<p><strong>Chair:</strong><br>Rabbi Harold J. Berman</p></td>
+<td>
+<p><strong>Vice Chair:</strong><br>Rabbi Bennett F. Miller, D.Min.</p></td></tr>
+<tr>
+<td colspan="2">
+<p><strong>Associate Chairs:</strong><br>Rabbi Steven E. Foster<br>Rabbi Jonathan A. Schnitzer<br>Rabbi Ronald L. Schwarzberg</p></td></tr>
+<tr></tr>
+<tr></tr>
+<tr>
+<td>
+<p><strong>President:</strong><br>Rabbi Matthew H. Simon</p></td>
+<td>
+<p><strong>Director:</strong><br>Rabbi Eric M. Lankin, D. Min.</p></td></tr>
+<tr>
+<td valign="top"><strong>Editor:</strong><br>Lisa Kleinman </td>
+<td valign="top">
+<p><strong>Assistant Editors:</strong><br>Rabbi Barry Dov Lerner<br>Regina Woods<br><br></p></td></tr></tbody></table><br>
+<table width="80%" align="center">
+<tbody>
+<tr>
+<td valign="top">
+<p><strong>James S. Tisch</strong><br>UJC Chairman of the Board</p></td>
+<td valign="top">
+<p><strong>Robert Goldberg<br></strong>UJC Chairman of the Executive Committee</p></td>
+<td valign="top">
+<p><strong>Stephen H. Hoffman<br></strong>UJC President and CEO</p></td></tr></tbody></table>
+<p><a name="top">Contents:<br><strong><a href="#purpose">The Purpose, Objectives, and Membership Standards of the United Jewish Communities Rabbinic Cabinet</a></strong></p>
+<p><strong><a href="#board">From the UJC President and Chairman of the Board</a></strong><br>James S. Tisch, Chairman of the Board and Stephen H. Hoffman, President & CEO</p>
+<p><strong><a href="#berman">In the Last Analysis -- Israel Is What Was Always Supposed To Be</a></strong><br>By Rabbi Harold J. Berman</p>
+<p><strong><a href="#miller">The Crisis in Argentina</a></strong><br>By Rabbi Bennett F. Miller, D.Min.</p>
+<p><strong><a href="#help">Now More Than Ever, We Need Your Help</a></strong></p>
+<p><strong><a href="#lankin">No One Left Behind, Everybody Counts</a></strong><br>By Rabbi Eric M. Lankin, D.Min.</p>
+<p><strong><a href="#steinmetz">Shabbat Hagadol</a></strong><br>By Rabbi Chaim Steinmetz</p>
+<p><strong><a href="#unity">The Matzah of Unity</a></strong><br>Prepared in honor of Pesach 5763 by the United Jewish Communities Rabbinic Cabinet</p>
+<p><strong><a href="#cup">The Fifth Cup: A Meditative Reading</strong></p>
+<p><strong><a href="#teplitz">Elijah's Gifts</a></strong><br>By Rabbi Saul Teplitz</p>
+<p><strong><a href="#greenstein">Who Knows One? Who Doesn't Know?</a></strong><br>By Rabbi David Greenstein</p>
+<p><strong><a href="#wollenberg">I Can't See You!</a></strong><br>By Mordechai Wollenberg</p>
+<p><strong><a href="#kaplan">My Memories of a Seder in Dachau</a></strong><br>By Rabbi Solomon Kaplan Zt"l</p>
+<p><strong><a href="#chinitz">God Demands a Do-It-Yourself Religion</a></strong><br>By Rabbi Jacob Chinitz</p>
+<p><strong><a href="#lerner">Pesach Yizkor: Memories are Made of This</a></strong><br>By Rabbi Leigh Lerner</p>
+<p><strong><a href="#hammer">The Dream: Thoughts for Yom HaAtzma'ut</a><br></strong>By Rabbi Reuven Hammer</p>
+<p><strong><a href="#kerbel">A Meditation for Yom HaAtzma'ut</a><br></strong>By Rabbi Paul David Kerbel</p>
+<p><strong><a href="#jeret">History Is Watching Us: Reflections Upon A Mission Past</a></strong><br>By Rabbi Isaac Jeret</p>
+<p align="center" style="TEXT-ALIGN: CENTER">THE ORCHARD<br>published by<br>United Jewish Communities Rabbinic Cabinet<br>111 Eighth Avenue, Suite 11E, New York, NY 10011-5201<br>Phone: 212.284.6513 E-mail: <a href="mailto:rabbinic.cabinet@ujc.org">rabbinic.cabinet@ujc.org</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER">Published in cooperation with the Rabbinic cabinets of local Jewish federations</p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="purpose">The Purpose, Objectives, and Membership Standards of the United Jewish Communities Rabbinic Cabinet</a></strong></p>
+<p>The mission of the UJC Rabbinic Cabinet is to unite rabbis of all ideologies in the work of <em>kiyum ha'uma</em> and <em>tzedakah</em>, acquaint and involve the North American rabbinate with the goals and activities of UJC, and bring the talents, resources and perspectives of the rabbinate to UJC and its UJA-Federation Annual Campaign.</p>
+<p>The cabinet serves as the rabbinic arm of UJC, the major agency of North American Jewry for <em>tzedakah</em>. It promotes the unity of the Jewish people in its efforts to support the needs of Jews everywhere by including rabbis from every movement in North American Jewish life.</p>
+<p>The Rabbinic Cabinet further seeks to inform colleagues about the most current developments in Jewish life, the needs of our people and the techniques for effective utilization of rabbinic leadership within local communities. In addition, the Rabbinic Cabinet endeavors to apprise the lay Jewish leadership with the concerns of the rabbinate, infuse Jewish values and content into the annual and special campaigns of local federations and serve Israel and the Jewish people with rabbinical<br>involvement and support.</p>
+<p><strong>Specific Objectives:</strong></p>
+<p>1. Raise the level of knowledge about UJC in the rabbinate and community.</p>
+<p>2. Stimulate and support rabbinic participation in, and relationships with, UJC and local federations.</p>
+<p>3. Assist with and participate in UJC's UJA-Federation Annual Campaign by enlarging the scope and intensity of synagogue involvement.</p>
+<p>4. Upgrade rabbinic giving and increase rabbinic solicitations.</p>
+<p>5. Identify new donors, leaders and major gifts.</p>
+<p>6. Develop programs and educational materials about Israel and the Jewish tradition.</p>
+<p>7. Serve as teachers and spiritual resources to the leadership and constituencies of UJC, local federations and the Jewish community.</p>
+<p>8. Serve as a forum for the discussion and resolution of important Jewish issues.</p>
+<p>9. Recognize exemplary service of rabbis in the UJA-Federation Annual Campaign.</p>
+<p><strong>Standards for Membership</strong></p>
+<p>Members of the Rabbinic Cabinet should:</p>
+<p>1. Be involved in local federation and campaign activities.</p>
+<p>2. Work in harmony with local colleagues.</p>
+<p>3. Pledge at least &#36;1,000 to the Annual Campaign.</p>
+<p>4. Participate in a UJC mission.</p>
+<p>5. Attend the Annual Meeting of the Rabbinic Cabinet and/or regional conferences and special meetings.</p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><a name="board"><strong>From the UJC President and Chairman of the Board</strong></a><br>James S. Tisch, Chairman of the Board and Stephen H. Hoffman, President & CEO</p>
+<p>The story of the Exodus, which we commemorate and reenact at the <em>Pesach</em> seder table,<br>is ultimately a story of great faith. It's a faith that has shaped our national character down to this very generation.</p>
+<p>In the United States there is now a lot of discussion about faith-based charities and the<br>appropriate role of the U.S. government in supporting them. The discussion frequently gets to the traditionally understood wall of separation between "church" and state. Within our community there is great debate about whether that wall needs to be maintained as high as it has been, or if President Bush's proposal to lower the wall is wise or could endanger our comfort here in the U.S. We can have that debate on another occasion, but we raise the issue here because as a faith-based charity, it is our business to perform acts of lovingkindness every day.</p>
+<p>We who work on behalf of the federation system to provide social services to the community, and you who provide spiritual leadership and educate our people -- all of us know that the success of our work depends on cooperation. We note with gratitude that the "church-state" wall between federation and synagogue life was dismantled, justifiably, many years ago in most communities. We have come to understand how much we rely on one another. We don't build walls; we build bridges.</p>
+<p>UJC's rabbinic leaders serve in both realms. You stand as personal examples of committed Jews engaged in the federated community, in addition to all the other roles you play. We are grateful for the time you share with us, time taken away from your families.</p>
+<p>As the world around us takes on shades of unspeakable terror, our people, compelled by<br>their deepest beliefs, want to know what they can do. More than ever, they look to you to provide perspective based on our cherished values and on the ultimate belief in the goodness of human beings who are inspired by God's love. They look to the federation system to provide the support to sustain them in faithfully fulfilling their responsibility to heal the world. May we continue to work together to translate all of this into acts of lovingkindness toward our fellow human beings.</p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="berman">In the Last Analysis -- Israel Is What Was Always Supposed To Be</strong><br>By Rabbi Harold J. Berman</p>
+<p>Israel is many things. For those of us who were traveling on the Rabbinic Cabinet Mission to Paris and Israel at the end of January and the beginning of February, to be in Jerusalem at the time of the Columbia Shuttle disaster was a reminder of how much America and Israel share -- common values, a common pursuit of excellence and technical advancement and a willingness to take risks for the betterment of people's lives.</p>
+<p>Israel is a center of Torah, in fascinating ways. It is a magnet for scholarship, where young people from all over the world gather to advance their knowledge of Torah in a wide variety of institutions with many varied approaches. New synagogues are sprouting all the time, with new melodies, new styles and new energy.</p>
+<p>Israel is a place of beauty. When a group of us went up in helicopters to see the "Green Line" and gain a greater appreciation of the challenges of security in small spaces, we could not help but also notice, with a new measure of awe, the natural beauty of the Mediterranean coast and the hills that look down on it.</p>
+<p>But what comes back over and over again is the point from which it all begins. Israel is a place of ingathering, a homeland for Jews who need a home, no less today than in all the years of its history.</p>
+<p>Beginning in another country helps to give perspective. In Paris, on our way to Israel, the Rabbinic Cabinet met with Jewish community leaders who spoke of their long and proud tradition. But at the same time we met with individuals -- rabbis, educators and students -- who see their country changing and fear for the future of French Jewry. Their response, in most cases, is to look to Israel. Study of Hebrew is on the rise; parents are eager to give their children a day school education; and travel between France and Israel increases. Last year, 25 percent of French Jewry visited Israel.</p>
+<p>In Israel, we met olim from France, from the former Soviet Union and from America. We saw programs that are helping to bring increasing numbers from Argentina, Uruguay and Europe. In times of turmoil, even when there is uncertainty in Israel, many have decided they would rather cast their fate with their own people than deal with increasing hostility and danger in other places.</p>
+<p>It is never easy for Israel to absorb new immigrants and for the <em>olim</em> who must deal with language barriers, financial struggles and many uncertainties. But enormous satisfaction with the choice they have made is expressed over and over again as stories are shared.</p>
+<p>In standing for and with Israel we have done exactly as we intended. We have seen the creation and the flourishing of a true homeland for our people, a haven for those in need, a safe port for those in danger, a place where our people share a common destiny and dream, always.</p>
+<p><em>Rabbi Harold J. Berman, Congregation Tifereth Israel, Columbus, Ohio, is the chair of the UJC Rabbinic Cabinet.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="miller">The Crisis in Argentina<br></strong>By Rabbi Bennett F. Miller, D.Min.</p>
+<p>Last spring, just after <em>Pesach</em>, 34 rabbis, including leaders of the UJC Rabbinic Cabinet, traveled with lay leaders from across North America on a three-day visit to Argentina. We went to learn about a quiet but significant crisis, one that could mean the demise of one of the world's proudest and most significant Jewish communities. Now, a year later, the situation that brought us to Argentina continues to devastate its Jewish community.</p>
+<p>The story of the Jews of Argentina parallels the story of American Jewry. European Jews immigrated to Argentina in several waves, beginning in the 1840s. They came from Germany, then Russia and later Poland. During World War II, those who could escape from Nazi Germany came to any port open to them, including Buenos Aires.</p>
+<p>In Argentina, the Jews flourished, building synagogues, community centers and one of the finest networks of Jewish day schools in the Diaspora. Over the years, the Jews of Argentina -- a community of well-educated professionals, over 200,000 strong -- have contributed significantly to the life of the country and have provided financial support for Israel and world Jewry.</p>
+<p>But a calamitous series of events left the community and the institutions it depends on reeling. In the past nine years there have been two bombings of major Jewish institutions; leading banks (some owned by Jews) have collapsed, and a deep and continuing recession bordering on depression has lasted five years, impoverishing the middle class of the country.</p>
+<p>Today, Argentina's economy continues to decline steadily. Unemployment is over 50 percent, and more than half the population is living below the poverty level.</p>
+<p>In the Jewish community, nearly a third of the population is in deep economic stress. Some 65,000 Jews currently live at or below the poverty line. Just three years ago,some 4,000 were in that category. JCC's and synagogues have been forced to close. The network of 60 Jewish day schools has shrunk to fewer than 40 and enrollment has fallen off by more than 50 percent. Of the remaining schools, many do not know if they will be able to remain open through the current school year. </p>
+<p><em>Aliyah</em> to Israel has increased. In 2002, over 6,000 individuals made <em>aliyah</em>, compared<br>to 1,400 the previous year. Argentinean Jews continue to leave for Israel each<br>week, and they do so because they believe there is no hope for their future in Argentina.</p>
+<p>Despite a disintegrating infrastructure and the loss of most of its assets, Argentina's Jewish community has mobilized to create a number of institutions and organizations to face the crisis. With financial assistance from UJC and the federations of North America, supporting the work on the ground by the American Jewish Joint Distribution Committee, the Jewish Agency for Israel and the religious movements, the community has opened food and clothing distribution centers, free pharmacies, job training centers, job placement programs, soup kitchens and counseling services. Synagogues have been transformed to house some of these programs. There is an aggressive campaign to re-engineer the Jewish community so that it will survive this current crisis.</p>
+<p>While these programs have been successful, they are currently serving about 20 percent of the Jewish population. Thousands more are not yet being served, but the network of social assistance centers continues to expand -- last spring JDC was operating 40 centers, and 34 more have since opened since then.</p>
+<p>Here is what some of the people said to me: "How did I get in this bread line? I used to be a donor." And one leader told me: "This crisis is terrible, like nothing before. But we have hope because you are here, and your being here means that we are not alone; we are part of the Jewish people."</p>
+<p>I think it is fair to say that the Jews of Argentina are not looking for a handout from the Jews of America. This is a community that has fallen ill and is in need of healing. And we are the doctors and nurses who are asked to find the cure, to bring healing and to restore the community to good health. Our support, both financial and structural, will help them become whole again.</p>
+<p>The American Jewish community, through UJC and the federation network, has already contributed &#36;52.5 million to provide relief and support <em>aliyah</em>. The needs continue, and our dollars are still urgently needed as the Jews of Argentina struggle to not only survive but to rebuild their community as well.</p>
+<p>We have the privilege and opportunity to aid them -- just as we would hope they would do for us if the circumstances were reversed.</p>
+<p><em>Rabbi Bennett F. Miller, D.Min., Anshe Emeth Memorial Temple in New Brunswick, N.J., is the vice chair of the UJC Rabbinic Cabinet.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="help">Now More Than Ever, We Need Your Help</strong></p>
+<p>As spiritual leaders in Jewish communities throughout North America, we're expected to lead by example. And so must we lead in our acts of <em>chesed</em>, <em>tikkun olam</em> and <em>tzedakah</em> on behalf of Jews worldwide.</p>
+<p>As Israel continues to fight for her very survival, the Jews of Argentina continue to endure economic disaster. Elderly Holocaust survivors in the former Soviet Union continue to subsist on food packages. Hundreds of thousands of Jews worldwide are more dependent than ever on the strength and vitality of the Annual Campaign.</p>
+<p>Your gift to the Jewish federation annual campaign delivers hope, dignity and comfort to<br>millions of people -- Jews and non-Jews, young and old, at home, in Israel and around the world. People who are alone or feel alone. People who turn to federation and people who have never even heard of federation. Ordinary people facing extraordinary needs in ordinary times. And even in extraordinary times like these, those needs continue to grow. And your gift to federation needs to grow with them.</p>
+<p>Your gift to the annual campaign delivers care to thousands of families in distress. It provides classes for developmentally disabled children, counseling for victims of abuse, violence and terror, job re-training for the unemployed.</p>
+<p>Federation works with hundreds of local, national and international agencies here at home and in Israel to transform lives and perform miracles. It helps provide group homes for the disabled, food banks for the disadvantaged and relief to anyone who needs it. Your increased gift to the federation annual campaign is a safety net for Jews and non-Jews that works to mend families and protect children.</p>
+<p>Your gift delivers hope to a community of Ethiopian Jews that has endured so much for so<br>long to join our family in Israel, a community that has so many more obstacles to overcome.</p>
+<p>Most Ethiopian children in Israel still need language skills. Young mothers need parenting skills. Middle-aged men need work. And far too many Ethiopian families need intervention. Your support helps provide early childhood programs, remedial classes and group homes, college scholarships, psychological counseling, parent/child clinics, morning-to-night care for mothers and children, computer classes, job training, language classes, skill building programs and more.</p>
+<p>Your gift delivers support to millions of elderly. It provides medicine, clothing and heat to the needy; meals-on-wheels and housekeeping to the homebound; a continuum of care to our own parents and grandparents.</p>
+<p>But the needs increase as the community ages. Professionals and volunteers work year-round to meet the immediate and long-term needs of elderly Jews wherever they live -- preserving their homes, lifestyles and dignity; securing their rights; and delivering food, heat, clothing and providing comfort to millions.</p>
+<p>Your gift delivers spiritual connection. Through trips to Israel and adult education and financial assistance to day schools, synagogues and community centers. And your gift will introduce children, teenagers and adults of all ages to Jewish life and Jewish values. And work to empower the next generations of Jews to continue to build and support our humanitarian and spiritual network and grow our community.</p>
+<p>Your gift to federation delivers rich ancient traditions of social justice, lovingkindness and<br>responsibility to the world. Traditions that cradle us, lift us and support us -- from childhood to old age. Traditions the world has never needed more. These traditions and values are imbued in our work, day in and day out. On behalf of <em>Klal Yisrael</em>, please give generously.</p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="lankin">No One Left Behind, Everybody Counts</strong><br>By Rabbi Eric M. Lankin, D.Min.</p>
+<p>We are all quite familiar with Moshe Rabbenu's response to Pharaoh's order that only the Hebrew men would be permitted to leave Egypt (before the plague of locusts). Moshe responds that no one will be left behind (Exodus 10:7-11) and all will be included in the celebration of the Lord's festival.</p>
+<p>It is significant that the entire Israelite community would be included in the festival as envisioned by Moshe and, of course, all Israelite population groups were represented in the Exodus. However, being included and making an individual contribution are two different matters.</p>
+<p>The Talmud in Menachot (64b) has a fascinating reflection on the gathering of the <em>omer</em> of barley from the new harvest around Jerusalem. One year, due to the destruction by the Romans of the fields surrounding Jerusalem, the Jewish leaders had difficulty identifying sites where newly grown barley could be found and then brought to the Temple for sacrifice. Communicating to the community about this difficulty, they received a response from a deaf-mute who, with hand motions, helped them identify a site where barley was growing. The situation happened a second time, and again a deaf-mute volunteered and was able to communicate by pointing to another site where newly grown barley could be found.</p>
+<p>The deaf-mute as described in the Talmud represents the most vulnerable.The commitment of UJC and the federation system to the most vulnerable of our people is significant. The poor, aged, new immigrants, young people and the victims of terror are among our significant priorities. I can imagine Moshe Rabbenu making sure that those who couldn't hear and those who couldn't speak were included in the Exodus.</p>
+<p>However, when we actively manifest God's concern for the most vulnerable, do we imagine them as individuals making a significant contribution in service to God and our people? The Talmudic statement goes beyond Moses' idea that no one be left behind, showing us that even the most vulnerable can make a contribution and God can work through them, as well.</p>
+<p>Last year, on the Rabbinic Cabinet mission to Israel, we met a young Ethiopian Jewish IDF soldier who had been on patrol in downtown Jerusalem when an American tourist pointed out a strange sight: a <em>hasid</em> across the street was carrying a pack on his back. When this "<em>hasid</em>," who was actually an Arab homicide bomber wearing <em>hasidic</em> garb,realized he was being called and then chased by the soldier, he ran away from the crowd and then blew himself up. Although the young soldier was hurt in the ensuing blast, hundreds of lives were saved. Who among us imagined that when we were raising money to rescue Ethiopian Jews that one day our people would be strengthened and saved by the individual and collective contribution of members of this historic community of Jews?</p>
+<p>The UJC Rabbinic Cabinet continues to lead by example within the federation system. Our 850 rabbis contribute with their hearts and pockets to strengthen the efforts of the 156 local federations, 400 Network communities and the North American programs of UJC. Our rabbis are among the most significant leaders of Jewish education in North America, teaching both in formal and informal settings about the responsibility of the Jewish people, as individuals and as a community, to be God's partners. Just as God cherishes and is committed to the vulnerable, we too must help them. Who knows what contribution they will make to strengthen our people and our world?</p>
+<p><em>Rabbi Eric M. Lankin, D.Min, is UJC Director, Religious and Educational Activities.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="steinmetz">Shabbat Hagadol<br></strong>By Rabbi Chaim Steinmetz</p>
+<p>Why is the Shabbat before <em>Pesach</em> called <em>Shabbat Hagadol</em>, the Great Shabbat? There are several reasons given (See Menahem Kasher's <em>Haggadah Sheleimah</em> pages 50-54 for nine -- yes, nine -- different reasons). I would like to mention two of them.</p>
+<p>The <em>Baalei Tosafot</em> to Exodus 12:3 says that on the Shabbat before <em>Pesach</em>, the Jews took lambs in preparation for the Passover sacrifice. By taking lambs, which were worshipped by the Egyptians, for a sacrifice, they enraged the Egyptians, who gathered around them to kill them. The Jews were miraculously saved by God, and the name <em>Shabbat Hagadol</em> refers to that great miracle.</p>
+<p>It must be noted that this is certainly not the most exceptional miracle that occurred to the Jews in Egypt. Yet it warrants special notice because it occurred while the Jews were taking their first steps to freedom. Taking the lamb was a major act of defiance. The Jews were clearly announcing that they were no longer going to allow themselves to be oppressed. The subsequent miracle was great, not because of its relative size but because of its impact. It was great because it coincided with the first act of defiance by the Jews, when they refused to accept the authority of their Egyptian masters -- the first moment of freedom. This approach to <em>Shabbat Hagadol</em> reflects a political perspective, in terms of freedom and oppression.</p>
+<p><em>Hizkuni</em> on the above verse gives another reason. Since taking the lamb in preparation of the Passover sacrifice is the first <em>mitzvah</em> of the Torah, <em>Shabbat Hagadol</em> is the day when the first <em>mitzvah</em> was performed. This explanation sees the events of <em>Shabbat Hagadol</em> from a spiritual perspective. It would seem that it does not have to do with political freedom.</p>
+<p>However, the Torah does connect the observance of <em>mitzvot</em> and freedom. The Midrash tells us (<em>Bamidbar Rabbah</em> 10:8) that only one who observes the Torah can be considered truly free. This is because (to borrow the terminology from Isaiah Berlin) there are two concepts of freedom: One, "freedom from," being free from interference, and two, "freedom to," which is to have a particular purpose and goal and to become capable of becoming a fully developed personality. "Freedom to" is an extremely important Jewish value. The performance of the first <em>mitzvah</em> is an important step in the direction of "freedom to," of having a purpose in life.</p>
+<p>Ultimately, "freedom to" has a more enduring effect. It is difficult to understand why we would celebrate Passover during the many times in our history we were oppressed. After all, what good was the freedom from Egypt if you are being oppressed by the Babylonians, the Romans, the Germans? The answer is that we can still commemorate the element of "freedom to." We have a Torah with values that provides a purpose in life that can help us to transcend physical suffering. At times we may lose "freedom from," but since we were redeemed from Egypt we have always had "freedom to." May we merit to see the day of the eternal Shabbat, a day of physical and spiritual freedom.</p>
+<p><em>Rabbi Chaim Steinmetz, Tifereth Beth David Jerusalem, Cote St. Luc, Quebec.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="unity">The Matzah of Unity<br></strong>Prepared in honor of Pesach 5763 by the United Jewish Communities Rabbinic Cabinet</p>
+<p align="center" style="TEXT-ALIGN: CENTER"><em>To be recited during the Pesach seder at Yachatz -- when breaking the middle Matzah</em></p>
+<p align="center" style="TEXT-ALIGN: CENTER">Pesach is a wonderful time to be together as one Jewish family, connecting our symbols<br>with our actions, our rituals with our ethics.</p>
+<p align="center" style="TEXT-ALIGN: CENTER"><em>We recall springtime as we eat the green vegetable karpas.</em></p>
+<p align="center" style="TEXT-ALIGN: CENTER">May we remember that it symbolizes a renewal of nature and the human spirit.</p>
+<p align="center" style="TEXT-ALIGN: CENTER"><em>We recall our people's tears and suffering as we dip into the salt water.</em></p>
+<p align="center" style="TEXT-ALIGN: CENTER">May we remember our people's past oppressions and care for those who still have tears and pain.</p>
+<p align="center" style="TEXT-ALIGN: CENTER"><em>We recall the bitterness of slavery as we eat the maror.</em></p>
+<p align="center" style="TEXT-ALIGN: CENTER">May we remember the plight of the poor and the downtrodden and alleviate their distress.</p>
+<p align="center" style="TEXT-ALIGN: CENTER"><em>We recall our servitude to Pharaoh as we eat the matzah, the bread of affliction.</em></p>
+<p align="center" style="TEXT-ALIGN: CENTER">May we remember God's redemption of our people and how <em>matzah</em> became the first food eaten in freedom.</p>
+<p>Let us now take the middle matzah and divide it in half. As we break this <em>matzah</em> and set it aside, we link ourselves symbolically with all Jews throughout the world, especially those who were broken off from the community of Israel for so long and have only now rejoined <em>Klal Yisrael</em>, in their native lands and in the land of Israel.</p>
+<p>Our <em>seder</em> meal will not conclude until the missing piece of <em>matzah</em> is found and returned to the table. The <em>matzah</em>, when restored, symbolizes the desire of our people to be together as one, at peace. As Jews, we are a people of sacred fragments; we need help from God to bond together in everlasting unity. In these days we especially note the fragility of our lives. We pray that God protects us, our families, our country and the vulnerable among us.</p>
+<p>These symbols and rituals at the <em>seder</em> reconnect us to our sacred past, remind us of our divine mission and challenge us to create a future of wholeness for Jews the world over. May we share the message of freedom and of God's concern, appreciating the unique contribution of every human being. May this <em>Pesach</em> be a time of recommitment to our people, our values and our faith. Amen.</p>
+<p><em>Adapted in honor of Pesach 5763 by the United Jewish Communities Rabbinic Cabinet.</em></p>
+<p><em>Rabbi Harold J. Berman, Chair; Rabbi Eric M. Lankin, Director.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="cup">The Fifth Cup: A Meditative Reading</strong></p>
+<p>According to Jewish tradition, the four cups of wine that we drink during the <em>Pesach seder</em> remind us of the four expressions of redemption promised by God when He assured Moses that the Israelites would be freed from Egyptian bondage: "And I will free you from the labors of Egyptians, and I will deliver you from their bondage. I will redeem you with an outstretched arm and through extraordinary chastisements. And I will take you to be My people and I will be to you a God. And I will take you into the land which I swore to give to Abraham, Isaac and Jacob; and I will give it to you for a possession" (Exodus 6:6-8).</p>
+<p>While the first four expressions of redemption were realized at the time of the Exodus from Egypt, the fifth promise of redemption, "And I will bring you into the land," has yet to be completely fulfilled. The Children of Israel did indeed enter the Promised Land forty years later, only to be exiled at the time of the destruction of the First Temple. Their later return to the Holy Land was not permanent. The Second Temple was destroyed in the year 70 C.E., and the long exile of the Israelites from the Land of Israel ensued.</p>
+<p>We pour a fifth cup of wine at the <em>seder</em> table in remembrance of this fifth promise of redemption. Until this promise is totally fulfilled, the cup of wine remains untouched. It has been given the name of "<em>Kos shel Eliyahu</em>," "the Cup of Elijah," because, according to Jewish tradition, Elijah the Prophet will be the harbinger of the coming of the Messiah, heralding an age of complete peace and harmony for all peoples and answering all of our unanswered questions.</p>
+<p>Our generation has been privileged to witness the ingathering of our people from the four corners of the earth into the Promised Land, and only 55 years ago, an independent Jewish state was reborn after a hiatus of almost 2,000 years. However, not all Jews have returned to Israel.</p>
+<p>We pray that Elijah will soon come, so that this fifth cup can be drunk in thanksgiving to God for having brought many of our people safely and peacefully to the Promised Land and Jerusalem, the City of David. We pray that God will enable us THIS YEAR to witness with our own eyes the blessings of the land of Israel that God has granted our people. We pray that God continues to protect our people in our homeland and leads the people of Israel to peace with all of her neighbors.</p>
+<p><em><strong>The following should be recited when the Cup of Elijah is poured:</strong></em><br>In the Book of Psalms, King David speaks of the joy of wine and of Jerusalem:</p>
+<p>"Wine gladdens the heart of a person" (Psalm 104:15). </p>
+<p>"I rejoiced when they said to me, ‘We are going to the house of the Lord'" (Psalm 122:1)</p>
+<p>We pray that in the coming year we shall see Jerusalem restored to her full glory, with her<br>people rejoicing within her, so that this cup of wine indeed may gladden our hearts.</p>
+<p>May the words that we shall recite this sacred evening, "<em>Leshanah Haba'ah Bi'rushalayim</em>" -- "May this Coming Year See us in Jerusalem" -- truly be fulfilled. May we merit the Psalmist's promise, "May the Lord bless you from Zion; may you share the prosperity of Jerusalem all the days of your life...peace be upon Israel" (Psalm 128:5-6).</p>
+<p>In this coming year, may we be privileged to drink from the Cup of Elijah. <em>Amen</em>.</p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="teplitz">Elijah's Gifts<br></strong>By Rabbi Saul Teplitz</a></p>
+<p>To the <em>seder</em> we either invite guests or are invited as guests. But the most important guest at every <em>seder</em> table is invisible: the prophet Elijah, for whom a special cup of wine is prepared. I have often wondered why, of all the great prophets in Israel, Elijah was chosen for this honor.</p>
+<p>In studying his biography, I discovered the attributes that identify him so closely with the ideals of <em>Pesach</em>. Elijah's life is a symbol of courage. He was ready to take his life in the struggle against idolatry. A person cannot realize freedom for himself or acquire it for others unless he manifests the courage of his convictions. Show me a person with courage, and I will show you a person who is free.</p>
+<p>Elijah also taught the need for comradeship between parents and children. Freedom cannot be attained at once for every generation. Each generation must struggle for it anew. Thus, freedom is an attribute acquired by children from purposeful parents.</p>
+<p>The final characteristic that, no doubt, made Elijah worthy of being invited to every <em>seder</em> is the possession of confidence. The free man is the man who is confident that the great day of deliverance is yet to come. Therefore, throughout the ages, Jews look forward to the appearance of the Messiah preceded by Elijah. These are the three personal dimensions necessary for the acquisition of freedom: courage, comradeship and confidence.</p>
+<p>It is told that at the <em>seder</em> table of a great <em>hasidic</em> rabbi, one of the faithful was asked to open the door for Elijah. When he returned from the open door, everyone noticed that the <em>hasid's</em> face was quite wan. When asked why he turned so pale, the <em>hasid</em> responded, "When you open the door for Elijah in the <em>Rebbe's</em> house, the possibility is almost certain that Elijah will really come in, and I was afraid."</p>
+<p><em>Rabbi Saul Teplitz is Rabbi Emeritus of Congregation Sons of Israel, Woodmere, N.Y.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="greenstein">Who Knows One? Who Doesn't Know?<br></strong>By Rabbi David Greenstein</a></p>
+<p>One of the classic popular songs of <em>Pesach</em> is "Who knows One?" By the time we get to it, everyone is tired, stuffed and fulfilled from a night of story-telling, arguments, questions and insights. Now we try to catalogue all that we know. We keep asking questions and we joyfully declare that we know all the answers.</p>
+<p>How far we have come from the start of the <em>seder</em>? When we begin, we have far more questions (4) than we have answers (1). And after giving our one answer, we declare: "Even if we knew the whole Torah, we are commanded to tell about the Exodus from Egypt." But isn't telling the story part of knowing the Torah? I suggest that a key part of retelling the story of the Exodus is the recapturing of our ability to NOT know. Paradoxically, to know the Torah is to know how important it is to NOT know.</p>
+<p>Remember Abraham? God tells Abraham to leave his homeland and family. But God does not tell Abraham where he will be going. To be open to how God's Presence would unfold in his life, Abraham had to allow himself to remain in the state of not knowing. This happens again and again in the Torah. Jacob states it most profoundly: "Yes, God is really in this place, and I do not know" (Gen. 28:16). [I translate <em>yada'ati</em> as a continuous action.]</p>
+<p>What can we learn from our ancestors? Unlike Abraham, who did not know where he was going, we've "been there; done that." Yet no matter how much we know, says the <em>Haggadah</em>, we have to get to the point of not knowing. And we can get there when we retell the story of <em>Pesach</em> itself.</p>
+<p>As the conflict between Moses and Pharaoh develops, it is no longer about letting Israel go. It is about giving up control when one tries to worship God. Pharaoh tries to control participation. But Moses declares, "We are all going, young and old, sons and daughters" (Exodus 10:9). Finally, Pharaoh tries to control the service. Here is where Moses teaches us what is different about worshipping the true God. He says: "We don't know how we will serve God until we get there" (Exodus 10:26).</p>
+<p>Unlike Abraham, Moses knew where he was going. He knew Israel was going to worship God, but he did not know what would happen as a result -- the revelation of the Torah. The Torah gives us a detailed map of destinations -- places and times to go to in order to serve God in righteousness and holiness. And the song "Who Knows One?" celebrates that we know them all. But it can't tell us what will happen when we get there.</p>
+<p>We may think we know what will happen when we enter a synagogue, open a prayer book, go to work, sit with our families. But being there, if we wish to say, "God is really in this place," we will have to say "And I do not know!" May we all strive to reach the place of not knowing. Then we will, in the words of the <em>Haggadah</em>, "sing a new song." The title: "Who doesn't know? I don't know!"</p>
+<p><em>Rabbi David Greenstein, New Hyde Park Jewish Center, New Hyde Park, N.Y., teaches at the Academy for Jewish Religion, Riverdale, N.Y.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong>I Can't See You!<br></strong>By Mordechai Wollenberg</p>
+<p>The plague of darkness engulfed the land of Egypt for seven days. The Torah tells us that during the first three days it was so dark that "a man saw not his fellow."</p>
+<p>The story is told of a rabbi who was deeply engrossed in his studies one night, when his youngest child fell out of the cradle. Even though the rabbi was only in the next room, he heard nothing. The rabbi's father was also studying in his room upstairs. Nevertheless, he heard the baby and went downstairs to calm him. Afterwards, he reprimanded his own son, who had remained oblivious throughout. "How could you leave the baby crying?" The son replied that he had not heard the baby crying.</p>
+<p>The rabbi had what he thought was a legitimate excuse, explaining to his father that he simply hadn't heard. He had been so engrossed in his studies that he was oblivious to everything else. The excuse did not wash. "You should never be so involved in your own spiritual endeavors that you fail to hear the cry of a Jewish child," the father told his son.</p>
+<p>The greatest darkness is when "a man sees not his fellow." It is obvious that this applies in everyday matters, in terms of not being inconsiderate or too self-centered, and avoiding similar negative traits. This idea goes further, however. Sometimes we think we are "doing the right thing" -- we are involved in lofty, spiritual matters -- and because of this, we are unaware of what may be taking place in the next room. We should never be so involved in our own spiritual refinement and endeavors that we remain insensitive to the cries of others.</p>
+<p>The opposite of darkness is light. A person who is unable to see a colleague is like one who is "in the dark." Being sensitive to and aware of the needs of others brings light and goodness.</p>
+<p>May we all merit to be sensitive to one another and to truly "see" each other.</p>
+<p><em>Mordechai Wollenberg is studying for smicha at Kollel Menachem in Crown Heights,<br>Brooklyn, N.Y.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="kaplan">My Memories of a Seder in Dachau<br></strong>By Rabbi Solomon Kaplan Zt"l</p>
+<p>In the spring of 1945, I and four thousand fellow Jews were in Branch #1 in Dachau. This concentration camp, near the city of Landsberg in Bavaria, was one of 12 established by the Nazis. It was in this area that Hitler wrote <em>Mein Kampf</em>.</p>
+<p>The Germans were building underground camouflaged plants for the famous Messerschmitt airplanes. The Jews worked there day and night schlepping 100 kilograms (225 pounds) of cement bags for mixing with sand and water. The average worker didn't weigh more than 100 pounds. Our food ration for the day was a little less than 4 oz. of bread. Flour was mixed half with sawdust, and a so-called soup was water and potato peels. We worked 14 hours a day at hard labor for this food, unlike the Jews in Egypt who were fed fish and vegetables (Num. 11).</p>
+<p>We slept 60 men in a ditch. In the ditch I was in, there was a Jew whose name I don't remember. He had hidden a gold ring among his schmattes, and on <em>Erev Pesach</em> in 1945 he exchanged it through a German foreman for a cup of white flour. We closed ourselves in that ditch and started the <em>seder</em>.</p>
+<p>From work we brought a few branches and the empty paper cement bags that we used to put on our bodies to keep warm because winter in that part of Bavaria is very cold. So, with bags and branches, we made a fire in an old rusty tin oven. With palpitations, with fear in our hearts, and with an overwhelming <em>Yom Tov</em> feeling, we all watched as the man took the cup of flour and water, made one large round <em>matzah</em>, and put it on top of the oven to bake. Every few moments, we changed guards at the opening of our "palace," so an unfriendly eye shouldn't observe us. If we were caught, we would pay dearly for this.</p>
+<p>Very quietly we chanted as much as we could remember of the <em>Haggadah</em>. We sang the traditional <em>Pesach</em> songs. Among us was a 14-year-old orphaned boy from Hungary whose entire family had perished. He asked the four questions, but there were more than four questions to ask. Truly, why was this night different? Even today, there is still no answer for him and there never will be.</p>
+<p>Symbols for the <em>seder</em> plate were unnecessary as everything was original. Instead of salt water, we had our tears; instead of bitter herbs we had our lives, which were bitter enough. We didn't need <em>charoset</em> to remind us of the mortar and brick day and night as the cement penetrated our bodies, face and mouth, because we weren't allowed to wash. We brought to this <em>seder</em> more than enough sacrifices and did not need a shank-bone and burnt egg to remind us of the Pascal Lamb, the <em>Pesach</em> sacrifice. In the Temple, the Pascal Lamb was roasted, but not burned. But we, ourselves, without fathers, mothers and entire families in the crematorium, were the burnt offerings.</p>
+<p>For the four cups of wine, we used water. We all said <em>Hamotzi</em> over the one <em>matzah</em> and everyone got a taste.</p>
+<p>For Elijah's cup, we found an empty can and filled it with water. We stood up to greet Elijah and with so much pain in our hearts said the <em>Shfoch Chamoscha</em>, reflecting on those wicked people and what they did to us and to <em>Klal Yisrael</em>.</p>
+<p>I would say our <em>seder</em> was more spiritual because gefilte fish, knaidlach and all the <em>Pesach</em> goodies weren't even part of our dream. It was all <em>Kosher L'Pesach</em> because we were slaves yearning to be free. We concluded the seder with "Next Year in Yerushalayim." That was a night to remember.</p>
+<p>Our parents and those who lived before them cried for Zion and Jerusalem. Many didn't live to see it. Some from our generation who went through such destruction lived to see the <em>nachas</em> and comfort for our bitter years of the Nazi era. We are the fortunate ones who have lived to see the establishment of Israel.</p>
+<p><em>Rabbi Solomon Kaplan, Zt"l was the Ritual Director Emeritus of Scarsdale Temple, Scarsdale, N.Y.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="chinitz">God Demands a Do-It-Yourself Religion</strong><br>By Rabbi Jacob Chinitz</a></p>
+<p><em>Shvii Shel Pesach</em>, like <em>Shmini Atzeret</em> after <em>Sukkot</em>, spiritually stands out on its own, and not just as the last day of the festival. Tradition connects the seventh day with the concluding miracle of the Exodus -- the splitting of the sea, without which the Exodus itself would be futile.</p>
+<p>Unlike the Ten Plagues, in which Israel is passive and God does it all himself (as the <em>Haggadah</em> stresses, <em>Ani Velo Malakh</em>, even angels did not assist) at the sea God expects some human participation. "<em>Ma Titzak Eilai, Daber El Bnei Yisrael Veyisou</em>." Stop praying and start traveling. The sea did not split until Nakhshon ben Aminadav jumped into it, split it with his masterful dive and walked until the water began to cover his nose. Then the waters separated for the entire people.</p>
+<p>That's the secret of Israel's God. He demands do-it-yourself religion. No matter how much faith, no matter how much prayer and even praise, no matter how much we adore His power, the whole purpose of Creation, Torah and <em>Olam Haba</em> is that we have to earn our own salvation. If no one actually manifests faith and walks into the Red Sea, the sea will not split. Without a jar of oil, the <em>menorah</em> of Chanukah does not burn even for one night. No repentance on our part, no forgiveness. No conquest of <em>Eretz Yisrael</em>, no <em>Eretz Yisrael</em>, despite all the promises of the Promised Land.</p>
+<p><em>Shvii Shel Pesach</em> can be called, like the title of Ralph Waldo Emerson's essay, "Self-Reliance." Our God demands human effort, human standards, and self-help. As the saying goes, we should pray as if all depended on Him. We should act as if all depended on us.</p>
+<p><em>Rabbi Jacob Chinitz, Rabbi Emeritus of Temple Beth Ami, Philadelphia, Pa. resides in Jerusalem.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong>Pesach Yizkor: Memories are Made of This</strong><br><a name="lerner">By Rabbi Leigh Lerner</p>
+<p>Thinking of the old song "Memories Are Made of This," I am reminded of <em>Pesach</em>. Memories are made of wine-stained <em>haggadahs</em>, the smell of <em>charoset</em>, Uncle Max's unique drone of the <em>Pesach</em> story, Aunt Fay's chicken soup with <em>matzah</em> balls (main secret -- she made it the day before), the relatives who seriously drank four cups of wine and then weren't at all serious any more, and songs like <em>Had Gadya</em>, long and sung badly but by people you love. Memories are made of this and so much more.</p>
+<p>Every <em>seder</em> is a memory maker. And memory is the lifeboat of Jewish living. Remember the Sabbath day. Remembrance of the exodus from Egypt. A memorial to the word of creation. Remember you were slaves in the land of Egypt. All of these well-known words from our prayers and from the Torah refer to human recollection. But these words all become attached to significant actions, sense-oriented deeds that will one day return as memories to remind us who we are and what we stand for. Indeed, they are the memories that shape our identity and our ethic.</p>
+<p>Be part of a <em>seder</em>. Help make memories for your family and friends, and help renew your own. <em>Pesach</em> memories have the power to shape Jewish ideals year after year, to form new generations of Jews and to recall to mature men and women what it means to live the life of a <em>Yehudi</em>.</p>
+<p>We begin <em>Pesach</em> with the <em>seder</em>, and we end it with <em>Yizkor</em>, a formal opportunity to remember the people who formed us and created our <em>Pesach</em> memories but are no longer here. We keep them with us, bringing them along to the <em>seder</em> table each year.</p>
+<p><em>Rabbi Leigh Lerner, Temple Emanu-El Beth Sholom, Montreal, Quebec.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong>The Dream: Thoughts for Yom HaAtzma'ut<br></strong><a name="hammer">By Rabbi Reuven Hammer</a></p>
+<p>When the Lord restores Zion -- we were as dreamers. (Psalm 126:1)</p>
+<p>This magnificent but difficult sentence -- note the lack of agreement among the verbs here and in the following verse -- could well be the motto of Yom HaAtzma'ut. I believe that it was Rabbi Robert Gordis who once suggested that "<em>k'cholmim</em>" here might come not from the root meaning "to dream" but from the same letters that, rearranged, mean illness and therefore suggest healing. Thus: "When the Lord restores Zion -- we were as those who are healed."</p>
+<p>The creation of the State of Israel was a necessary step in the healing, the restoration<br>of the Jewish people to life after the horrors of the Holocaust. Let us be clear about this -- that does not mean that Israel came into being as a result of the Holocaust, nor that God permitted the Holocaust in order to bring about the restoration of Zion. Nor does it mean that the building of the State began with the Holocaust; the return to Zion began long before that. It does mean that without the restoration of Zion the continuation of Jewish life would have been extremely difficult. After Auschwitz we needed Zion. No one has put it better than Rabbi Abraham Joshua Heschel, who wrote in <em>Israel: An Echo of Eternity</em>, "Israel enables us to bear the agony of Auschwitz without radical despair, to sense a ray of God's radiance in the jungles of history."</p>
+<p>The return to Zion is also a partial healing of the negative effects of 2000 years of exile and of the rifts brought about by the emancipation. Jews seeking a place of refuge now have it. Jews are brought together from all over the world and once again can mingle, marry and produce a Jewish culture that represents all the various tribes within the Jewish people. Hebrew is restored as a living language. The ideals of the Jewish heritage can be translated into practical terms. The promise of the Torah, that the children of the ancient ancestors would have their own land in which to live and actualize our ideals, has become reality.</p>
+<p>In Israel we can strive to fulfill the Abrahamic covenant: "For I have singled him out, that he may instruct his children and his posterity to keep the way of the Lord by doing what is just and right..."(Genesis 18:19). Whether or not all Jews must or should live in Israel is debatable, but the responsibility of all Jews to bring about the creation of such a homeland and to sustain it is clearly mandated by our tradition.</p>
+<p>Being dreamers has both a positive and a negative connotation. Without dreams, ideals never become realities. But dreams can also be illusions and self-deceptions. Now, 55 years after the dream of Zion became the reality of Israel, we also realize that not everything is as we had dreamed. Our dreams of an ideal society, of a nation at peace and living in security, have not been realized. Our accomplishments are enormous, but our problems are many, both internal and external.</p>
+<p>Externally, we face enemies who would seek to destroy us through war or terror. We have made peace with some of our neighboring states, but peace with those closest to us, the Palestinians, has so far eluded us. Considering the events of the past few years, it is certainly easy to despair, but that is exactly what we must not do. No matter how long it takes, we must not give up the dream of finding an accommodation that will permit us to live, if not together, than separately but in peace and quiet.</p>
+<p>Internally, we face great problems as well. We are a society in conflict: between ethnic<br>groups, between religious and non-religious, between rich and poor. We face problems of poverty, of violence, of delinquency, of alcoholism, of battered women and discrimination against women, of the integration of divergent groups, of ever-increasing religious extremism, of increasing alienation from the roots of our culture, our tradition and our religion.</p>
+<p>In short, we have the problems of every modern society -- and then some. Israel has not<br>solved all the problems of Jewish peoplehood. At best it has exchanged one set of problems for another. But if we dreamed that it would, we were "as dreamers" and not as realists. For if we look back into Jewish history, at the prophetic books, we see clearly that the existence of an independent Jewish commonwealth, either during First or Second Temple times, was never a guarantee of an ideal society. But a glance at the words of the prophets will also inform us that we never ceased striving to attain those ideals.</p>
+<p>So too today. We must not succumb to despair or listen to those who say that our problems are too difficult and not worth the effort. If Jews everywhere dedicate themselves to playing a part in solving them, it can be done. Israel today is a challenge, a challenge to fulfill the dream, for without a dream there can be no healing.</p>
+<p><em>Rabbi Reuven Hammer, International President of the Rabbinical Assembly, teaches at<br>Machon Schechter, Jerusalem, Israel.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="kerbel">A Meditation for Yom HaAtzma'ut<br></strong>By Rabbi Paul David Kerbel</a></p>
+<p>As we celebrate Israel's 55th Anniversary of Statehood<br>We remember the past, we share in its present, we plan, build and hope for the future</p>
+<p><em>We rejoice in the ingathering of our people from over 70 countries around the world;</em></p>
+<p>We reflect on all of the men, women and children, soldiers and citizens who have died<br>protecting, defending and building the land of Israel;</p>
+<p><em>We marvel at the contributions Israelis citizens -- Jews, Christians and Muslims -- have<br>made to science and education, literature and technology to make Israel one of the most<br>vibrant societies in the world;</em></p>
+<p>We pray that Israel will always lead the way in the search for peace and understanding;</p>
+<p><em>We are thankful that God's mysterious promise to Abraham has come true in our lifetime.<br>And so, as we celebrate this special day in the life of the Jewish people:</em></p>
+<p>We vow to always support, protect and defend the land of Israel and the people of Israel.</p>
+<p><em>May we be a blessing to Israel as Israel has been and will always be a blessing to us.</em></p>
+<p>And may we witness peace for the people and land of Israel with its neighbors, so that all of us may be touched by its beauty, its mystery, its potential, its power and most of all, the<br>embrace of God's presence.</p>
+<p>Am Yisrael Chai!</p>
+<p><em>Rabbi Paul David Kerbel, Congregation Beth Israel, Milwaukee, Wisc.</em></p>
+<p><a href="#top">back to top</a></p>
+<p align="center" style="TEXT-ALIGN: CENTER"><strong><a name="jeret">History Is Watching Us: Reflections Upon A Mission Past<br></strong>By Rabbi Isaac Jeret</a></p>
+<p>In July, I was privileged to serve as scholar and spiritual guide for UJC's Young Leadership Mission to Israel. Upon landing in Israel, it was obvious that we had arrived at a fateful moment in Jewish history. Israelis, from underused taxi drivers to hotel clerks in resorts that resembled ghost towns, embraced our entire group of American and Canadian Jews, not only as very welcome clients, but as spiritually uplifting symbols of both Jewish solidarity and the brotherhood of Western civilization against the evil of terror and tyranny. Our mission was therefore not only to learn from our experience in our Jewish homeland, but to offer our support, compassion, and solidarity to the citizens of Israel.</p>
+<p>Our group consisted of 130 men and women between the ages of 30 and 45. Together, we visited victims of terror, physicians who treat these victims, volunteers who work with traumatized families and numerous others deeply affected by the practical constraints and mortal fears that terror generates. One paralyzed young Ethiopian Jewish man, the breadwinner for his family of 10 siblings, was too overcome with grief to speak with us. A young woman made humor of her scars, suggesting that only now might she meet a man who was truly interested in her personality. A father explained that few children in Israel sleep through the night any longer.</p>
+<p>By our second day in Israel, when we visited the Park Hotel in Netanya, it was readily apparent that all Israelis are victims of terror. I chanted the memorial prayer for those murdered in the Passover Massacre, standing in the very room of the attack, with nails and silverware still piercing the blasted cement ceiling as they had also pierced human flesh and bone. We were all mourning and crying as one: Israelis, Canadians, Americans, men, women, children, visitors, tour guides, and security personnel. We experienced together the deafening silence of a space transformed from the joy of Jewish holiday celebration into a mortuary of terror.</p>
+<p>But there was another dimension to this experience, a striking component of the Israeli character that emerged as we witnessed Israel's struggle to survive this war. We listened to Israel's courage, as expressed in one 23-year-old Israeli reservist's letter to his fiancée, prior to his death in the fierce battle of Jenin. The physician who had held him in his dying moments read the words, "My dear Galiti, if you receive this letter then you know that I am no longer...we must defeat those who are seeking our destruction, even if my life is but one of the costs that must be paid." Israel's pain was our own, but Israel's courage was also our inspiration.</p>
+<p>We welcomed Shabbat in dance and song at the Southern Wall of the ancient Temple in Jerusalem, as we prayed for peace and for the healing and continued strength of our Jewish brothers and sisters in Israel. We realized that for all we might have given to Israel in its moment of dire need, we would walk away with so much more that we had given. History will judge the Jewish people worldwide, and all people who love liberty, as it records our collective response to Israel's isolation. Israel struggles for the sake of the entirety of Western civilization as much as for its own sake.</p>
+<p>One day, one of two stories will be told of this historic moment. Each of us has the power to determine which story is told ultimately. The first story would describe how the world overcame the evil of terror, supporting democracy and freedom in the Holy Land and worldwide, by traveling to Israel and visiting the people that terrorism seeks to isolate and destroy. The second story would begin with the phrase, Once upon a time, there was a State of Israel..." If Israel is one very significant battlefront in the war on terror, then it is also Western civilization's strongest and most important fortress of everything that we believe in. History is watching us.</p>
+<p><em>Rabbi Isaac Jeret, Temple Emanu-El of Palm Beach, Fla.</em></p>
+<p><a href="#top">back to top</a></p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"></td>
+<td valign="top"><table width="192" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="174" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="callouttop" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topleft.gif"><img src="../images_main/dot_clr.gif" width="9" height="20" alt=""></td>
+<td class="callouttop" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_top.gif" style="line-height:14px;"><a href="../section_display_id_16/"><font size="2" class="callout1" valign="middle" style="text-decoration: none;"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br>The Orchard &gt;<br><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br></font></a></td>
+<td class="callouttop" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topright.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_left.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td class="calloutback" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_body.gif"><img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br><font class="body1" size="1" color="#000000"><p>Download a PDF file of the print version of the Spring 2003 edition of The Orchard by <a href="http://www.ujc.org/getfile.asp?id=2773" target="_new" type="external">clicking here</a>.</p>
+<p>Adobe Acrobat Reader is required to download The Orchard. <a href="http://www.adobe.com/products/acrobat/readstep2.html" target="_new" type="external">Click here</a> to get Adobe Acrobat Reader.
+	 <br clear="all"></font>
+</td>
+<td class="calloutback" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_right.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" colspan="3" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_bottom.gif"><img src="../images_main/dot_clr.gif" width="1" height="9" alt=""></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/></td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr>
+<td colspan="4"><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=75621" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=75621" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(75621,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(75621,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - The Orchard: Spring 2003";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

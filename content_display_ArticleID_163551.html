@@ -1,0 +1,824 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - The Orchard (Fall 2005)</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201401">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201403">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?148423">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?201401" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Jewish Life</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_16/">Jewish Life</a>&nbsp;&gt;&nbsp;The Orchard (Fall 2005)</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_16/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td rowspan="6"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td rowspan="4"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"></td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr>
+<td valign="top"><table width="70%">
+<tbody>
+<tr>
+<td valign="top">
+<p><strong>Chair:</strong><br>Rabbi Bennett F. Miller, D.Min.</p></td>
+<td>
+<p><strong>Vice Chair:</strong><br>Rabbi Ronald L.<br>Schwarzberg</p></td></tr>
+<tr>
+<td colspan="2">
+<p><strong>Associate Chairs:</strong><br>Rabbi Steven E. Foster<br>Rabbi Jonathan A. Schnitzer</p></td></tr>
+<tr></tr>
+<tr></tr>
+<tr>
+<td>
+<p><strong>President:</strong><br>Rabbi Harold J. Berman</p></td>
+<td>
+<p><strong>V.P. Jewish Renaissance & Renewal:</strong><br>Dr. Eric Levine</p></td></tr>
+<tr>
+<td colspan="2"><strong>Editorial Staff<br></strong>Leon Erlanger<br>Yoni Kaiserblueth</td>
+<td valign="top">
+<p>&nbsp;</p></td></tr></tbody></table>
+<p><strong>Robert Goldberg</strong><br>UJC Chair of the Board<br><strong>Morton B. Plant<br></strong>UJC Chair of the Executive Committee<br><strong>Howard M. Rieger</strong><br>UJC President and CEO</p>
+<p align="center"><a name="top"><strong><font size="3">Contents</font></strong>:</a></p>
+<p align="left"><strong>INTRODUCTORY ESSAYS</strong></p>
+<p><a href="#Cabinet">The United Jewish Communities Rabbinic Cabinet</a></p>
+<p><a href="#Board">From the UJC President and Chair of the Board</a><br>Robert Goldberg, Chair of the Board, and Stephen H. Hoffman, President & CEO</p>
+<p><a href="#Transforming">Transforming Moments</a><br>Rabbi Bennett F. MIller 
+<p>&nbsp;</p><strong>YAMIM NORAIM</strong> 
+<p><a href="#Conversation">A Conversation with God in Elul</a><br>Rabbi Rabbi Gerald B. Weiss</p>
+<p><a href="#Tidbit">A Tidbit on the High Holidays</a><br>Rabbi Joel M. Finkelstein</p>
+<p><a href="#Akedah">Akedah</a><br>Rabbi Jon Cutler</p>
+<p><a href="#Tashlich">Casting Away Our Misdeeds, or Transforming Them? The Spiritual Ecology of Tashlich</a><br>Rabbi Phyllis Berman & Rabbi Arthur Waskow</p>
+<p><a href="#Pause">Time To Pause, To Reflect</a><br>Rabbi Howard A. Simon</p>
+<p><a href="#Four">Four Sermon Sparks</a><br>Abby D. Spivack, MS</p><a href="#King">A Fast Fit for a King</a><br>Rabbi Allen S. Maller 
+<p><a href="#Weight">The Weight of Words: An Introduction to Kol Nidre</a><br>Rabbi Andrea M. Gouze</p>
+<p><a href="#Beginning">An End and a Beginning</a><br>Rabbi Howard A. Simon</p>
+<p><a href="#October">God’s October Surprise</a><br>Rabbi Arthur Waskow</p>
+<p><a href="#Garden">Like a Well-Watered Garden: Spiritual Hydration</a><br>Rabbi David J. Zucker, PhD</p>
+<p><a href="#Fellow">To My Fellow Congregants</a><br>Rabbi Israel Vana</p>
+<p><a href="#Shofar">Can’t Hear the Sounding of the Shofar? Listen a Little!</a><br>Rabbi Gerald B. Weiss</p>
+<p><a href="#Holy">Finding the Holy in the High Holy Days</a><br>Rabbi Moshe ben Asher, PhD, and Magidah Khulda bat Sarah</p>
+<p><a href="http://central.ujcfedweb.org/content_display.html?ArticleID=163527&amp;page=2" type="internal">Sukkot, Hannukah, Jewish Social Responsiblity, Jewish Peoplehood and Jewish Needs Around the World</a> (con't on page 2)</p>
+<p style="TEXT-ALIGN: center" align="center"><a name="Purpose"><strong>The Purpose, Objectives, and Membership Standards of the United Jewish Communities Rabbinic Cabinet</strong></p>
+<p>The mission of the UJC Rabbinic Cabinet is to unite rabbis of all ideologies in the work of <em>kiyum ha'uma</em> and <em>tzedakah</em>, acquaint and involve the North American rabbinate with the goals and activities of UJC, and bring the talents, resources and perspectives of the rabbinate to UJC and its UJA-Federation Annual Campaign.</p>
+<p>The cabinet serves as the rabbinic arm of UJC, the major agency of North American Jewry for <em>tzedakah</em>. It promotes the unity of the Jewish people in its efforts to support the needs of Jews everywhere by including rabbis from every movement in North American Jewish life.</p>
+<p>The Rabbinic Cabinet further seeks to inform colleagues about the most current developments in Jewish life, the needs of our people, and the techniques for effective utilization of rabbinic leadership within local communities. In addition, the Rabbinic Cabinet endeavors to apprise the lay Jewish leadership with the concerns of the rabbinate, infuse Jewish values and content into the annual and special campaigns of local federations, and serve Israel and the Jewish people with rabbinical involvement and support.</p>
+<p><strong>Specific Objectives</strong><br>1. Raise the level of knowledge about UJC in the rabbinate and community.</p>
+<p>2. Stimulate and support rabbinic participation in, and relationships with, UJC and local federations.</p>
+<p>3. Assist with and participate in UJC's UJA-Federation Annual Campaign by enlarging the scope and intensity of synagogue involvement.</p>
+<p>4. Upgrade rabbinic giving and increase rabbinic solicitations.</p>
+<p>5. Identify new donors, leaders and major gifts.</p>
+<p>6. Develop programs and educational materials about Israel and the Jewish tradition.</p>
+<p>7. Serve as teachers and spiritual resources to the leadership and constituencies of UJC, local federations and the Jewish community.</p>
+<p>8. Serve as a forum for the discussion and resolution of important Jewish issues.</p>
+<p><strong>Standards for Membership</strong><br>Members of the Rabbinic Cabinet should:</p>
+<p>1. Be involved in local federation and campaign activities.</p>
+<p>2. Work in harmony with local colleagues.</p>
+<p>3. Pledge at least $1,000 to the Annual Campaign.</p>
+<p>4. Participate in a UJC mission.</p>
+<p>5. Attend the Annual Meeting of the Rabbinic Cabinet and/or regional conferences and special meetings.</p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><a name="Board"><strong><a name="board">From the UJC President and Chair of the Board<br>Robert Goldberg, Chair of the Board, and Stephen H. Hoffman, President & CEO</a></strong></p>
+<p><strong>The first stanza</strong> of the poem Ki Henei Ka-Homer, recited during the Kol Nidre service, reads as follows:</p>
+<p><em>As clay are we, as soft and yielding clay<br>That lies between the fingers of the potter.<br>At his will he moulds it thick or thin,<br>And forms its shape according to his fancy.<br>So are we in Your hand, G-d of love,<br>Your covenant, recall and show Your mercy.</em></p>
+<p><strong>The imagery and symbolism</strong> of this poem illustrate the powerful relationship that connects us with both G-d and with our fellow human beings. What can we learn from this poem as we stand poised to usher in the period of personal reflection?</p>
+<p><strong>Relationships</strong> are as fragile as a potter’s clay and must constantly be molded and reshaped to maintain their health and vitality. Likewise, our world is a delicate one and we must strive to focus our care and attention to make it a better place for all its inhabitants.</p>
+<p><strong>At various times</strong> in our lives we have the potential to be the potter and improve the lot of those around us. As UJC embarks on our ambitious initiative, Operation Promise, we have identified just one area where the collective Jewish “hand” can mold a better life for our brothers and sisters in Israel, the FSU and Ethiopia.</p>
+<p><strong>In the past few weeks</strong> we have all faced a new challenge. The devastation we have seen from Hurricane Katrina in the Gulf Coast is a test for North America. It has also been a test for UJC and we have risen to the challenge. As Jews we cannot address our obligations one at a time, we must rise to all the occasions demanding our participation. We have a responsibility to care for those in need wherever they may be. UJC and the federation system has responded and is proud to be able to do what little we can at this time of need. As we have on many other occasions, we will do so with the true sense of tzedakah in our hearts.</p>
+<p><strong>UJC is accepting</strong> donations for humanitarian aid for members of the Jewish and general communities affected by Hurricane Katrina. Donations to the UJC Hurricane Katrina Relief Fund can also be sent to local Jewish federations. No overhead or administrative charges will be taken by UJC as part of this fundraising effort. UJC’s Emergency Relief Committee will have fiduciary responsibility for making allocations of relief funds. To donate or for more information please visit <a href="http://www.ujc.org/">www.ujc.org</a>.</p>
+<p><strong>As we prepare</strong> to refine the qualities and values of our life during the upcoming period of self-reflection, may we have the courage and strength to allow our thoughts to move past our own lives. May we never take for granted the gifts which have been bestowed upon us, and may we be enabled to promise those who need us a chance for something better.</p>
+<p><em>L’Shana Tova Tikatevu.</em></p>
+<p>
+<p><em></em></p><a href="#top">back to top</a> 
+<p></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>Transforming Moments<br>By Rabbi Bennett F. Miller<br></strong><a name="RoshHome"></p>
+<p><strong>We’re an amazing people.</strong> We celebrate life by transforming the simple into the sacred. Every part of life possesses aspects of the divine. With the simple<br>act of lighting candles with words of blessing, we declare that time is sacred. Asking questions at the seder table becomes the chance to retell the history of Israel. Almost everything we do is filled with the holiness of life and the<br>opportunity to be part of a sacred world.</p>
+<p><strong>This is especially true</strong> of the work we do with United Jewish Communities. We’re all involved in fund raising, community planning, and education. But these are just vehicles for performing pikuach nefesh, tzedakah, and gemilut hesed.</p>
+<p><strong>Our work becomes sacred</strong> when we transform the mundane into the sacred. Our work becomes holy when we serve as the hands and arms of the divine, transforming lives and enabling people to live with dignity.</p>
+<p><strong>For so many years</strong>, UJA, the Jewish Agency, the Joint Distribution Committee, and now the UJC Federation system have been the instruments of sacred work. Rescuing Jews from lands of endangerment, bringing them to Jewish communities where they can live in freedom, working with the Israeli government to bring Jews home to Israel from every corner of the world, helping to sustain Jewish communities that have fallen on hard times, and rebuilding and sustaining Jewish communities that have hope and promise are all part of the sacred work that you and I do.</p>
+<p><strong>In the coming months</strong>, we will be asked once again to perform transforming work. Elderly Jews from the former Soviet Union need our help to sustain themselves as they live out the last years of their lives. So many have suffered so much and now live in abject poverty. We must help them live their remaining years with dignity.</p>
+<p><strong>In Ethiopia</strong>, nearly 15,000 Falash Mura hope to reconnect with Israel and the Jewish people. They have returned at great risk to themselves. It is our privilege to help them not only come to Israel, but be part of Israel in good, healthy, and sacred ways.</p>
+<p><strong>During these High Holy Days</strong>, get ready for the start of another transforming moment in Jewish history. Be prepared to help in every way you can. The time is now, the opportunity is enormous, and the challenge is great. Let’s do once again what the Jewish people do best: take the simple and commonplace and transform them into the sacred and the holy. We should expect nothing less from ourselves. We should settle for nothing more than the best that God has given to us to do.</p>
+<p><em>Rabbi Bennett F. Miller is chair of the UJC National Rabbinic Cabinet and serves as Senior Rabbi of Anshe Emeth Memorial Temple in New Brunswick, New Jersey.<br></em></p></a>
+<p><a href="#top">back to top</a></p>
+<p><strong>YAMIM NORAIM</strong> </p>
+<p style="TEXT-ALIGN: center" align="center"><strong>A Conversation with God in Elul</strong><a name="Miller"><br><strong>By Rabbi Gerald B. Weiss</strong></p>
+<p><strong>It's Elul again</strong>, the month when we blow our own horn to alert God about our impending annual visit to His abode.</p>
+<p><strong>Like all good guests</strong>, we understand that our visit should be limited to three days, lest we wear out our welcome with our (Lord of) hosts. It will be sufficient to visit on the two days of Rosh Hashanah and the day of Yom Kippur, and then refrain from making another appearance at God's gates until next Rosh Hashanah rolls around.</p>
+<p><strong>Of course</strong>, during the month of Elul, God, like all good hosts, prepares for our visit. He reviews our dossiers to reacquaint himself with us, especially since, for most of us, it's been a whole year since we last visited. God familiarizes himself with our habits, our<br>likes and dislikes, and our behavior patterns over the past year. While He will always greet us cordially, and even warmly, He will also decide what sort of reception we will receive, and in what topics of conversation He might wish to engage us.</p>
+<p><strong>A typical conversation</strong> with God during this season might sound something like this:</p>
+<p><strong>GOD</strong>: Well, hello there, (insert your name here). How nice to see you again! How have you been since your last visit?</p>
+<p><strong>US</strong>: (groveling) Oh, God, father and king, mighty judge, decree a good destiny for us in the year ahead. May we be forgiven for all our failings before you, and be inscribed on your list for a favorable<br>remembrance on this great day of judgment.</p>
+<p><strong>GOD</strong>: Well, OK (insert your name here), if you insist, but tell me, how have you been? I want to hear good things from you and all about what you have done with your life in the year gone by. Whom have you helped? How have you made your little corner of the world a brighter, better place to live?</p>
+<p><strong>US</strong>: (groveling) Oh, sovereign, creator, redeemer, lawgiver. You are slow to anger and abundant in mercy. Show us your love and compassion, even though we are unworthy!</p>
+<p><strong>GOD</strong>: Excuse me, but what was that last part about being unworthy? Surely you don't mean to tell me that you haven’t been helpful— that you didn't at least try to make your little corner of the<br>world a brighter, better place, do you?</p>
+<p><strong>US</strong>: (trembling in embarrassed and fearful silence.) Uhh...</p>
+<p><strong>GOD</strong>: Well then, I guess that's it. As I said, nice to see you again. Hey, listen (insert your name here), don't be a stranger. Come back and visit me again next year, if you're so inclined and still around, that is...and maybe we'll talk some more then, OK?</p>
+<p><strong>US</strong>: (perspiring) Uhh... What? Next year? Uhh... Yes, yes! Next year! Oh, yes! Thank you, Lord. I’ll do better. I promise, if only you’ll let me live to come back again next year.</p>
+<p><strong>GOD</strong>: Well, OK then (insert your name here), but I really do hope we'll have a little more to talk about next year.</p>
+<p><strong>The shofar’s</strong> call is a summons and a wake-up call. Soon we will enter God’s presence. What will we say? What will He say? Will we have anything to say to each other? Or will this be just another brief, perfunctory visit? There’s still time to do a few things that God might like to hear about. Well then, what are we waiting for – next year?</p>
+<p><em>Rabbi Gerald B. Weiss is rabbi of the Beth Ami congregation in Boca Raton, Florida.</em></p></a>
+<p><a href="#top">back to top</a> 
+<p><a name="Berlin">&gt; 
+<p style="TEXT-ALIGN: center" align="center"></a><strong>A Tidbit on the High Holidays</strong><a name="Creditor"><br><strong>By&nbsp; Rabbi Joel M. Finkelstein</strong></a></p>
+<p><strong>The month of preparation</strong> for the High Holidays is known as Elul. The name of Elul has been associated with a verse in the Song of Songs—<em>Ani l’dodi v’dodi li</em> (I am my beloved’s and my beloved is mine)—whose acrostic spells Elul. Elul is about feeling connected to God, that God is my God, and that He cares about me. It is about caring about God and understanding that I am His servant. It’s about having concern for others and feeling that my life is about those I love, and that their lives, I hope, revolve around mine as well.</p>
+<p><strong>One particular Rebbe of Slonim</strong> writes that all sin ultimately comes from egocentricity, from thinking only about ourselves and what we want now. The purpose of Judaism is to draw out a person so that he or she takes an interest in others—the widow, the stranger, the poor, and his plain old neighbors. All of our prayers every day, even on the High Holidays, are in the plural. They are not just about me.</p>
+<p><strong>In all of our work</strong> at federation, we learn to think beyond our four walls. We begin to concern ourselves with the needs of Jews right here in Memphis, with what we can do right here to promote connectedness to Israel and to make our community stronger. Federation forces us to look abroad as well toward our brothers and sisters in Israel and other parts of the Jewish world.</p>
+<p><strong>But Elul has another meaning.</strong> In this month of Elul we recite an additional psalm every day—psalm 27, known as <em>L’david Hashem Ori</em>. The reason for this selection has been associated with one word in that chapter—Luleh—which is Elul spelled backwards. Isn’t it strange that something would be chosen for its backward spelling?</p>
+<p><strong>And what does luleh mean?</strong> It means, “if not, unless, if not for, save for, if only.” Why is this expression connected to this month of preparation for Rosh Hashanah? It’s because as we approach the new year and reconsider the year soon to be behind us, we keep thinking, “If only I could do that. If only I had done this. I would love to do this, but, save for, except, luleh.” That is all backwards spelling and backwards thinking, says the tradition.</p>
+<p><strong>The message is clear.</strong> As we approach Rosh Hashanah, we can engage in a month and then a year of Luleh—if only. If only I did this. If only I did that. Or we can engage in a month and then a year of Elul—closeness and connectedness with God. I am my beloved’s and my beloved is mine. We can learn to eschew self-centeredness and look at the burden of others as our burden.</p>
+<p><strong>The <em>bracha</em> or blessing</strong> we need to give to each other is that this year should be a year in which we do what we need to do for those around us, and instead of saying luleh—if only we had, too bad we didn’t—we need to say Elul—my community is my responsibility and I belong to my community. If we do this, we hope and pray we will be blessed with a year of peace, prosperity, health, and happiness. <em>Shanah Tovah.</em></p>
+<p><em>Rabbi Joel M. Finkelstein is rabbi of the Anshei Sphard-Beth El Emeth Congregation in Memphis, Tennessee.</em></p>
+<p>
+<p><em></em></p><a href="#top">back to top</a> 
+<p style="TEXT-ALIGN: center" align="center"><strong>Akedah</strong><a name="Taylor"><br><strong>By Rabbi Jon Cutler</strong></p>
+<p></a><strong>On the second day</strong> of Rosh Hashanah we read the story of the Akedah from the Book of Genesis. The story is about the potential sacrifice of Isaac. “Some time afterward, God put Abraham to the test. He said to him, ‘Abraham,’ and he answered, ‘Here I am.’ And He said, ‘Take your son, your favored one, Isaac…go to the land of Moriah, and offer him there as a burnt offering.’” Of course we know the rest of the story.</p>
+<p><strong>The Talmud</strong> teaches that if a person travels to a distant synagogue, he or she receives a reward because he took that journey even if he had an opportunity to pray at a closer synagogue.</p>
+<p><strong>The Maharal</strong> was perplexed and questioned this: “On what principle is this so, since going a distance to fulfill any other commandment (such as to reach a distant sukkah when one is nearby) would not bring reward?” He answers his own question: “Because God is found in the synagogue, and therefore this is said precisely of traveling to a synagogue, for in this a person is drawn after God.”</p>
+<p><strong>Prayer is different</strong> from all other activities. It is different existentially because it reflects a person standing in the presence of God. It is not the words of the prayer that are so important. Even after a person finishes, whether he or she moves or not, he still stands “in the presence of the Sovereign.”</p>
+<p><strong>Prayer is an act involving the body</strong> and the spirit. It is an act of being in a relationship with God. It is called kirvat Elohim–closeness to God. Traveling toward a place of relationship is part of the mitzvah itself. Moving toward is a sign of diminishing distance. To travel to a distant synagogue is to express a desire to act. When a person experiences intimacy with God, he shows a desire to move toward God, not wait for<br>God.</p>
+<p><strong>Abraham travels Lekh</strong> (to go to the land…) to become intimate with God. Even the word for sacrifice—korban—means to be close to God. Abraham takes a three-day<br>journey to offer up (korban—sacrifice, closeness) his son. Korban and tefilah (prayer) are traditionally understood to be based on this common theme of kirvat Elohim.</p>
+<p><strong>The relationship</strong> that Abraham seeks with God is real. The korban is the expression of intimate relationship, understood as traveling. One must travel toward God. One must seek out God for prayer and forgiveness.</p>
+<p><strong>This is the season</strong> for seeking out God first by self reflection. Kirvat Elohim only happens when one can reflect upon one’s own deeds, desires, and faults through prayer.</p>
+<p><em>Rabbi Jon Cutler is rabbi of the Congregation Tiferes B'nai Israel in Warrington, Pennsylvania.</em></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>Casting Away Our Misdeeds, or Transforming Them? The Spiritual Ecology of Tashlich<br>By Rabbi Phyllis Berman & Rabbi Arthur Waskow</strong><a name="Enger"></a></p>
+<p><strong>For centuries on Rosh Hashanah</strong>, even though many rabbis have opposed the ritual as too magical, Jews have walked from their synagogues to nearby streams to cast bread crumbs into the water. Perhaps the real magic has come from moving from the confined, wordy environment of the synagogue to the fresh air and swirling water of the outdoor stream—eco-Judaism in its most embodied form.</p>
+<p><strong>Ellen Bernstein</strong>, former river guide, founder of eco-Judaism, author of the first widely-used environmental Tu B'Shvat Haggadah, recent author of The Splendor of Creation, and founder of Shomrei Adamah, teaches that adding nutrients such as bread crumbs to the water is actually environmentally harmful, and that even if the additions from Tashlich are few, they condition us not to care. A substitute would remind us to care.</p>
+<p><strong>In recognition</strong> of this teaching, we have encouraged our Rosh Hashanah congregants to throw nearby pebbles into the stream so that they do not disturb its nutrient balance.</p>
+<p><strong>In a spiritual translation</strong> of this same eco-wisdom, we also encourage people to think of transforming their misdeeds, not throwing them away. This fits the way the word Tashlich is used in the Tanakh. For example, aside from the Micah phrase that gives Tashlich its name, we encounter Tashlich twice in the High Holy Days readings: When Hagar and Ishmael are on the verge of death, she <em>“tashlich</em>” Ishmael under a bush in the wilderness, not to rid herself of him but to transform him. God hears and they are saved. In the Yom Kippur reading of Jonah, the reluctant prophet cries out that God has “tashlich” Jonah into the sea—not to get rid of him but to transform him as well. He too is saved.</p>
+<p><strong>If we were to get rid of our misdeeds</strong> by casting them into the water, we would be sending them downstream to pollute the consciousness of others. There is no “away” for our misdeeds, just as there is no “away” for our bread crumbs.</p>
+<p><strong>Instead</strong>, we need a kind of spiritual ecology for our misdeeds. So we define Tashlich as more about rebirth than getting rid of something. We invite people to focus first on the sparks of life energy imprisoned in these pebbles or misdeeds—sparks surrounded by husks or shells of alienation. Then we ask them to discern the particular spark of life or energy that has been distorted into a misdeed, to visualize the best use of that energy, and to connect it to nurturing new life, new peace, new justice, and new richness of spiritual experience.</p>
+<p><strong>We ask participants</strong> to focus on rebirthing the energy within the misdeed through immersion in the water, plunging it into a mikvah where it can be reborn, and bringing it back into themselves where it can be reawakened.</p>
+<p><em>Rabbi Phyllis Berman is founder and director of the Riverside Language Program. Rabbi Arthur Waskow is director of the Shalom Center and author of Down-to-Earth Judaism. Rabbi Berman and Rabbi Waskow co-authored A Time for Every Purpose Under Heaven: The Jewish Life-Spiral as a Spiritual Path.</em></p>
+<p>
+<p><em></em></p><a href="#top">back to top</a> 
+<p style="TEXT-ALIGN: center" align="center"><strong>Time To Pause, To Reflect<br>By Rabbi Howard A. Simon</strong><a name="Graetz"></a></p>
+<p><em>Silent prayer. Amid a sanctuary filled<br>with people now there is silence.<br>It is our time to think about yesterday<br>and today.<br>Yom Kippur, the Day of Atonement. How<br>heavy are our thoughts?<br>Questions, we ask ourselves questions:<br>Whose tears have we dried?<br>Whose smiles have we nurtured?<br>Whose broken hearts have we healed?<br>We tried, we truly tried, but so much got<br>in our way.<br>We could have done so much more. We<br>meant to, we wanted to, but we failed.<br>We can do better. We will do better.<br>O Lord, help us heed the still, small voice<br>within.<br>O Lord, inspire us to think more, feel<br>more, care more.<br>We will do better. Take the time to reflect,<br>to think, to determine.<br>Amid the silence we discover ourselves.<br>What a gift. What a wonderful gift.</em></p>
+<p><em><br>Rabbi Howard A. Simon is rabbi of the<br>Temple Emanu-El in Sarasota, Florida and<br>author of Back from the Abyss: Thoughts<br>about Life and Death.</em></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>Four Sermon Sparks<br>By Abby D. Spivack, MS</strong><a name="Monson"></p>
+<p>1. “My doctor said I have six months to live. Will you be there until the end?” asked my friend Mark. His question stung my heart. Living with AIDS for more than 10 years, he wanted me to be his buddy—a volunteer caregiver through a program of the Jewish federation. I considered my answer. Micah’s dictum to “do good, love justice, and walk modestly with God” came to mind. What was good and fair to him in this situation? How was I to walk this path modestly? Could I allow my heart to break one more time? “Absolutely,” I said, and never looked back.</p>
+<p>2. “<em>El na r’fa na la</em> (Please God, heal her),” cried Moses, when his sister Miriam was struck with leprosy. Sitting in my hospital bed for the fifth time this year, I wondered if that plea still echoed in these hallowed and sanitized hospital hallways. Jews as a people are committed to helping to heal others. Yet, a sense of isolation overwhelmed me. Where was my Moses? Who would cry out for my healing? Over time, I realized that healing had to come from within me first. “<em>El na r’fa na li</em> (Please God, heal me),” I cried into my pillow. As time went by, I was returned to health. But, late at night I finger the large wishbone shaped scar on my abdomen and I whisper into my pillow, “Please—<em>El na r’fa na li</em>.”</p>
+<p>3. There are not many moments of the sublime for a B’nai Mitzvah tutor. Your days are filled with requests like, “please repeat that phrase,” or, “again please.” However, I have one student, Jacob, with whom things are different. Jacob is living with autism, which prevents him from having a full sense of focus and a concrete way of communicating with the public at large. It does not prevent him, however, from knowing the divine (big and little D). When I take out the Torah for our practice, his eyes light up with centuries of revelation and holiness. And when he sings <em>Shema Yisroel</em>, all heaven stops to listen to him. For Jacob is, as his father has<br>said, a <em>tzadik</em>—a righteous soul trapped in one of the broken shards, as we all are. However, his Shema does not reveal his brokenness. It makes all of us other<br>cracked vessels whole.</p>
+<p>4. At 15, Ariel had seen more of the world than most kids her age. One of the last babies to be transfused with AIDS-tainted blood, she lived with uncertainty all her life. Her name means lioness of God, and that is exactly what she was. She had a tenacity that bespoke her small stature and a fire in her eyes that could only be dimmed by her death. Her short lifespan taught all who knew her many lessons. As Adam Mars-Jones writes, “being ill—if you’re going to be serious about it— demands a technique.”<br><br>When they found an 8-centimeter tumor in my liver two years ago, I knew I had to develop a technique. So I drew on all of my resources and came up with the unshakable truth that Ariel was going to be my teacher. My rabbi suggested that I change my name, a longstanding custom that supposedly fools the angel of death. So I chose to add the name Ariella, because both in life and in my eventual death I wanted to be like her—a lioness of God.</p>
+<p><em>Abby D. Spivack, MS, is a third-year rabbinical student at the University of Judaism, Ziegler School of Rabbinic Studies.</em></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>A Fast Fit for&nbsp;a King</strong><a name="Steinmetz"><br><strong>By Rabbi Allen S. Maller</strong></p>
+<p><strong>Once upon a time</strong> a king went hunting on a hot October day. After a few hours he felt hot and tired, so he decided to stop for lunch. His servants unpacked a large picnic basket and set up a table.</p>
+<p><strong>The king didn't want</strong> to eat with his servants, but he also didn’t want to eat alone, so he asked one of his servants to find someone who would eat lunch with the king. The servant walked out to a nearby road, saw a 13-year-old boy walking along, and told him that the king wanted to see him. The boy was very surprised and a little frightened, but he agreed.</p>
+<p><strong>The table</strong> had been set with wonderful food and drink. The king told the boy to sit down next to him and eat. The boy sat down, but he did not eat.</p>
+<p><strong>After a few minutes</strong> the king asked, “Why don’t you eat? My food is prepared by the best cook in the kingdom. It is the best tasting food in the country. Doesn't it look good to you?”</p>
+<p><strong>“It looks great</strong> and I am sure it is the best food I will ever taste,” answered the boy, “but I can’t eat it.”</p>
+<p><strong>“Did you just finish eating lunch?”</strong> asked the king. “If so, you do not have to eat a whole meal. Just have some of these great desserts.”</p>
+<p><strong>“Actually I did not eat lunch today,”</strong> the boy replied, “but I cannot eat anything, not even one of those really good looking cookies.”</p>
+<p><strong>The king was surprised.</strong> “Are you sick?” he asked “Is that why you have lost your appetite?”</p>
+<p><strong>“No,”</strong> said the boy, “I am not sick and I haven't lost my appetite.”</p>
+<p><strong>“Then why are you not hungry?”</strong> asked the king.</p>
+<p><strong>“I am hungry,”</strong> said the boy. “I haven't eaten breakfast or lunch and I am very, very hungry.”</p>
+<p><strong>The king looked bewildered,</strong> “Then why don't you eat since you are hungry and the food is delicious?” he asked, almost<br>shouting.</p>
+<p><strong>“Because today</strong> is Yom Kippur, and I am 13 years old,” the boy replied.</p>
+<p><strong>“What is Yom Kippur</strong> and what does it have to do with being 13 years old?”</p>
+<p><strong>“Yom Kippur</strong> is a Jewish holiday in which all faithful Jews 13 years or older are commanded by God to fast. We cannot eat or drink anything from sunset to sunset, so I have not eaten since dinner last night. This is the first year that I am responsible for doing the entire fast. Before I became 13, I only had to fast half a day, and that was not so hard.&nbsp; All I did was skip breakfast and not<br>eat any snacks till lunch. I knew that fasting all day on Yom Kippur would be a test of my willpower and my commitment to being a faithful Jew, but I never thought I would be tempted to eat a meal fit for a king!”</p>
+<p><strong>The king was so impressed</strong> by the boy's self discipline and commitment to being a faithful Jew, that he told the boy to come to the palace the next day with his entire family to have dinner with him and the queen. And that is what they did.</p>
+<p><strong>The two families became friends</strong> and continued to have dinner at the palace each year. One year the king also tried to fast on Yom Kippur, but he was only able to fast until 4 p.m. “I guess if you don't start when you are young, it is a lot harder than it looks,” he said.</p>
+<p><em>Rabbi Allen S. Maller is rabbi of the Temple Akiba in Culver City, California, and author of God, Sex, and Kabbalah.</em></p>
+<p><a href="#top">back to top</a> </p>
+<p style="TEXT-ALIGN: center" align="center"><strong>The Weight of Words: An Introduction to Kol Nidre<br>By Rabbi Andrea M. Gouze</strong><a name="Weingarten"></p>
+<p></a><strong>During one of my pastoral visits</strong> with a congregant, he shared his fear of dropping the Torah each time he was called upon to hold it. His fear increased during Kol Nidre because of the service’s importance and duration.</p>
+<p><strong>I was struck</strong> by his apprehension and deep respect for the honor of holding a Torah, and found myself resonating with his words. I remembered that during Kol Nidre I often find myself monitoring the older men surreptitiously (since<br>they are usually the past presidents) to make sure the Torah is not becoming too much of a burden. Like my congregant, I do not want to see the Torah dropped, both to protect my congregants from embarrassment and out of respect for the Torah itself. I thought about the connection between holding the Torah during Kol Nidre and the words of that particular prayer, and wondered why this custom developed.</p>
+<p><strong>The Kol Nidre prayer</strong> speaks of vows spoken and not fulfilled, of future vows that are intended to be kept but will, in all likelihood, be broken. It is an acknowledgement that, even as our words are in keeping with our intentions,<br>circumstances and life forces collide in such a way that we are not always able to live up to our highest ideals.</p>
+<p><strong>As part of B’nai Mitzvah celebrations</strong>, I offer an invitation to the family to pass down the Torah from generation to generation. I always mention that the physical weight of the Torah is symbolic for the spiritual weight of its words, and therefore symbolizes the weighty responsibility of carrying those words through the generations.</p>
+<p><strong>The words found in the Torah</strong> are the spiritual, religious, and ethical foundations upon which we base our Jewish understanding of the world and our role within it. They create a standard toward which we continually strive. We view them as the ideal, though we know that we will often fail to reach their heights. For those of us who try to live by the ideals of the Torah, the weight of its words is great. Living by its guidelines is a deep responsibility.</p>
+<p><strong>Holding the Torah</strong> during a prayer teaches us that our words, when they are couched in the language of vows, promises, and the covenant between ourselves and others, carry within them the same weight as the Torah. As we try, often unsuccessfully, to live up to the ideals expressed by the Torah, we also make promises based upon our internal vision of ethical living and often find<br>ourselves wanting.</p>
+<p><strong>Words</strong>, both spoken and written, carry responsibility and obligation. In standing and feeling the weight of Torah during the thrice repeated Kol Nidre, we are reminded of this both physically and psychically. This sets the tone for the rest of Yom Kippur, as we use our words to ask for forgiveness for the multitude of our sins, including those of our mouths.</p>
+<p><em>Rabbi Andrea M. Gouze is rabbi of the Temple Shaare Tefilah in Norwood, Massachusetts, and director of Pastoral Care at New England Sinai Hospital and<br>Rehabilitation Center in Stoughton, Massachusetts.</em></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>An End and a Beginning<br>By Rabbi Howard A. Simon</strong><a name="Frankel"></p>
+<p>A year ends, and we remember<br>Smiling ——- Weeping<br>Losses experienced, gains appreciated<br>So much has happened, so little understood<br>A year ends, and we reflect<br>Yesterday ——- disappearing<br>Tomorrow ——- arriving<br>We stand on the threshold and think<br>About what was and what may be<br>About death and life<br>About shattered dreams and developing<br>hopes<br>A year ends, and we wonder<br>What shall we do? How do we face the<br>future?<br>Take hold of the hand extended<br>Return the smile bestowed<br>Speak words of meaning<br>Hope for guidance, for peace, for understanding<br>A year ends, and we pray<br>Help us, O Lord, to care, to feel, to love<br>Help us, O Lord, to be better people, to<br>build a better world<br>Help us, O Lord, today, tomorrow, forever</p>
+<p><br><em>Rabbi Howard A. Simon is rabbi of the Temple<br>Emanu-El in Sarasota, Florida and author of Back from the Abyss: Thoughts about Life and Death.</em></a></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>God’s October Surprise<br>By Rabbi Arthur Waskow</strong><a name="JAFI"></p><a name="JAFI">
+<p></a><br><strong>At this moment</strong> of increasing religious war, violence, and repression, God has given our spiritual and religious traditions a gift of time.</p>
+<p><strong>This Tishrei</strong>, the Jewish community will share sacred time with several other traditions. This unusual confluence of sacred moments invites us to pray alongside each other, share food and stories, and work together for peace, justice, human rights, and the healing of our wounded earth.</p>
+<p><strong>The sacred Muslim lunar month</strong> of Ramadan will coincide with Tishrei. Both begin October 3 to 4.</p>
+<p><strong>October 4</strong> is the Feast of St. Francis of Assisi, who, almost alone of all Christian leaders of his generation, opposed the Crusades, studied with Islamic teachers, and connected deeply with all the creatures of the earth.</p>
+<p><strong>October 2</strong> is Gandhi's birthday and Worldwide (Protestant/Orthodox) Communion Sunday.</p>
+<p><strong>Mid October</strong> has several important Buddhist and Hindu festivals.</p>
+<p><strong>There is much we could do</strong> to heal the world during this sacred season. From sunrise to sunset on October 13, one of the fast days of Ramadan and the fast day of Yom Kippur, Christians and, indeed, all Americans, could observe a fast for reflection, repentance, reconciliation, and renewal.</p>
+<p><strong>All of us could learn from</strong> the passage of Isaiah, which, in Jewish tradition, is read on Yom Kippur morning. God, speaking through Isaiah, says, “Do you think the fast that I demand this day is to bow down your head like a bulrush? No! The fast I demand is that you feed the poor, house the homeless, clothe the naked, and break off the handcuffs on your prisoners.”</p>
+<p><strong>So, for our generation</strong>, this October 13 fast could be dedicated to serving God, not only through prayer, but with a commitment to take some action in which the different communities together would embody God's commands to seek peace, feed the poor, and heal the earth.</p>
+<p><strong>Here</strong> are some other possibilities for action.</p>
+<p><strong>Churches could invite other congregations</strong> to join with them to learn about, celebrate, and act on the teachings of Francis of Assisi.</p>
+<p><strong>Jews could invite Christians</strong>, Muslims, and others into the sukkah. Indeed, traditionally, “sacred guests” are invited and the ancient rabbis taught that during Sukkot, blessings are invoked upon “the 70 nations” of the world. Traditional prayers implore God to “spread the sukkah of shalom” over us. These are perfect rubrics for peacemaking among the children of Abraham and all humanity.</p>
+<p><strong>Muslims could host Iftar</strong>, a break-fast meal, for other communities after nightfall on any of the evenings of Ramadan. They could invite others to join in celebrating some aspects of Eid el-Fitr, the feast at the end of<br>Ramadan. As they do in Morocco, Jews and<br>Christians could bring food to that celebration.</p>
+<p><strong>Synagogues could set aside a time</strong> during<br>Yom Kippur, Shabbat, or another special time during the month, to read and discuss with Muslims the Torah's story (Genesis 25: 7-11) of the joining of Isaac and Ishmael to bury their father Abraham, and then to achieve reconciliation at the Well of the Living One Who Sees Me.</p>
+<p><strong>Our communities could take some action</strong><br>together during the month to protect human rights, heal the earth, and seek peace in the whole region where Abraham, Hagar, and Sarah sojourned.</p>
+<p><strong>The Tent of Abraham</strong>, Hagar, and Sarah has initiated a call to all Americans to join in an October 13 fast and to create shared multi-religious local and regional events during the month. The call has been endorsed by the National Council of Churches, the Islamic Society of North America, Pax Christi, The Shalom Center,<br>ALEPH: Alliance for Jewish Renewal and its rabbinic affiliate Ohalah, the Jewish Committee for Isaiah's Vision (an ad hoc committee made up of more than one hundred rabbis and other Jewish leaders), and a number of local and regional groups. To explore your own participation in this effort, send an email to <a href="mailto:Info@tentofabraham.org">Info@tentofabraham.org</a>.</p>
+<p><strong>In 2006 and 2007</strong>, Tishrei, Ramadan, and the Feast of St. Francis will again coincide. With three successive years of making sacred connection, perhaps we can learn to continue even when the calendar is not filled with God's surprise.</p>
+<p><em>Rabbi Arthur Waskow is director of the Shalom Center and author of Godwrestling—Round 2 and a number of books on Jewish festivals, the life-spiral, and Torah of the earth.</em></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><a name="Lewis"><strong>Like a Well-Watered Garden: Spiritual Hydration <br>By Rabbi David J. Zucker, PhD</strong></p>
+<p><strong>It’s so common</strong> to see people walking around with bottles of water during the summer, that bottled water companies now offer designer water with flavors such as blueberry passion fruit, and kiwi apple. In fact, whether you’re in the Rocky Mountain region or New York City, you see people drinking bottled water all year ‘round.</p>
+<p><strong>We live in a society</strong> in which inordinate attention focuses on physical well being. In the newspapers, weekly magazines, and on television, you can see dozens of articles and programs addressing health issues. Health and fitness clubs are everywhere.</p>
+<p><strong>Physical health is important</strong>, and it does improve the quality and quantity of our lives, but should it be our exclusive concern? What of our spiritual health? Staying hydrated physically is a necessity, but we need to stay hydrated spiritually as well.</p>
+<p><strong>Daily prayer</strong>, meditation, and connection with sacred texts provide nourishment that sustains spiritual health. Acts of kindness and compassion help us achieve spiritual hydration.</p>
+<p><strong>Though God would not have used the phrase</strong>, “spiritual hydration,” the sense that God is the ultimate source of our spiritual nourishment is a concept that reaches back to the days of Jeremiah. That sixth century religious leader calls God the very foundation of life. “Oh God of Israel . . .[you are] the fountain of living waters.”</p>
+<p><strong>Jeremiah describes God</strong> as providing the moisture that sustains life, and he uses the image of trees whose roots reach down deep, accessing those waters of life, keeping their leaves ever fresh—trees that take no care in the year of drought, for they know they will continue to bring forth their fruit (Jeremiah 17:13; cf. 17:7-8).</p>
+<p><strong>Jeremiah continues addressing</strong> the fountain of living waters, and then says, “Heal me and I shall be healed, save me and I shall be saved, for you are my glory.” (Jeremiah 17:14)</p>
+<p><strong>One way we can have our symbolic roots</strong> reach out for God’s life-sustaining waters, and know God’s healing and salvation, is to take seriously the challenge formulated by Micah, who said, “It has been explained to you what God desires, and that it is to establish justice, love mercy, and walk with God.” (Micah 6:8) In offering that observation, Micah reflected similar words found earlier in Deuteronomy, “revere . . . God, walk in God’s paths, love and serve God with all your heart and soul.” (Deuteronomy 10-12, paraphrased)</p>
+<p><strong>Our Sages pondered</strong> how humans could walk in God’s ways. They asked rhetorically, “God is God, a powerful, transcendent figure, capable of creating and destroying worlds. How can finite beings emulate this?” They answered, “You imitate God’s actions. God clothed the naked in the Garden of Eden, visited the ill, comforted mourners, and helped to bury the dead.” (Babylonian Talmud Sotah 14a) To walk in God’s ways is to protect the innocent and vulnerable in our society. Another traditional answer is that as we show kindness towards others, God walks with us (Tanna Debe Eliyyahu, 143, chapter 28 [26] end).</p>
+<p><strong>In a similar manner</strong>, when we engage in Torah study, we nourish ourselves spiritually. Rabbinic tradition teaches when we study, we are also following God’s ways, because God studies each day (Babylonian Talmud Avodah Zarah 3b).</p>
+<p><strong>Additionally</strong>, our Sages explain that for centuries the Torah remained in heaven. When God created the world, God said, “the heavens are the heavens of God, but the earth is for humans.” (Psalm 115:16) Then, when God decided to present the Torah to Moses at Mount Sinai, God revoked this former decree. God said,<br>“That which is below shall come up, and that which is above shall descend, and I will make a beginning.”</p>
+<p><strong>It says in the Torah</strong> (Exodus 19:20), “God came down upon Mount Sinai . . . and called Moses to the top of the mountain, and Moses went up.” (Midrash Exodus Rabbah 12.3) In a sense, then, when we are involved in study and meditation, we are, like Moses, atop Mount Sinai, interacting with God, spiritually refreshing and renewing ourselves, drinking deep from the source of living waters.</p>
+<p><strong>For most of us</strong>, physical hydration is something we think about consciously, something that becomes a premeditated act. Especially when we are out of doors, we bring along a water bottle, taking occasional sips to maintain our water balance. We imbibe early and often, before we need this hydration. Our bodies are tuned to our physical needs, causing little doubt when we are suffering from a lack of moisture in our cells.</p>
+<p><strong>The need for spiritual hydration</strong> does not send such clear physical signals. It is up to us to feed this needed part of our lives, in whatever way works best for us. When we do this, we will reflect the biblical image (Isaiah 58:11) of a well-watered garden, a spring whose waters do not fail.</p>
+<p><em>Rabbi David J. Zucker, PhD, is chaplain and director of Pastoral Care at Shalom Park, a senior continuum of care center in Aurora, Colorado.</em></p>
+<p><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>To My Fellow Congregants<br>By Rabbi Israel Vana</strong><a name="Maller"></p>
+<p><strong>The year 5766 is about to start.</strong> What a world of difference between this coming year and the one that has just passed. We have seen many homes<br>destroyed in the last few hurricanes and other storms, but with God’s help we have survived. Our shul is still standing and functioning. Last year we had to cancel our Rosh Hashanah services, but, even in the face of the hurricane that just passed, we conducted some sort of service. Our spirit was not crushed.</p>
+<p><strong>We believe that on Rosh Hashanah</strong>, God writes what will happen and on Yom Kippur, God signs the decree. If that is true, hurricane Ivan was decreed one year earlier, and signed on Yom Kippur of year 5764. There is nothing we could have done to stop it. But for this year the decree has not been written or signed. What we do will make the difference.</p>
+<p><em><strong>Teshuvah, tefilah, and tzedakah</strong> maavirin et roah hagezerah</em>: Repentance, prayer, and charity or acts of lovingkindness will avert the severity of the decree.</p>
+<p><strong>Remember what the Untane Tokef says:</strong> A three-pronged answer to the severity of the decree will not necessarily avoid the decree altogether, only the severity. What we ask from God is just a little help. We can take some of the pain. We ask reprieve from the strength of the pain.</p>
+<p><strong>How</strong> can we prepare for the coming years?</p>
+<p><strong>We can pay our unfinished debts</strong>, vows, promises, and nedarim. We can go before the Almighty with hands as clean as possible. Without effort on our part, we cannot ask God to do His part.</p>
+<p><strong>We can be generous</strong> with our forgiveness and ask for forgiveness as well.</p>
+<p><strong>We can open our hands</strong> and hearts to the needy and give as much to charity as we can afford. When we do, our dawn will light up like the midday Florida sunshine.</p>
+<p><strong>Let us all be worthy</strong> of God’s mercy and blessing. Let the past year and its curses be finished and a new year with blessings come upon us.</p>
+<p><em><strong>Shanah tovah umevorechet.</strong> L’shanah tovah tikateivu v’techateimu.</em> You shall be inscribed and sealed in the book of life. See you in shul.</p>
+<p><em>Rabbi Israel Vana is rabbi of B’nai Israel Synagogue in Pensacola, Florida.</em><a name="Lewis"></p>
+<p></a><a href="#top">back to top</a></p>
+<p style="TEXT-ALIGN: center" align="center"><strong>Can’t Hear the Sounding of the Shofar? Listen a Little!<br>By Rabbi Gerald B. Weiss</strong><a name="Cohen"></p>
+<p><strong>Did you ever notice</strong> that the slightest whisper can become a roar, as everybody strives to hear what their neighbor is saying over what their other neighbors<br>are saying? If you’ve ever come to the bimah on the High Holy Days, you’ve seen how every little whisper combined with every other little whisper can become a disproportional noise — a veritable din of inequity!</p>
+<p><strong>The rabbis</strong> tell us that it is an important mitzvah for each and every Jew to hear the sounds of the shofar on Rosh Hashanah. But how can you hear them when the roar of the crowd all but drowns out the calls of the shofar? I have been in synagogues on the High Holy Days (ours excluded, of course), where the talking didn’t even pause or diminish during the shofar sounding. In fact, it became louder, so people could continue their conversations despite the piercing blasts.</p>
+<p><strong>The rabbis</strong> didn’t intend the shofar-sounding to interrupt serious discussions of the meaning of the day. However, the rabbis did intend the shofar-sounding to be an interruption of our complacency, of business as usual. They meant it to grab our attention in a striking, startling manner, and to alert us that this day was somehow different and of greater significance than all other<br>ordinary days.</p>
+<p><strong>There is a saying</strong>, <em>b’rov am hadrat melekh</em>—in the multitude of the people, the king is honored. Rosh Hashanah is, among other things, an annual recoronation of God as our sovereign, our king of kings. The king’s arrival is heralded by a trumpet fanfare, which alerts the people to be ready for his appearance. How many “color” commentators do we need for the coronation? Surely, we don’t need more than one per network, one per pew, or perhaps just one for the “pool” coverage.</p>
+<p><strong>Once a congregant asked me</strong> why we stand up and sit down, stand up and sit down, over and over again during the long services on the High Holy Days. I replied that, in my opinion, this was to assure that we stay awake and alert and have something to do other than carry on conversations. There’s nothing mystical or magical about that. But there is something mystical, magical, and majestic about the coronation call of the shofar clamoring for the congregation’s attention. Wouldn’t it be a shame to sit in shul all day, only to miss the main event because we were unable to hear the call of the coming of the king over the noise of our own conversations?</p>
+<p><strong>Let’s put things in their proper perspective </strong>for the new year. When the shofar sounds, it sounds for you. Will you hear it? Will you heed it? Listen for the sound of the shofar. Watch for the coming of the King. “Happy is the people that knows how to listen to the sound of the shofar, for they walk in the light of God’s presence.”</p>
+<p><em>L’Shannah Tovah Tikateyvu.</em></p>
+<p><em>Rabbi Gerald B. Weiss is rabbi of the Beth Ami Congregation in Boca Raton, Florida.</em></p><em></em>
+<p><a href="#top">back to top</a> </p><a name="Cohen">
+<p></p>
+<p style="TEXT-ALIGN: center" align="center"></a><strong>Finding the Holy in the High Holy Days<br>By Rabbi Moshe ben Asher, PhD, and Magidah Khulda bat Sarah</strong><a name="Grossman"></p>
+<p><strong>How do we find the holy in the High Holy Days?</strong> We carry the dead parts of ourselves that we want to bring back to life. Sometimes we weep for our missteps—we explode in anger and regret it, take what doesn’t belong to us and become pained by conscience, speak ill of others and then feel queasy. We do damage to others and ourselves. And occasionally we long for wisdom, meaning, or contentment,notwithstanding our worldly accomplishments and material acquisitions.</p>
+<p><strong>This is the time of year</strong> when everything is arranged for us to jettison all that is dead and dying within us and nurture all that is alive and life-giving, to cease being what we find repulsive in ourselves and become what we have always idealized as right and good. It’s a time when we may choose to make ourselves holy, which requires that we renounce all that destroys life and commit ourselves to be at one with the source of life.</p>
+<p><strong>The High Holy Days</strong> are an opening to return to the essence of our soul, to the unique part of us that has been created in the image of God’s life-giving goodness. The reward for making our way through that opening can be that we truly experience Days of Awe. It’s possible, in the midst of our mundane lives, to experience a resurgence of spiritual energy that can sustain us day after day throughout the coming year, as we strive upwards toward God.</p>
+<p><strong>But awe isn't the result of heartfelt prayer</strong>, ecstatic music and dancing, or a charismatic prayer leader. The preparation for such an experience begins during the month of Elul, which is the time set aside for us to begin reviewing who we are, what we’re doing,<br>and how we’re doing it; to consider who we've wronged and how; and to right the wrongs we've done.</p>
+<p><strong>What are some things we can do</strong> before the High Holy Days to prepare ourselves for an awesome experience of finding holiness?</p>
+<p><strong>We suggest that for each of the days</strong> leading up to and including the High Holy Days, select one of the sets of questions from the list below (or a comparable list). Write the questions on a slip of paper and refer to them often throughout the day, allowing the contemplation of them to dominate your thoughts whenever possible.</p>
+<ul>
+<li>Am I satisfied with the way I’m living my life and the person I’ve become? What would I answer if a booming voice from heaven confronted me with the question, “What do you think you’re doing down there with the life I’ve given you?” 
+<li>What has been the quality of love that I’ve given and received this past year? Have I been willing to invest myself in the spiritual, emotional, intellectual, and physical intimacy that’s needed to sustain love? 
+<li>What have I learned and taught this past year? Have I accepted the obligation to be a lifelong learner, growing in my capacity to co-produce the world with God, and the corresponding obligation to teach others what I’ve been given the opportunity to learn? 
+<li>How would my community be different if all of us were committed to the vision and path of Torah? Has my relationship with my community been as a passive consumer of social and religious services, or an active producer of a commonwealth of righteousness, truth, justice, freedom, peace, and kindness? 
+<li>What has been the effect of my work on the world, both in terms of the individuals I’ve touched personally and the ripple effects my work has had? Have I made doing well—acquiring<br>position, possessions, prestige, and power—the exclusive purpose of my work in the world, or have I made doing good my highest priority—using the gifts I’ve been given to create more of God’s goodness in the world?</li></ul>
+<p><strong>If we have begun</strong> this work to achieve holiness, what might be our spiritual and emotional posture as we enter the Days of Awe?</p>
+<p><strong>It ought not to be one of affected piety</strong>, sadness, or gloominess. We need not be self conscious, imagining that we’re unique in our need to turn our life, when in fact we’re not the exception but the rule. We might instead imagine ourselves walking with the entire Jewish people to the well of our tradition for a long, refreshing life-affirming drink, one with the power to renew our head,<br>heart, spirit, and body. Turning our lives for the sake of living fully rather than half-heartedly has the power to drain away all that drags us down, from the cognitive dissonance in our heads to the tension in our necks and backs.</p>
+<p><strong>Once we have entered the 10 days</strong> from Rosh Hashanah to Yom Kippur, especially during prayer services, we may recognize that at times it’s not possible to maintain our kavvanah continuously. But we need not become discouraged because exhaustion,<br>boredom, distraction, or disillusionment sets in during Rosh Hashanah or Yom Kippur services. Teshuvah is a process, not an event, and it remains possible. It may simply be more difficult to achieve than we had initially imagined.</p>
+<p><strong>It may be helpful to take a break</strong>, step away from the services mentally, or even physically, and scan our surroundings and their meaning spiritually, looking for and regarding the loved ones God has created and allowed to us, looking at and regarding others within our community whose commitment to loving-kindness and justice is unstinting, and looking for and regarding the beauty of nature.<br><br><strong>It’s often useful to remind ourselves</strong> of why we want to turn our lives, as a way of focusing our intentions and commitments on doing so.</p>
+<p><em>Rabbi Moshe ben Asher and Magidah Khulda bat Sarah are the “rabbi team” serving Temple Ner Shalom in San Luis Obispo, California, and co-directors of Gather the People (http://www.gatherthepeople.org), which provides online resources for congregational development and organizing.</em></p>
+<p></a><a href="#top">back to top</a></p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"></td>
+<td valign="top"><table width="192" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="174" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="callouttop" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topleft.gif"><img src="../images_main/dot_clr.gif" width="9" height="20" alt=""></td>
+<td class="callouttop" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_top.gif" style="line-height:14px;">
+<font size="2" class="callout1" valign="middle" style="text-decoration: none;"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br>Mekor Chaim: Parashat Ki Tavo<br><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br></font>
+</td>
+<td class="callouttop" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topright.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_left.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td class="calloutback" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_body.gif"><img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br><font class="body1" size="1" color="#000000"><p>To download Mekor Chaim:&nbsp; Ki Tavo&nbsp; in PDF format, <a href="http://central.ujcfedweb.org/getfile.asp?id=10863" type="internal">click here</a>.</p>
+<p>Adobe Acrobat Reader is required to download Mekor Chaim. To get Adobe Acrobat Reader, <a href="http://www.adobe.com/products/acrobat/readstep2.html" target="_new" type="external">click here</a>.&nbsp; 
+	 <br clear="all"></font>
+</td>
+<td class="calloutback" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_right.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" colspan="3" background="http://ujfpittsburgh.org/style_images/v2bl/images_body/ctile_bottom.gif"><img src="../images_main/dot_clr.gif" width="1" height="9" alt=""></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/></td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+							Page 1: <br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="2" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://ujfpittsburgh.org/content_display.html?ArticleID=163551&page=2" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+							Page 2: </a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="2" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=163551" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=163551" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(163551,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(163551,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - The Orchard (Fall 2005)";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

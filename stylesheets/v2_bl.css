@@ -1,0 +1,298 @@
+body
+{
+	margin: 0;
+	padding: 0;
+	background: #ffffff;
+}
+
+
+/* header, left nav and footer DIV's */
+#header
+{
+	position: relative;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+
+#topcolor
+{
+	background-color: #285EBA;
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	position: relative;
+	left: 0;
+	top: 11px;
+	width: 100%;
+	overflow: hidden;
+}
+
+#leftblock
+{
+	background-color: #003366;
+	border-right: 1px solid #cccccc;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 15px;
+	height: 90px;
+	overflow: hidden;
+}
+
+#memfunctions
+{
+	position: absolute; 
+	width: 254px; 
+	height: 21px;
+	left: 477px; 
+	top: 13px;
+	text-align: right;
+}
+
+#username
+{
+	position: absolute; 
+	width: 254px; 
+	height: 21px;
+	left: 477px; 
+	top: 34px;
+	text-align: right;
+	color: #e5e2ba;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+#searchbox
+{
+	position: absolute; 
+	width: 254px; 
+	height: 21px;
+	left: 477px; 
+	top: 55px;
+	text-align: right;
+	border-color: #e5e2ba;
+	color: #000000;
+	font-size: 11px;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+#contentblock
+{
+	width: 745px;
+	margin-top: 9px;
+	padding-bottom: 30px;
+	background: url(../images_main/bkg_page.gif) repeat-y;
+	/*padding-top: 11px;*/
+	/*border: solid red 1px;*/
+}
+
+#LeftNavigation
+{
+	position: absolute;
+	margin-left: 28px; 
+	/*margin-top: 8px;*/
+	padding-top: 25px;
+	width: 128px;
+	z-index: 99;
+	/*border: solid green 1px;*/
+}
+
+#contentarea
+{
+	position: relative;
+	padding-top: 15px;
+	width: 563px;
+	left: 165px;
+	/*border: solid blue 1px;*/
+}
+
+#footer
+{
+	position: relative; 
+	left: 0;
+	top: -12px;
+	width: 100%;
+	border-top: 1px solid #cccccc;
+	background-color: #ffffff;
+	text-align: left;
+	font: 11px Arial, Helvetica, sans-serif;
+	padding-left: 16px;
+	padding-right: 8px;
+	padding-top: 10px;
+	padding-bottom: 16px;
+	/*border: solid green 1px;*/
+}
+
+
+/* forms */
+
+.search
+{
+	margin-left: 5px;
+	padding: 0;
+	height: 21px;
+	background-color: #ffffff;
+	border: 1px solid #7F9DB9;
+	float: right;
+}
+
+.searchbutton
+{
+	margin-left: 5px; 
+	float: right; 
+	border-width: 0;
+}
+
+.small
+{
+	width: 170px;
+}
+
+
+/* links */
+a:link
+{
+	color: #993300;
+}
+
+a:visited, a:hover
+{
+	color: #660000;
+}
+
+a:active
+{
+	color: #660000;
+}
+
+a.headerlinks, a.headerlinks:visited
+{
+	color: #fff;
+	font: 11px Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+a.headerlinks:hover
+{
+	color: #fff;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+
+/* others from old file */
+
+
+.boxbackground
+{
+	background-color: #C1DEFC;
+}
+
+.button
+{
+	font: 11px Arial, Helvetic, sans-serif; 
+	padding: 1px 0 1px 0;
+}
+
+.calendarcolor
+{
+	background-color: #003366;
+}
+
+.callout1
+{
+	font: 12px Arial, Helvetic, sans-serif;
+	font-weight: bold;
+	color: #FFF;
+}
+
+.calloutbkgnd
+{
+	background-color: #FFFFFF;
+}
+
+.calloutbkgnd2
+{
+	background-color: #FFFFFF;
+}
+
+.callouttopbkgnd
+{
+	background-color: #003366;
+}
+
+.chatleftnavcolor
+{
+
+}
+
+.chatbottomnavcolor
+{
+
+}
+
+.ecardline
+{
+	background-color: #ccc;
+}
+
+.forumtoolbar
+{
+	background-color: #003366;
+}
+
+.forumindexheader
+{
+	background-color: #99CCFF;
+}
+
+.headerfill
+{
+	background-color: #99CCFF;
+}
+
+.helpleftnavcolor
+{
+	background-color: #99CCFF;
+}
+
+.helptopnavcolor
+{
+	background-color: #003366;
+}
+
+.minicalendar
+{
+	background-color: #003366;
+}
+
+.minicalendarevents
+{
+	background-color: #99CCFF;
+}
+
+.minicalendarcurrentdate
+{
+	background-color: #CCCCCC;
+}
+
+.userstatus
+{
+	font: 11px Arial, Helvetica, sans-serif;
+	color: #E5E2BA;
+}
+
+.headertext
+{
+	font: 36px/40px Georgia, 'Times New Roman', Times, Serif;
+	color: #003366;
+}
+
+.caltoolbarheader
+{
+	font: bold 12px Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+}
+
+.caltoolbarlink
+{
+	font: 11px Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+}

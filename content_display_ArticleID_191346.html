@@ -1,0 +1,586 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - "The Partnership Report"- An On The Scene Bulletin From Karmiel & Misgav August 8</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201401">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201403">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_199549/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?201399">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?201401" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Israel Emergency Campaign</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_1297/">Israel Emergency Campaign</a>&nbsp;&gt;&nbsp;"The Partnership Report"- An On The Scene Bulletin From Karmiel & Misgav August 8</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_1297/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">"The Partnership Report"- An On The Scene Bulletin From Karmiel & Misgav<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">August 8, 2006<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p>To our dear friends and partners,</p>
+<p>Today is Tuesday, the 28th day of the war. Last night passed quietly without sirens or sounds of exploding rockets all around. That was the case until the late afternoon hours, when once more a number of alarms sent us repeatedly to our shelters and secure rooms. In the early evening hours, a number of rockets struck the region, fortunately falling in open fields, causing no injury and/or property damage.&nbsp; </p>
+<p>In contrast to the 'relative quiet' we've sensed over the past few days from the standpoint of rocket attacks, this morning we were informed much to our sorrow that another soldier from Karmiel has fallen in action in Lebanon. </p>
+<p>Captain (res.) Gilad Balhasin (z"l), 28 years old served as a reserve officer with the Golani Brigade and a student at the Hebrew University in Jerusalem.</p>
+<p>With both Gilad and his brother Benny, also a reserve officer called up to participate in the fighting, the family decided not to tell their mother that both her sons were called up for service. Gilad, they told her was busy with exams.</p>
+<p>Because of the massive shelling falling on Karmiel, Gilad's mother preferred to be with family in the center of the country, where she received the bitter news, while his father remained at their Karmiel home on Arazim St., which has suffered numerous attacks including direct hits on neighbors' homes and extensive destruction along the whole road.</p>
+<p>Gilad is survived by his parents, a brother and three sisters.</p>
+<p>Adi Eldar, Karmiel's mayor, Hanna Kovel, director general and spokesperson Levia Shalev-Fisher paid their condolences to the family and assisted in all that they could. </p>
+<p>Adi, thanks to the generosity of the Bezeq Telephone Company, sends a daily pre-recorded telephone message to all of the city's homes. In his messages to the residents, the mayor conveys relevant information, encourages and strengthens them.&nbsp; </p>
+<p>The message is played daily starting at 5:30PM and it takes about 3 hours until it is heard throughout the city. Today Adi gave the following message:</p>
+<p>"Much to our deep sorrow, we received word today that another soldier from Karmiel, Gilad Balhasin, fell in action today in Lebanon. </p>
+<p>A heavy price has been paid by Karmiel in this war: Dov Stranschuss was killed in action while serving on an Israel Navy missile boat, Nadav Baeloha, a Special Forces soldier fell in battle in Lebanon and Eshael Damti was killed by the Hezbollah during a Katyusha rocket attack on the Haifa Railroad Yards.<br></p>
+<p>We warmly and lovingly embrace the mourning families and on behalf of all of the residents of Karmiel send our condolences to the families.</p>
+<p>We are fighting this war to defend our homes and country and it has yet to end.</p>
+<p>Complacency is forbidden; therefore, we all must remain in our shelters and secure rooms.</p>
+<p>Please take care of yourselves.</p>
+<p>Sincerely yours,<br>Adi Eldar"</p>
+<p>There are no more words. </p>
+<p>Karmiel mourns its fallen sons and prays for an end to the sorrow.</p>
+<p>Gilad will be buried on Tuesday August 8, 2006 at 8:00PM at Karmiel's Military Cemetery.</p>
+<p>In spite of the sorrow, fear, stress and uncertainty the 'State of Emergency' must continue and respond to the residents' ever growing needs.</p>
+<p><table width="270" cellpadding="0" cellspacing="0" border="0" align="right"><tr align="center"><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td><td width="260"></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><font class="caption1">Karmiel's 'war cabinet' meets in new command post</font></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>In its new command post inaugurated just last week, the city's 'war cabinet' (Crisis Management Team) convened for its daily meeting to provide the mayor with an update as to the number of shelter's maintained by the municipality. If you will remember, the mayor instructed the city administration to take charge of all non-public shelters throughout the city. Today the city maintains more than 600 shelters that either are public shelters or located in high-rise apartment buildings.</p>
+<p>While on their daily tour of the city's shelters, it became clear to the city's leadership that in spite of the massive contributions made by the People of Israel, many shelters still lack toys and games, and the children sitting in the shelters need to recover what's left of their summer vacation.</p>
+<p>Linda Shlesinger, a resident of Karmiel and chairwoman of Partnership 2000's Economic Committee heard the mayor speak of this need and set out to produce a massive contribution of 700 toys and games that today reached Karmiel and in the coming days be distributed to the city's 600 shelters.</p>
+<p><br>This wonderful contribution was made possible by the Maimon Family from Mexico who aside from its welcomed philanthropical work is also involved in the region as an investor in "My Center", a new shopping center currently under construction in the Karmiel Industrial Park.</p>
+<p><table width="270" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="260"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><font class="caption1">Uzi Keren (right) meeting with Erez Kriesler and Misgav leadership</font></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>Recently the Misgav region was visited by Uzi Keren, director general of the National Administration Center, a body established in accordance with the Prime Minister's instructions to organize and oversee the assistance and solutions required at this time for the residents of the north. In the framework of his tour of northern communities, Uzi visited the Misgav region to meet with the mayor and regional leadership. Erez Kriesler, the mayor of the Misgav Regional Council surveyed for his guest the situation in Misgav communities and detailed the council's activities since the outbreak of hostilities. The mayor emphasized that the Misgav Regional Council is prepared and well functioning. The majority of residents remained in their communities and the council has undertaken a significant effort to organize activities for children of all ages, under numerous limitations, but with the purpose of making it easier of the children to endure the situation and allow their parents to go to work.</p>
+<p>The mayor reiterated the council's instructions for residents throughout the region are required to remain in secure rooms particularly following the escalation in hostilities over the past three days (Aug 4-8) and in light of reports of rockets falling near communities south of the Hilazon Creek that flows between the communities Yuvalim and Shorashim.</p>
+<p>Zadok Yiftach, the council's director of public safety spoke with Uzi about the fact that the missile alert sirens are not heard uniformly, if at all, in many communities and this issue has become a severe problem throughout much of the region. Uzi promised to raise this matter urgently before the commander of the Home Front Command. </p>
+<p>In conclusion Uzi said, "I came to the north three weeks ago in order to coordinate between the various government offices of the northern district, this resulted in the decision to establish a National Administration Center to serve as the government's forward situation room. It is our task to compose a multi-dimensional status report reflecting the current situation vis-à-vis services (food, mail and health services) and municipal functionability, etc. This report is updated daily and sent to the Prime Minister. I am pleased to note that from the start, the Misgav region has proven that it can function in excellent fashion. I knew that here there is a quiet, well-managed corner of the country, we hear endless stories about problems in our places, I am very pleased that here the situation is much better."</p>
+<p>In response the mayor noted, "the investment we made in quieter times, our council and communities, is now proving itself during this serous time of crisis, and we are thankful for this. It is important that those residents who decided to remain in their homes will receive the utmost in council support and services, this is the reason that we make such a big effort every day to provide maximum services and even subsidize activities for our children and young people."</p>
+<p><strong>So what's new at the Jewish Agency's Absorption Center in Karmiel?</strong><br>From a conversation with Ziona Eisenstein, the center's director we learned that most of the new immigrants have since left the center because of the situation.</p>
+<p><table width="270" cellpadding="0" cellspacing="0" border="0" align="right"><tr align="center"><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td><td width="260"></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><font class="caption1">Absorption center residents staying busy in the shelters</font></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table>The center's staff was instrumental in helping young new immigrants from the FSU, students participating in the Jewish Agency's "Sela" Program to find hotel work in Eilat and along the Dead Sea. Other immigrants temporarily moved in with relatives or friends in the central or southern regions of the country. Some 60 immigrants, families with children and individuals have remained at the center and with the help of the dedicated staff are doing their best to get through the difficult period. Between one alert to the next they too, much like other "shelter residents" throughout the city, are doing their best to remain busy through arts and crafts, various performances and improving their Hebrew language skills.&nbsp; </p>
+<p>The 11-year relationship between the Jewish Community of Pittsburgh, Karmiel and Misgav as part of the Jewish Agency's "Partnership 2000" program has reaped considerable success within the three communities. Within the framework of the relations between the communities' young people, a delegation of 33 teens from Karmiel and Misgav departed for Pittsburgh this past Saturday evening. This delegation is "part two" of the exciting and emotional Mega-Mission that visited Israel last month and had to be cut short because of the war. Some 93 Pittsburgh teens and 33 young people from the region were scheduled to participate in a joint 10-day Arts Camp in the region that unfortunately had to be cancelled once the war started (for a full report of this activity see "The Partnership Report"- an on the scene bulletin from Karmiel & Misgav July 18, 2006).</p>
+<p>Today I want to bring you "A Day in a State of Emergency" as seen through the eyes of Hanna Kovel. Hanna, a Karmiel resident and Director General of the City of Karmiel is a central figure in our "Partnership 2000" activities, known personally by many of you and much appreciated for her activity on the partnership's behalf.</p>
+<p><br><em>Shalom to all of my Pittsburgh friends,</em></p>
+<p><em>First, allow me to apologize for the lengthy period that I haven't kept in touch with you. I simply haven't had time. Here one incident follows another, the problems and issues requiring attention continue to grow and there are not enough hours in the day, or night to deal with them all. Anyways, in a brief moment of quiet I decided to write and share with you, from a personal viewpoint what I am going through these days.</em></p>
+<p><em>My day begins at 8:00AM (unless of course there was an alert, or G-d forbid an attack, or like today word came that one of our soldiers from Karmiel has fallen in action, then my day can begin as early as 5:00AM). The urgent problems that have come up over night are waiting for me as I arrive at my office. Today is the 28th day of the war and we have since established a well-organized crisis response in which everyone knows his or her new task so that we can deal with the exceptional incidents that usually occur during the morning hours. This morning we received word that a third soldier from Karmiel was killed in Lebanon. The army is on its way to inform his father. His mother is with family in Netanya. We immediately begin arranging the house for the "Shiva"; unfortunately, we have much experience in setting up tables and chairs, providing water and awnings against the sun, food for the immediate family throughout the week, a psychologist and social worker. No one is sure when to visit the family. Once again standing powerless in front of another family, I don't know how much strength we have left.</em></p>
+<p><em>At the same time, I know that I will have to deal with critical problem facing the family. The father has just undergone a nephrectomy (kidney removal) because of a tumor and their home was damaged during a rocket attack this past Friday making it inhabitable. Where can they take the father? The damage adjusters have yet to estimate the damages (there's no surprise there since more than 300 homes were damaged in last Friday's attack and there's no way a staff of 12 adjusters sent from Jerusalem can get to everywhere). Although this is a governmental matter, the average resident doesn't know anyone from the Ministry of Finance. He only knows us. I start making phones calls to the Tax Authority while also looking for alternative quarters for the family and their ill father. I get another message from a mother with three children who returned home after spending 20 days with generous families who we arranged to host her and the three kids. Her policeman husband has been drafted since the war began. She worked as a housekeeper but hasn't seen a paycheck in a month. She's hysterical. I understand her. Three young children ages 5, 3 and 1 years old can drive you crazy in normal times, now for sure! I send her a food package, diapers and some games. During the day, a city social worker will stop in for a visit.</em></p>
+<p><em>Now I start dealing with larger issues. Rina, who's responsible for distributing hot meals to the city's elderly and handicapped, informs me that 2,600 meals won't be sufficient she needs another 200. She also tells me that we need another two teams of people to distribute the meals. Yesterday we discovered five shelters we hadn't known about. We are already caring for 548 shelters. Most are private ones but if we don't care for them, no one will. Even strong families are loosing strength. Everyone wants us to do everything for them. Is this the time to educate them? Where do you draw the line? I give an order to take care of everyone. </em></p>
+<p><em>At 9:30, I have my first meeting with Adi and the Crisis Response Team. Everyone is packed into the underground shelter. Everyone presents their reports, raises problems and talks about what more can be done. Today we decided to open up day camps for the children in shelters located at schools around the city. The kids are going crazy at home and driving their parents crazy as well. We have to do something to lessen the pressures. Adi decides to open five more day camps.</em></p>
+<p><em>After the meeting, I stayed behind to meet with the staffs from the Education Department and Community Center. There's a problem, half of the counselors have already been called up and in order to care for 500 kids, 100 in each camp, we need 50 counselors. We also need equipment, games and food?</em></p>
+<p><em>The shortage of counselors is the most critical problem. Maybe the army can help. A team heads out to prepare the shelters.</em></p>
+<p><em>Shula and her department [Social Services Administration] distribute daily food packages with canned goods and other non-perishables. Their building looks like a Giant Eagle warehouse stocked with canned foods , water, diapers (don't forget all sizes), toys, and mattresses, etc. In order to meet the demand we divided the city into six neighborhoods. We get to each neighborhood twice a week. We have our regular customers and everyday there are new ones.</em></p>
+<p><em>We have a staff of five telephone operators who are responsible for receiving the requests from the city's residents and shelters and channeling them to us. Approximately 35,000 residents remained in the city and it seems that everyone wants something.</em></p>
+<p><em>We also have a staff that handles requests to leave the city, temporarily of course. A number of wonderful families in the center of the country are willing to host us. Nevertheless, after three days as a host family or as a guest most have had enough. Everyone wants a hotel. While the hotels have contributed rooms, they are few and far between. Who do you send first? Last week we sent our elderly. This week we decided to send single parents with children.&nbsp; Was this a correct decision? There's no time to think about it. You have to go with the flow.&nbsp; </em></p>
+<p><em>At 12 o'clock Adi, Levia and I head out to visit a family in mourning who've just lost their son in Lebanon. You take a few deep breathes and enter the house. We all sit around crying with father and his family waiting for the mother to arrive. She collapses at the doorstep. The last thing she knew was that her son was getting ready for exams at the university.&nbsp; Why didn't they tell her he had been called up? Heartrending screams. Everyone is weeping. Before we leave, I ask one of the relatives to make sure that the funeral takes place at night. Usually they don't bomb us at night.&nbsp; Hopefully there won't be anyone else injured?</em></p>
+<p><em>The sirens go off just as the teams start distributing hot meals. Everyone runs to the closest shelter and hear the bombs fall. This time it was close.&nbsp; At the nearby junction, thankfully, no one was injured. </em></p>
+<p><em>I won't torture you with an hour-by-hour description. Now it's 5:30 in the afternoon. At 6 we begin to distribute water, more mattresses and more fans to the shelters. Today we only had three air raid sirens and one attack near the city. </em></p>
+<p><em>It is therapeutic for me to write. At the same time, I wanted to share with you a typical day for me.&nbsp; The past 28 days have been similar. We're tired but we still have strength to hold out until the army finishes it's job.&nbsp; It's not enough what they've achieved so far. From Karmiel's stand point the situation has gotten worse. We've become a city under a Hezbollah siege and if this doesn't change, our situation will become even worse. </em></p>
+<p><em>Today we received word of the increased contribution from you. We want to thank you with all our heart not only for the contribution but mainly for your good friendship.&nbsp; </em></p>
+<p><em>Sincerely yours,<br>Hanna</em></p>
+<p>&nbsp;<br>In closing today, I want to send two photographs of IDF soldiers that would never be published by Reuters.</p>
+<p><table width="246" cellpadding="0" cellspacing="0" border="0" align="left"><tr align="center"><td width="236"></td><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table><table width="240" cellpadding="0" cellspacing="0" border="0" align="right"><tr align="center"><td rowspan="6"><img src="../images_main/dot_clr.gif" width="10" height="1" alt="" border="0"/></td><td width="230"></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"/></td></tr><tr align="center"><td><img src="../images_main/dot_clr.gif" width="1" height="7" alt="" border="0"/></td></tr></table><br>&nbsp;&nbsp;&nbsp;<br></p>
+<p><strong></strong>&nbsp;</p>
+<p><strong></strong>&nbsp;</p>
+<p><strong></strong>&nbsp;</p>
+<p><strong></strong>&nbsp;</p>
+<p><strong></strong>&nbsp;</p>
+<p><strong></strong>&nbsp;</p>
+<p><strong></strong>&nbsp;</p>
+<p><strong>Correction:</strong> Yesterday we published a toll-free number for people to call to purchase vouchers within the framework of the "Galilee Spirit" project. This number is good only for those calling within Israel. The toll-free number for callers from the United States is 1-800-738-0548.</p>
+<p>That's all for today, let us pray that quiet will be restored and peace and security will return to the region and the country.</p>
+<p>Sincerely yours,<br>Yael Raich<br>Partnership 2000 Karmiel-Misgav-Pittsburgh/ the Jewish Agency for Israel&nbsp;&nbsp;&nbsp; </p>
+<p>&nbsp;</p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=191346" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="http://ujfpittsburgh.org/emailarticle.html?ArticleID=191346" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(191346,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(191346,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - "The Partnership Report"- An On The Scene Bulletin From Karmiel & Misgav August 8";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+/*********************************/
+/***** HTML TAGS *****************/
+/*********************************/
+
+a:link { color: #3A55A5; }
+a:visited, a:hover { color: #3A71A5; }
+a:active { color: #3A71A5; }
+a.headerlinks, a.headerlinks:visited { color: #fff; font: 11px Arial, Helvetica, sans-serif; text-decoration: none; padding-right:10px; position:relative; top:3px; }
+a.headerlinks:hover { color: #fff; font: 11px Arial, Helvetica, sans-serif; }
+body { margin: 0; padding: 0; background: #fff; }
+
+
+
+/*********************************/
+/***** ID's **********************/
+/*********************************/
+
+#breadcrumb { color: #666; margin-bottom: 24px; }
+#column0 { margin-top: 8px; }
+#column1 { margin-top: 8px; }
+#column2 { margin-top: 8px; }
+#column3 { margin-top: 8px; }
+#column4 { margin-top: 8px; }
+#extraDiv1 { position: absolute; left: 0; top: 0; width: 100%; height: 10px; background-color:#FFFFFF; border-bottom:1px solid #ccc; }
+#extraDiv2 { display:block; position:absolute; left:0; top: 11px; width: 15px; height: 90px; background-color:#3A55A5; border-right: 1px solid #ccc; }
+#footerText {text-align: left; font: 11px Arial, Helvetica, sans-serif; margin: 0 16px 8px 16px; }
+#intro { height: 100px; }
+#linkList0 { position: absolute; top: 11px; right: 20px; }
+#linkList0 a:hover { text-decoration: underline; }
+#linkList1 { background-color: #bbb; }
+#linkList1 li ul { width: 220px; border: solid #ccc 1px; }
+#linkList1 li a { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #fff; font-weight: bold; text-decoration: none; padding: 2px 6px; }
+#linkList1 li a:hover { color: #3A55A5; text-decoration: none; }
+#linkList1 li a:visited { color: #fff; text-decoration: none; }
+#linkList1 li a:visited:hover { color: #fff; text-decoration: none; }
+#linkList1 li a.submenu { width: 200px; background-color: #DBF4FE; font: 11px Arial, Helvetica, sans-serif; text-decoration: none; color: #333333; padding: 6px 10px; }
+#linkList1 li a.submenu:hover { background-color: #3A55A5; color: #fff; }
+#linkList1 li a.submenu:visited { color: #3A55A5; }
+#linkList1 li a.submenu:visited:hover{background-color: #3A55A5; color: #fff; }
+#linkList2 { background-color: #eaeaea; }
+#linkList2 li ul { width: 220px; border: solid #ccc 1px; }
+#linkList2 li ul ul { left: -999em; }
+#linkList2 li a { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #3A55A5; text-decoration: none; padding: 2px 6px; }
+#linkList2 li a:hover { color: #3A55A5; text-decoration: none; }
+#linkList2 li a:visited { color: #3A55A5; text-decoration: none; }
+#linkList2 li a:visited:hover { color: #3A55A5; text-decoration: none; }
+#linkList2 li a.submenu { width: 200px; background-color: #DBF4FE; font: 11px Arial, Helvetica, sans-serif; text-decoration: none; color: #333333; padding: 6px 10px; }
+#linkList2 li a.submenu:hover { background-color: #3A55A5; color: #fff; }
+#linkList3 { width: 166px; margin: 0 8px 0 0; border-right: solid #ccc 1px; background-image: url(../../style_images/v2tb/images_nav/nav_lefttile.gif); background-repeat: repeat-y; }
+#linkListSub3 { width: 166px; padding-top: 12px; padding-bottom: 24px; float: left; }
+#linkListSub3 ul { width: 166px; }
+#linkListSub3 li { position: relative; float: left; line-height: 1em; width: 100%; }
+#linkListSub3 li ul { position: absolute; left: -999em; margin-left: 166px; width: 220px; border: solid #ccc 1px; z-index: 2; }
+#linkListSub3 li a { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #3A55A5; display: block; text-align: right; text-decoration: none; padding: 6px 0 6px 25px; }
+#linkListSub3 li a:hover { color: #3A55A5; text-decoration: none; }
+#linkListSub3 li a:visited { color: #3A55A5; text-decoration: none; }
+#linkListSub3 li a:visited:hover { color: #3A55A5; text-decoration: none; }
+#linkListSub3 li a.submenu { width: 200px; background-color: #DBF4FE; font: 11px Arial, Helvetica, sans-serif; text-align: left; text-decoration: none; color: #333333; padding: 6px 10px; }
+#linkListSub3 li a.submenu:hover { background-color: #3A55A5; color: #fff; }
+#linkListSub3 li a.submenu:visited { background-color: #DBF4FE; color: #333; }
+#linkListSub3 li a.submenu:visited:hover { background-color: #3A55A5; color: #fff; }
+#linkList4 { width: 166px; margin: 0 0 0 8px; border-left: solid #ccc 1px; background-image: url(../../style_images/v2tb/images_nav/nav_righttile.gif); background-repeat: repeat-y; background-position: right; }
+#linkListSub4 { width: 166px; padding-top: 12px; padding-bottom: 24px;}
+#linkListSub4 ul { width: 166px; }
+#linkListSub4 li { position: relative; float: left; line-height: 1em; width: 158px; }
+#linkListSub4 li a { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #333333; display: block; text-align: right; text-decoration: none; padding: 6px 0 6px 8px; }
+#linkListSub4 li a:hover { color: #3A55A5; text-decoration: none; }
+#linkListSub4 li a:visited { color: #3A71A5; text-decoration: none; }
+#linkListSub4 li a:visited:hover { color: #3A55A5; text-decoration: none; }
+#linkList5 { text-align: center; }
+#linkList5 ul {list-style-type: none; margin: 0; padding: 0;}
+#linkList5 ul li { display: inline; margin: 0 6px;}
+#linkList5 ul li a { display: inline; font: 11px Arial, Helvetica, sans-serif; color: #3A55A5; text-decoration: underline; }
+#linkList5 li a:hover { color: #3A55A5; }
+#linkList5 li a:visited { color: #3A55A5; }
+#linkList5 li a:visited:hover { color: #3A55A5; }
+#linkListSub5 { margin: 8px 0 12px 0; }
+#linkList6 { text-align: center; }
+#linkList6 ul {list-style-type: none; margin: 0; padding: 0;}
+#linkList6 ul li { display: inline; margin: 0 6px;}
+#linkList6 ul li a { display: inline; font: 11px Arial, Helvetica, sans-serif; color: #3A55A5; text-decoration: underline; }
+#linkList6 li a:hover { color: #3A55A5; }
+#linkList6 li a:visited { color: #3A55A5; }
+#linkList6 li a:visited:hover { color: #3A55A5; }
+#linkListSub6 { margin: 8px 0 12px 0; }
+#LocalFooterText { font-weight: normal; }
+#navArrow { background-image: url(../../style_images/v2tb/images_nav/nav_arrow.gif); background-repeat: no-repeat; float: right;  border: solid #fff 1px; }
+#navArrowBlank { float: right; border: solid #fff 1px; }
+#navArrowTop { background-image: url(../../style_images/v2tb/images_nav/nav_arrow_down.gif); background-repeat: no-repeat; }
+#navArrowTopBlank { }
+#navBadgesBottom { margin: 0 0 12px 0; }
+#navBadgesListBottom { width: 100%; }
+#navBadges { width: 100%; float: left; }
+#navBadgesList { margin: 0 0 24px 0; padding: 0 0 0 24px; }
+#navBadges li { padding: 6px 0; }
+#navLinksBottom { font: 12px Arial, Helvetica, sans-serif; margin: 0 0 12px 0; }
+#navLinksListBottom { width: 100%; }
+#navLinks { width: 166px; float: left; }
+#navLinksText { width: 166px; margin: 0; padding: 0; list-style-type: none; font: 12px Arial, Helvetica, sans-serif; }
+#navLinksTextLi { padding: 0 0 0 20px; }
+#navLinkList { margin: 0 0 24px 0; padding: 0 0 0 25px; list-style-image: url('../../images_main/bullet.gif'); }
+#navLinkList li { padding: 2px 2px 2px 0; }
+#PageAuthorDate { font-size: 11px; }
+#pageBody { width: 966px; }
+#PageCopyright { padding: 8px 0 0 16px; display: block; font: 11px Arial, Helvetica, sans-serif; }
+#pageFooter { border-top: solid #ccc 1px; background-color: #fff; font: 10px; padding-top: 8px; }
+#pageHeader { background-color: #43AFDB; border-bottom: solid #ccc 1px; }
+#pageHeader #intro h1 a { position: absolute; top: 11px; left: 16px; background-image: url(../../local_includes/logo.gif); background-repeat: no-repeat; display: block; margin: 0; padding: 0; height: 89px; width: 500px; }
+#pageIcons { float: right; }
+#pageProperties { width: 100%; margin-bottom: 8px; }
+#pageProperties h1 { font-family: Georgia, "Times New Roman", Times, Serif; font-size: 36px; line-height: normal; color: #3A55A5; font-weight: normal; }
+#pageProperties h2 { font-family: Georgia, "Times New Roman", Times, Serif; font-size: 36px; line-height: normal; color: #000; font-weight: normal; }
+#relatedPageLinks { }
+#searchBox { position: absolute; width: 254px; height: 21px; right: 20px; top: 55px; text-align: right; border-color: #e5e2ba; color: #000; font: 11px Arial, Helvetica, sans-serif; }
+#spanBottom { margin: 8px 0; }
+#spanTop { margin: 8px 0; }
+#supportingElements { width: 500px; padding-top: 12px; }
+#topnavlists { }
+#ujcweblogo { float: right; }
+#ujcweblogo img { background-image: url(../../style_images/v2tb/images_nav/badge_fedweb_v2-tb.gif); background-repeat: no-repeat; }
+#userWelcome { position: absolute; width: 254px; height: 21px; right: 20px; top: 34px; text-align: right; color: #e5e2ba; font: 11px Arial, Helvetica, sans-serif; }
+
+
+
+
+
+
+
+/*********************************/
+/***** Classes *******************/
+/*********************************/
+
+.boxbackground { background-color: #FAFAE1; }
+.button { font: 11px Arial, Helvetic, sans-serif;  padding: 1px 0 1px 0; }
+.calendarcolor { background-color: #3A55A5; }
+.calendarcolor2 { background-color: #FAFAE1; }
+.calendardayheader { font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #000; }
+.calendargridcolor { background-color: #999; }
+.calendartab { background-color: #D3E1E5; }
+.calendartabsel { background-color: #3A55A5; color: #fff; }
+.calendartabsel a { background-color: #3A55A5; color: #fff; }
+.callout1 { font: 12px Arial, Helvetic, sans-serif; font-weight: bold; color: #fff; }
+.calloutbkgnd { background-color: #fff; }
+.calloutbkgnd2 { background-color: #fff; }
+.callouttopbkgnd { background-color: #3A55A5; }
+.caltoolbarheader { font: bold 12px Arial, Helvetica, sans-serif; color: #fff; }
+.caltoolbarlink { font: 11px Arial, Helvetica, sans-serif; color: #fff; }
+.chatbottomnavcolor { background-color: #3A55A5; }
+.chatleftnavcolor { background-color: #AF74E1; }
+.DayInMonth { background-color: #FFF; }
+.DayInMonth a.DayNumber { color: #000; }
+.DayInMonth font.HebrewDate { color: #666; }
+.DayNotInMonth { background-color: #FFF; }
+.DayNotInMonth a.DayNumber { color: #999; }
+.DayNotInMonth font.HebrewDate { color: #666; }
+.DayInMonthCurrent { background-color: #538D99; }
+.DayInMonthCurrent a.DayNumber { color: #FFF; }
+.DayInMonthCurrent font.HebrewDate { color: #FFF; }
+.ecardline { background-color: #ccc; }
+.ecardheaderbar { background-color: #3A55A5; height:21px; width:120px; text-align: left; }
+.ecardheaderbartext { margin-left: 6px; font-size: 11px; font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; font-weight: bold; line-height: 20px; text-transform:uppercase;}
+.ecardtable a { text-decoration: none; } 
+.forumindexheader { background-color: #99E2FF; }
+.forumtoolbar { background-color: #538D99; }
+.headerfill { background-color: #D3E1E5; }
+.headertext { font: 30px/36px Arial, Helvetica, sans-serif; color: #375D65; }
+.helpleftnavcolor { background-color: #99E2FF; }
+.helptopnavcolor { background-color: #3A55A5; }
+.minicalendar { background-color: #3A55A5; }
+.minicalendar a { background-color: #538D99; color: #FFF; }
+.minicalendarcurrentdate { background-color: #CCCCCC; }
+.minicalendarevents { background-color: #99E2FF; }
+.pageIconsLinkWrapper { margin-left: 20px; display: block; /*border: 1px solid #ff0000;*/ float: left; }
+.pageIconsLinkWrapper img { margin-right: 5px; margin-bottom: -2px; }
+.search { margin-left: 5px; padding: 0; height: 21px; background-color: #ffffff; border: 1px solid #7F9DB9; float: right; }
+.searchbutton { margin-left: 5px;  float: right; }
+.small { width: 170px; }
+.userstatus { font: 11px Arial, Helvetica, sans-serif; color: #E5E2BA; }
+
+/* The following css styles are unique to the component system. */
+/* The Page Builder system will pull any css style inside the */
+/* BEGIN and END comments below to render components as close */
+/* as possible to the public view. Modification of the BEGIN or */
+/* END commments below will result in broken Page Builder component */
+/* display. */
+
+/* COMPONENT CSS BEGIN */
+h1, h2, h3, h4 { margin: 0; padding: 0; }
+
+#adultjewishlearning #compBody { padding: 10px; }
+#adultjewishlearning #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#adultjewishlearning #moduleElement { border: solid 1px #ccc; }
+#adultjewishlearning .headline2 { color: #fff; font-size: 12px; }
+#adultjewishlearning .headline3 { color: #000; }
+#adultjewishlearning .body1 { color: #000; }
+
+#calendar #compBody { padding: 6px; margin: 0 auto; }
+#calendar #compBody table { border: #fff; }
+#calendar .MiniCalDayInMonth { background-color: #FFF; color: #000; padding: 2px; }
+#calendar .MiniCalDayNotInMonth { background-color: #FFF; color: #999; padding: 2px; }
+#calendar .MiniCalDayInMonthCurrent { background-color: #538D99; color: #FFF; padding: 2px; }
+#calendar .MiniCalHeaderFill td { background-color: #D3E1E5; padding: 2px; }
+#calendar .MiniCalNextPrev { cursor: pointer; }
+#calendar .MiniCalDayHeader { padding: 2px; }
+
+#callout #compBody { padding: 5px 10px; }
+#callout #compImage { padding: 5px 0; }
+#callout #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; border-bottom: solid 1px #ccc; }
+#callout #moduleElement { border: solid 1px #ccc; }
+#callout .headline2 { color: #fff; font-size: 12px; }
+#callout .headline3 { color: #000; margin: 5px 0; }
+#callout p.body1 { color: #000; margin: 5px 0 5px 0; }
+#callout h4.body1 { margin: -5px 0 5px 0; }
+
+#candlelightingtimes #compBody { padding: 10px; }
+#candlelightingtimes #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#candlelightingtimes #moduleElement { border: solid 1px #ccc; }
+#candlelightingtimes .headline2 { color: #fff; font-size: 12px; }
+#candlelightingtimes .headline3 { color: #000; }
+#candlelightingtimes .body1 { color: #000; }
+
+#communitydirectorysearch #compBody { padding: 10px; }
+#communitydirectorysearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#communitydirectorysearch #moduleElement { border: solid 1px #ccc; }
+#communitydirectorysearch .headline2 { color: #fff; font-size: 12px; }
+#communitydirectorysearch .headline3 { color: #000; }
+#communitydirectorysearch .body1 { color: #000; }
+
+#communitystudymap #compBody { padding: 10px; }
+#communitystudymap #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#communitystudymap #moduleElement { border: solid 1px #ccc; }
+#communitystudymap .headline2 { color: #fff; font-size: 12px; }
+#communitystudymap .headline3 { color: #000; }
+#communitystudymap .body1 { color: #000; }
+
+#communitystudysearch #compBody { padding: 10px; }
+#communitystudysearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#communitystudysearch #moduleElement { border: solid 1px #ccc; }
+#communitystudysearch .headline2 { color: #fff; font-size: 12px; }
+#communitystudysearch .headline3 { color: #000; }
+#communitystudysearch .body1 { color: #000; }
+
+#domesticprogramlibrary #compBody { padding: 10px; }
+#domesticprogramlibrary #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#domesticprogramlibrary #moduleElement { border: solid 1px #ccc; }
+#domesticprogramlibrary .headline2 { color: #fff; font-size: 12px; }
+#domesticprogramlibrary .headline3 { color: #000; }
+#domesticprogramlibrary .body1 { color: #000; }
+
+#doublestory #leftstory { float: left; width: 48%; margin: 0 12px 0 0; padding: 10px 0 0 0; border-top: solid 1px #ccc; }
+#doublestory #rightstory { float: right; width: 48%; padding: 10px 0 0 0; border-top: solid 1px #ccc; }
+#doublestory h4 { font-style: italic; color: #000; }
+#doublestory .headline3 { color: #000; }
+#doublestory .body1 { color: #000; }
+
+#ecards #compBody { padding: 6px; width: 174px; margin: 0 auto; }
+#ecards #componentHeaderBar { background:  #3a55a5; padding-left: 6px; color: #fff; font-size: 12px; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#ecards #componentHeaderBar a { color: #fff; text-decoration: none; }
+#ecards #ecardText { font-weight: bold; padding: 8px 0; }
+#ecards #moduleElement { border: solid 1px #ccc; }
+
+#featurestory h4 { font-style: italic; color: #000;}
+#featurestory .headline3 { color: #000; }
+#featurestory .body1 { color: #000; }
+
+#gaeventsearch #compBody { padding: 10px; }
+#gaeventsearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#gaeventsearch #moduleElement { border: solid 1px #ccc; }
+#gaeventsearch .headline2 { color: #fff; font-size: 12px; }
+#gaeventsearch .headline3 { color: #000; }
+#gaeventsearch .body1 { color: #000; }
+
+#gaspeakersearch #compBody { padding: 10px; }
+#gaspeakersearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#gaspeakersearch #moduleElement { border: solid 1px #ccc; }
+#gaspeakersearch .headline2 { color: #fff; font-size: 12px; }
+#gaspeakersearch .headline3 { color: #000; }
+#gaspeakersearch .body1 { color: #000; }
+
+#headlinelist ul { margin: 0 0 0 20px; padding: 0; list-style-image: url('../../images_main/bullet.gif'); }
+#headlinelist li { margin-bottom: 4px; }
+#headlinelist h3 { background-color: #99e2ff; margin: 5px 0; font-size: 13px; line-height: 13px; padding: 5px 0px 5px 5px;}
+#headlinelist .headline2 { color: #000; }
+#headlinelist h4 { margin-bottom: 5px; }
+#headlinelist #compList { border-top: solid #ccc 1px; padding-top: 5px; }
+#headlinelist .body1 { color: #000; }
+
+#htmltext #compBody .body2 { color: #000; }
+#htmltext p { margin: auto; padding: auto; }
+
+#jobsearch #compBody { padding: 10px; }
+#jobsearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#jobsearch #moduleElement { border: solid 1px #ccc; }
+#jobsearch .headline2 { color: #fff; font-size: 12px; }
+#jobsearch .headline3 { color: #000; }
+#jobsearch .body1 { color: #000; }
+
+#leadstory h4 { font-style: italic; }
+#leadstory .headline6 { color: #ee8d3e; }
+#leadstory .body1 { color: #000; }
+#leadstory #compImage.left { float: none; text-align: left; margin: 0 0 5px 0; }
+#leadstory #compImage.right { float: none; text-align: right; margin: 0 0 5px 0; }
+
+#mailinglist #compBody { padding: 10px; }
+#mailinglist #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#mailinglist #moduleElement { border: solid 1px #ccc; }
+#mailinglist .headline2 { color: #fff; font-size: 12px; }
+#mailinglist .headline3 { color: #000; }
+#mailinglist .body1 { color: #000; }
+
+#missionfinder #compBody { padding: 10px; }
+#missionfinder #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#missionfinder #moduleElement { border: solid 1px #ccc; }
+#missionfinder .headline2 { color: #fff; font-size: 12px; }
+#missionfinder .headline3 { color: #000; }
+#missionfinder .body1 { color: #000; }
+
+#multimediashow #compBody { padding-top: 10px; }
+#multimediashow #componentHeaderBar { background: #000; padding-left: 6px; font: 11px Arial, Helvetica, sans-serif; font-weight: bold; line-height: 24px; height: 24px; }
+#multimediashow #componentHeaderBar a { color: #fff; text-decoration: none; }
+#multimediashow .header3 { color: #fff; }
+#multimediashow #MMShowLink { clear: both; }
+#multimediashow #MMShowLink a { text-decoration: none; }
+#multimediashow .body1 { color: #666; }
+
+#printphotovideo #compBody { padding: 10px; }
+#printphotovideo #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#printphotovideo #moduleElement { border: solid 1px #ccc; }
+#printphotovideo .headline2 { color: #fff; font-size: 12px; }
+#printphotovideo .headline3 { color: #000; }
+#printphotovideo .body1 { color: #000; }
+
+#programupdates #compBody { padding: 10px; }
+#programupdates #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#programupdates #moduleElement { border: solid 1px #ccc; }
+#programupdates .headline2 { color: #fff; font-size: 12px; }
+#programupdates .headline3 { color: #000; }
+#programupdates .body1 { color: #000; }
+
+#richtext #compBody { color: #000; }
+#richtext p { margin: auto; padding: auto; }
+
+#realmedia #compBody { padding: 10px; }
+#realmedia #componentHeaderBar { background:  #3a55a5; padding-left: 6px; color: #fff; font-size: 12px; font-weight: bold; line-height: 24px; height: 24px; color: #fff; border-bottom: solid 1px #ccc; }
+#realmedia #moduleElement { border: solid 1px #ccc; }
+#realmedia #RealMediaPlayerText { clear: both; color: #000; }
+
+#schoolsearch #compBody { padding: 10px; }
+#schoolsearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#schoolsearch #moduleElement { border: solid 1px #ccc; }
+#schoolsearch .headline2 { color: #fff; font-size: 12px; }
+#schoolsearch .headline3 { color: #000; }
+#schoolsearch .body1 { color: #000; }
+
+#situationalupdates #compBody { padding: 10px; }
+#situationalupdates #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#situationalupdates #moduleElement { border: solid 1px #ccc; }
+#situationalupdates .headline2 { color: #fff; font-size: 12px; }
+#situationalupdates .headline3 { color: #000; }
+#situationalupdates .body1 { color: #000; }
+
+#speakersearch #compBody { padding: 10px; }
+#speakersearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#speakersearch #moduleElement { border: solid 1px #ccc; }
+#speakersearch .headline2 { color: #fff; font-size: 12px; }
+#speakersearch .headline3 { color: #000; }
+#speakersearch .body1 { color: #000; }
+
+#staffdirectory #compBody { padding: 10px; }
+#staffdirectory #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#staffdirectory #moduleElement { border: solid 1px #ccc; }
+#staffdirectory .headline2 { color: #fff; font-size: 12px; }
+#staffdirectory .headline3 { color: #000; }
+#staffdirectory .body1 { color: #000; }
+
+#synagoguesearch #compBody { padding: 10px; }
+#synagoguesearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#synagoguesearch #moduleElement { border: solid 1px #ccc; }
+#synagoguesearch .headline2 { color: #fff; font-size: 12px; }
+#synagoguesearch .headline3 { color: #000; }
+#synagoguesearch .body1 { color: #000; }
+
+#triplestory #leftstory { float: left; width: 31%; margin: 0 6px 0 0; padding: 0; }
+#triplestory #leftstory #componentHeaderBar { font-weight: bold; line-height: 24px; height: 24px; }
+#triplestory #leftstory #compStory { padding: 6px 0 0 0; }
+#triplestory #centerstory { float: left; width: 32%; margin: 0 5px 0 6px; padding: 0; }
+#triplestory #centerstory #componentHeaderBar { font-weight: bold; line-height: 24px; height: 24px; }
+#triplestory #centerstory #compStory { padding: 6px 0 0 0; }
+#triplestory #rightstory { float: right; width: 31%; margin: 0 0 0 6px; padding: 0; }
+#triplestory #rightstory #componentHeaderBar { font-weight: bold; line-height: 24px; height: 24px; }
+#triplestory #rightstory #compStory { padding: 6px 0 0 0; }
+#triplestory h4 { font-style: italic; color: #000; }
+#triplestory .headline3 { color: #000; }
+#triplestory .headline2 { font-size: 12px; }
+#triplestory .body1 { color: #000; margin: 0; }
+
+#verticalticker #compBody { padding: 10px; }
+#verticalticker #componentHeaderBar { background:  #3a55a5; padding-left: 6px; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#verticalticker #marqueecontainer { position: relative; height: 200px; background-color: white; overflow: hidden; }
+#verticalticker #moduleElement { border: solid 1px #ccc; }
+#verticalticker .headline2 {color: #fff; font-size: 12px; }
+
+#washconfspeakersearch #compBody { padding: 10px; }
+#washconfspeakersearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#washconfspeakersearch #moduleElement { border: solid 1px #ccc; }
+#washconfspeakersearch .headline2 { color: #fff; font-size: 12px; }
+#washconfspeakersearch .headline3 { color: #000; }
+#washconfspeakersearch .body1 { color: #000; }
+
+#windowsmedia #compBody { padding: 10px; }
+#windowsmedia #componentHeaderBar { background:  #3a55a5; padding-left: 6px; color: #fff; font-size: 12px; font-weight: bold; line-height: 24px; height: 24px; color: #fff; border-bottom: solid 1px #ccc; }
+#windowsmedia #moduleElement { border: solid 1px #ccc; }
+#windowsmedia #WindowsMediaPlayerText { clear: both; color: #000; }
+#windowsmedia .headline3 { margin: 5px 0px 5px 0px; }
+
+#womensphilanthropy #compBody { padding: 10px; }
+#womensphilanthropy #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#womensphilanthropy #moduleElement { border: solid 1px #ccc; }
+#womensphilanthropy .headline2 { color: #fff; font-size: 12px; }
+#womensphilanthropy .headline3 { color: #000; }
+#womensphilanthropy .body1 { color: #000; }
+
+#youngleadershipsearch #compBody { padding: 10px; }
+#youngleadershipsearch #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#youngleadershipsearch #moduleElement { border: solid 1px #ccc; }
+#youngleadershipsearch .headline2 { color: #fff; font-size: 12px; }
+#youngleadershipsearch .headline3 { color: #000; }
+#youngleadershipsearch .body1 { color: #000; }
+
+#zipcodefinder #compBody { padding: 10px; }
+#zipcodefinder #componentHeaderBar { background: #3a55a5; padding-left: 6px; color: #fff; font-weight: bold; line-height: 24px; height: 24px; border-bottom: solid 1px #ccc; }
+#zipcodefinder #moduleElement { border: solid 1px #ccc; }
+#zipcodefinder .headline2 { color: #fff; font-size: 12px; }
+#zipcodefinder .headline3 { color: #000; }
+#zipcodefinder .body1 { color: #000; }
+
+/* generic component id's */
+#moduleElement { overflow: auto; margin: 0 8px; clear:both; }
+#moduleElement h4 { font-weight: normal; }
+#moduleElement p { margin: auto; padding: auto; }
+#compImage.left { float: left; margin: 0 10px 10px 0; }
+#compImage.center { width: 98%; text-align: center; margin: 0 0 5px 0; }
+#compImage.right { float: right; margin: 0 0 10px 10px; }
+
+/* generic component classes */
+.componentColumnTop { margin: 0 0 8px 0; }
+.componentColumnMiddle { margin: 8px 0; }
+.componentColumnBottom { margin: 8px 0 0 0; }
+.mmshowheader { font: 11px Arial, Helvetic, sans-serif; }
+/* COMPONENT CSS END */

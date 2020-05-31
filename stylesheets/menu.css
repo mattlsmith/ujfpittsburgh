@@ -1,0 +1,12 @@
+ul.navBar, ul.subNav
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+
+ul.navBar li, ul.subNav
+{
+	position: relative;
+}

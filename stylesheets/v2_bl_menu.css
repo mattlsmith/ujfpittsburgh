@@ -1,0 +1,170 @@
+/* nav styles */
+li.navItem
+{
+	position: relative;
+	width: 140px;
+	text-align: right;
+	/*border: solid black 1px;*/
+}
+
+#LeftNavigation
+{
+	margin-left: 17px;
+}
+
+#MainNavLink
+{
+	width: 125px;
+	line-height: 12px;
+	/*border: dashed blue 1px;*/
+}
+
+a.navItemSimple
+{
+	background-color: #996600;
+	font: bold 12px Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	color: #003366;
+	padding: 6px 0px 6px 6px;
+	width: 125px;
+	display: block;
+}
+
+/* Hide from IE5-mac. Only IE-win sees this. \*/
+* html li.navItem
+{
+	width: 125px;
+}
+
+
+/* this sets the horizontal position of sub menu */
+li.navItem ul
+{
+	position: absolute;
+	display: none;
+	left: 100px;
+	top: 0px;
+}
+
+
+li.navItem>ul
+{
+	left: 146px;
+}
+
+
+ul.navBar li.navItem:hover ul.subNav, 
+ul.subNav li.navItem:hover
+{
+	display: block;
+	width: 200px;
+}
+
+
+/* This is for javascript-assigned hover events */
+ul.navBar li.over ul
+{
+    display: block;
+    width: 200px;
+}
+
+
+ul.navBar li a
+{
+	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	font-size: 12px;
+	color: #003366;
+	padding: 6px 0px 6px 6px;
+	width: 100%;
+	cursor: hand;
+	display: block;
+}
+
+
+ul.navBar li a:hover
+{
+	color: #993300;
+	text-decoration: none;
+}
+
+
+ul.navBar li a:visited
+{
+	color: #003366;
+	text-decoration: none;
+}
+
+
+ul.navBar li a:visited:hover
+{
+	color: #993300;
+	text-decoration: none;
+}
+
+
+li>a
+{ 
+	width: auto;
+}
+
+
+ul.subNav li a.submenu
+{
+	background-color: #F0F6FC;
+	font: bold 12px Arial, Helvetica, sans-serif;
+	text-align: left;
+	text-decoration: none;
+	color: #003366;
+	padding: 6px;
+	width: 100%;
+	border-top: 0px solid #666666;
+	border-right: 1px solid #999999;
+	border-bottom: 1px solid #666666;
+	border-left: 1px solid #CCC;
+	display: block;
+	z-index: 100;
+}
+
+
+ul.subNav li a.submenu:hover
+{
+	background-color: #F0F6FC;
+	color: #993300;
+	z-index: 100;
+}
+
+
+
+/* nav links and badges */
+p.navlinks
+{
+	margin-bottom: 0px;
+	margin-left: 12px;
+	font: 12px Arial, Helvetica, sans-serif;
+	/*border: dashed green 1px;*/
+}
+
+ul.navlinkslist
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 12px;
+	padding-left: 18px;
+	padding-bottom: 24px;
+	width: 110px;
+	/*border: dashed blue 1px;*/
+}
+
+ul.navlinkslist li
+{
+	padding: 2px 0px;
+}
+
+p.badges
+{
+	width: 144px;
+	text-align: center;
+	/*border: dashed red 1px;*/
+}

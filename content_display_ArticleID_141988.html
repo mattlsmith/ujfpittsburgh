@@ -1,0 +1,630 @@
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Palestinian fiddler gets taste of Israeli hospitality</title>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css">
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css">
+<link rel="stylesheet" href="http://www.ujfpittsburgh.org/stylesheets/amalgam_ts.css" type="text/css">
+<link rel="stylesheet" href="http://www.ujfpittsburgh.org/stylesheets/amalgam_ts_body.css" type="text/css">
+<link rel="stylesheet" href="http://www.ujfpittsburgh.org/stylesheets/amalgam_ts_menu.css" type="text/css">
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css">
+<script language="javascript">
+<!--//
+// look for navigator 3+
+bName = navigator.appName;
+bVer = parseInt(navigator.appVersion);
+br = 0;
+//alert(bName+' '+bVer);
+if ( (bName == "Netscape" && bVer >= 4) || (bName == "Microsoft Internet Explorer" && bVer >= 4) ) br = "4"; 
+	//alert(br);
+//    else location.href="../upgrade/";
+// mousover function
+function hiLite(oldImage,newImage)
+{
+	if (br == 4)
+	{
+		document.images[oldImage].src = eval(newImage + ".src");
+	}
+}
+if (br == 4) {
+	// preload images top nav
+	// logout
+	logout_off = new Image(); logout_off.src;
+	logout_on = new Image(); logout_on.src;
+	// login
+	login_off = new Image(); login_off.src;
+	login_on = new Image(); login_on.src;
+	// user
+	var myFedID = '118';
+	if(myFedID == 3)
+	{
+		user_off = new Image(); user_off.src;
+		user_on = new Image(); user_on.src;
+		cart_off = new Image(); cart_off.src;
+		cart_on = new Image(); cart_on.src;
+	}
+	else
+	{
+		user_off = new Image(); user_off.src;
+		user_on = new Image(); user_on.src;
+	}
+	// contact
+	contact_off = new Image(); contact_off.src;
+	contact_on = new Image(); contact_on.src;
+	// help
+	help_off = new Image(); help_off.src;
+	help_on = new Image(); help_on.src;
+}
+//-->
+</script>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+</script>
+</head>
+<body bgcolor="#FFFFFF" link="#006699" vlink="#0066CC" alink="#0066CC" leftmargin="12" topmargin="12" marginwidth="12" marginheight="12">
+<center>
+<!-- main page table start -->
+<table width="745" cellpadding="0" cellspacing="0" border="0" bordercolor="Red">
+<!-- top border row -->
+<tr>
+<td colspan="3" valign="bottom" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="156" height="1" alt=""></td>
+<td colspan="2" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="589" height="1" alt=""></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td valign="top" class="leftnavcolor2" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_leftnav.gif">
+<!-- col1 start -->
+<a href="/"><img src="../local_includes/logo.gif" width="154" alt="United Jewish Federation of Greater Pittsburgh" border="0"></a><br>
+<br>
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+window.onload = startList;
+</script>
+<?xml version="1.0"?><div id="LeftNavigation" xmlns:xw="http://xworld.com"><ul class="navBar" id="sidenav"><li class="navItem"><a href="../section_display_ID_31/">Who We Are</a><ul class="subNav"><li><a class="submenu" href="../getfile_id_7402/">2004 UJF Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1/">Ways to Give</a></li><li class="navItem"><a href="../calendar_home/">Calendar</a></li><li class="navItem"><a href="../section_display_ID_3/">News</a></li><li class="navItem"><a href="../section_display_ID_59/">Israel</a></li><li class="navItem"><a href="../section_display_ID_244/">Young Adults (22-45)</a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/">World Jewry</a></li><li class="navItem"><a href="../section_display_ID_16/">Jewish Life</a></li><li class="navItem"><a href="../section_display_ID_4/">Social Justice</a></li><li class="navItem"><a href="../section_display_ID_17/">Missions</a></li><li class="navItem"><a href="../ecards_home/">E-Greetings</a></li></ul></div><br clear="all" xmlns:xw="http://xworld.com"/><img src="../images_main/dot_clr.gif" width="1" height="8" alt="" xmlns:xw="http://xworld.com"/>
+<!-- nested links table start -->
+<table width="154" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="7" height="1" alt=""></td>
+<td valign="top" colspan="2" align="center">
+<img src="../images_main/dot_clr.gif" width="1" height="24" alt=""><br>
+<a href="../content_display_ArticleID_96381/" target="_self"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_34675/" target="_self"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_107067/" target="_self"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="http://pittchron.com/" target="_new"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="http://www.ujcfedweb.org/" target="_blank"></a><br>
+<img src="../images_main/dot_clr.gif" width="1" height="24" alt=""><br>
+</td>
+<td><img src="../images_main/dot_clr.gif" width="7" height="1" alt=""></td>
+</tr>
+</table>
+<!-- nested links table end -->
+<!-- col1 end -->
+</td>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td valign="top" bgcolor="#FFFFFF">
+<!-- nested content table start -- NEEDED FOR AMALGAM DESIGN DO NOT REMOVE -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td colspan="2" valign="top">
+<!-- header table start -->
+<table width="100%" cellspacing="0" cellpadding="0" border="0" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_topnav.gif">
+<form name="search" action="../search/" method="get">
+<tr>
+<td align="right" valign="top">
+<img src="../images_main/dot_clr.gif" width="1" height="64" alt="" align="left">
+<!-- nested login table start -->
+<table width="400" cellpadding="0" cellspacing="0" border="0" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_topnav.gif">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="146" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="254" height="1" alt=""></td>
+</tr>
+<tr>
+<td align="right"><font class="userstatus" size="1" color="#FFFFFF"></font><img src="../images_main/dot_clr.gif" width="10" height="1" alt=""></td>
+<td align="right">
+<a href="../login/" onmouseover="hiLite('login','login_on');" onmouseout="hiLite('login','login_off');"></a><a href="../contact_us/" onmouseover="hiLite('contact','contact_on');" onmouseout="hiLite('contact','contact_off');"></a><a href="javascript:helpPopup(118)" onmouseover="hiLite('help','help_on');" onmouseout="hiLite('help','help_off');"></a><br>
+</td>
+</tr>
+</table>
+<!-- nested login table end -->
+<!-- nested search table start -->
+<table width="293" cellpadding="0" cellspacing="0" border="0" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_topnav.gif">
+<tr>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="235" height="8" alt=""></td>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="58" height="1" alt=""></td>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+</tr>
+<tr>
+<td valign="top" align="right">
+<input type="text" name="searchTerm" size="15" maxlength="255"><img src="../images_main/dot_clr.gif" width="7" height="1" alt="" align="bottom"></td>
+<td valign="top"><img src="../images_main/dot_clr.gif" width="58" height="1" alt=""><br><input type="image" name="search" src="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/butn_search_tnav.gif" alt="Search" border="0"></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="16" alt=""></td>
+</tr>
+</table>
+<!-- nested search table end -->
+</td>
+</tr>
+<tr>
+<td bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="589" height="1" alt=""></td>
+</tr>
+</form>
+</table>
+<!-- header table end -->
+</td>
+</tr>
+<tr>
+<td valign="top">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">News</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_ID_3/">News</a>&nbsp;&gt;&nbsp;Palestinian fiddler gets taste of Israeli hospitality</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_3/"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Palestinian fiddler gets taste of Israeli hospitality<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+				By By ALI DARAGMEH (Associated Press Writer)<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Associated Press<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">12/28/2004<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><document>
+	<p>NABLUS, West Bank - A Palestinian whose violin performance at a West Bank checkpoint embarrassed the military, angered Palestinians and upset many Israelis said Tuesday he found good will at an Israeli village that invited him to take some lessons there. 
+</p>
+	<p>	Wissem Tayem, 29, was speaking in an interview with The Associated Press after spending three days as the guest of Israelis at a music workshop on a kibbutz communal farm in the hills of the Galilee. 
+</p>
+	<p>	"They gave me a wonderful, warm reception," Tayem said of his kibbutz hosts. "Everyone was lovely, in this kibbutz they treat people with respect no matter who they are." 
+</p>
+	<p>	During a three-day visit, he attended violin lessons, had experts repair his fiddle and was invited into the homes of kibbutz families. Tayem, however, said that it didn't take his long weekend at Kibbutz Eilon to show him that not all Israelis are hostile toward Palestinians. 
+</p>
+	<p>	"I knew that before," he said. "Even at the checkpoints, some of the soldiers are not bad, but those who treated me badly, I hate them." 
+</p>
+	<p>	Tayem, a third-year music student at A-Najah University in the West Bank city of Nablus, lives with his ailing, widowed mother in the nearby A-Fara refugee camp. 
+</p>
+	<p>	On Nov. 9 he was passing through a military checkpoint at the village of Beit Iba, on his way home from the city. 
+</p>
+	<p>	"I saw my friends being turned back, the troops were in a bad mood and I was afraid of them," he said Tuesday in an interview at the university. 
+</p>
+	<p>	"An officer came past and told me to open my violin case, which I did. Then he asked me to play, to play something sad. I was afraid to say no, so I played a sad Arab melody called 'Hijazi' for about three minutes," Tayem recalled. 
+</p>
+	<p>	"The soldiers laughed at me and I felt shamed, dishonored," he added. "At that moment I remembered what happened to the Jews in Germany when they were also humiliated." 
+</p>
+	<p>	The military at first said that soldiers involved had been reprimanded over the incident, then five days later backtracked and denied that Tayem had been forced to play, albeit adding that troops acted with a lack of sensitivity in not stopping him. 
+</p>
+	<p>	During more than four years of fighting between Palestinians and Israelis, the Israeli army has set up dozens of checkpoints throughout the West Bank, saying they are needed to prevent Palestinian attackers from reaching Israeli targets. 
+</p>
+	<p>	The roadblocks are sources of constant friction between harried young army recruits and large crowds of frustrated and angry Palestinians, who are often held up for hours. The Palestinians say the roadblocks are a form of collective punishment, meant to crush their spirits. 
+</p>
+	<p>	The Beit Iba incident was filmed by Israeli peace activists who regularly monitor roadblocks and the film was played extensively on Israeli TV. It touched raw nerves in an Israeli audience steeped in memories of the Nazi holocaust and the acts of degradation, large and small, heaped daily on the Jews of Europe. 
+</p>
+	<p>	Among those watching the news footage were members of Keshet Eilon, a nonprofit musical outreach organization based on the kibbutz. 
+</p>
+	<p>	Keshet is the Hebrew word for the bow of a violin, but also an archway. Keshet Eilon's managing director, Gilad Sheba, says the project, started to help ease the pangs of relocation for Russian-speaking immigrants to Israel, has become a portal for communication between cultures, "a real melting pot." 
+</p>
+	<p>	"We have for some time been trying to invite a player from the Arab world," Sheba said. "We approached a violinist from Lebanon and he got cold feet, the same happened in Egypt and Jordan." 
+</p>
+	<p>	Watching Tayem perform on TV news, Sheba and his colleagues saw an opportunity to cross a cultural bridge. 
+</p>
+	<p>	"We wanted to show him that Israel is not just about terror and violence, that you can also find warmth and good people," he said. 
+</p>
+	<p>	(str-scw/ml)
+</p>
+</document><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><font size="1" class="body1" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><i><br>Copyright 2004 Associated Press. All rights reserved. This material may not be published, broadcast, rewritten, or redistributed.</i><br><br></font>
+<hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="http://www.ujfpittsburgh.org/emailarticle.html?ArticleID=141988" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="http://www.ujfpittsburgh.org/emailarticle.html?ArticleID=141988" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(141988,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(141988,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Palestinian fiddler gets taste of Israeli hospitality";
+}
+catch(e)
+{}
+</script>
+</td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt="" border="0"></td>
+</tr>
+</table>
+<!-- nested content table end -- NEEDED FOR AMALGAM DESIGN DO NOT REMOVE -->
+</td>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td class="leftnavcolor2" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_leftnav.gif"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td bgcolor="#FFFFFF"><img src="../images_main/dot_clr.gif" width="576" height="32" alt=""></td>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td class="leftnavcolor2" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_leftnav.gif"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td colspan="3" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td class="leftnavcolor2" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_leftnav.gif"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td bgcolor="#EEEEEE"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<!-- footer row start -->
+<tr>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td class="leftnavcolor2" background="http://www.ujfpittsburgh.org/style_images/amalgamts/images_nav/tile_leftnav.gif"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="center" valign="bottom" bgcolor="#EEEEEE"><font size="1" class="footer1">Copyright &copy; 2001 - 2005&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJF.Net" type="email">UJFInformation.manager@UJF.Net</a><a href="mailto:information@ujf.net" type="email"></a></p>
+<p align="center">Jessica B. Smith, Site Administrator</p>
+<br>
+</td>
+<td valign="top" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<!-- footer row end -->
+<!-- navcap_bot row start -->
+<tr>
+<td colspan="6" bgcolor="#999999"><img src="../images_main/dot_clr.gif" width="156" height="1" alt=""></td>
+</tr>
+</table>
+<!-- main page table end -->
+</center>
+<script language="javascript">
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

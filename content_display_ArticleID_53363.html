@@ -1,0 +1,505 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["1","Major Gifts"],["8","National Young Leadership"]];
+arySubCat[10]=[["7","Test Department"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - A Month in Israel</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_11220/">2005 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?71911">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?71909">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_168262/">i-connect Teen Trip</a></li><li><a class="submenu" href="../content_display_ArticleID_163049/">Mission Atidim</a></li><li><a class="submenu" href="../content_display_ArticleID_158106/">Family Missions</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?71909">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?71911" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_165640/" target="_self"><img src="../getimage.asp_id_70237.jpg" width="112" height="112" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">World Jewry</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_29/">World Jewry</a>&nbsp;&gt;&nbsp;A Month in Israel</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_29/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">A Month in Israel<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">
+					By Beth Steinberg<br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p>Have you ever been in Israel for Yom Hashoah -- Holocaust Remembrance Day, or Yom Hazikaron -- Israel's Memorial Day ? </p>
+<p>On the eve of Yom Hashoah, the stores closed by 7:30 in the evening, the television switched its programming to more serious subject matter and the radios quieted. At 8:00 on the main Israeli TV channels, there was a special program broadcast from Yad Vashem; speeches, stories, choirs and personal remembrances. The entire next day, the radio played what all agree is the best music of the year, reserved for memorial days and when bombs blow; quiet songs and old favorites, sung by Israel's most venerated pop and folk singers.</p>
+<p>The most dramatic moment of the day came at 10am when the entire country paused for 2 minutes of silence. We hustled the kids up and out of bed and got them out on the street where we could all experience it firsthand. At 10 sharp, the sirens sounded, cars and trucks stopped wherever they were on the street and drivers got out and stood with silent attention as the sirens blew. It's at once an exhilarating and emotional moment. Jews united together from Kiryat Shemona in the North to Eilat in the South for 2 whole minutes out of what is otherwise an ordinary workday to remember 6 million dead in the Holocaust. How many countries that call themselves civilized do anything quite like this to remember their dead? Their dead of a previous generation, no less.</p>
+<p>In Israel, when there are suicide bombings, terrorist attacks, soldiers killed – phone numbers are given out of the local hospitals where the injured and dead have been taken, burial times and cemeteries are announced in national news reports and portions of eulogies are rebroadcast on the radio and reprinted in the newspapers. Why? In a country of approximately 5 or 6 million, about the size of New Jersey, there is a good chance of having some sort of connection to a life lost. A friend of mine, who works for the Jewish Agency, has attended at least 4 funerals over the past six months. He commented that in his line of work, it's hard not to know of someone. The last funeral he went to was after the Netanya Seder bombing – a 45 year old mother of 2, who's husband flew in from his Jewish Agency work in Kiev. A few years ago, when my parents purchased their apartment in Jerusalem, they went by it one day to bring over some things before they moved in and discovered that their new neighbors in the building were sitting shiva for an adult son killed in a bus bombing. Confronted with the price of terrorism firsthand, they did what any Jew might; they paid a shiva call. In Israel, there is a quality of respect for the dead and their inherent sacrifice that is often lost to us here in the United States, this large country in which we live.</p>
+<p>I spent a tumultuous month in Israel. From the time I left, 2 days after the bombing of a popular Jerusalem café that killed 15, until the day I returned, about 150 Israelis were killed; babies, children, teenagers, adults, seniors, soldiers as young as 19 and mature reservists with wives and kids. They were murdered riding on buses, eating lunch in restaurants, sleeping in their homes, driving in their cars, fighting in the battlefields of the West Bank and perhaps, most disturbingly, singing at a Passover Seder. They represented every aspect of Israeli life – from new Russian immigrants, to children of American Olim of 25 years, to 5th generation Jerusalemites. They were religious and secular, political and perhaps disinterested entirely. </p>
+<p>During those first days of Pesach, when each day was marked by a suicide bombing, life in Israel took on an increasingly surreal feel. Friday, the day of the suicide bombing at a grocery store in the Jerusalem suburb of Kiryat Hayovel - where incidentally, I shopped and lived in 1983 – I was in Haifa, driving back to my brother's house after a lovely visit with my cousins. We sat and chatted over tea and Pesach cookies. The weather outside, after days of unrelenting rain that lasted right through the first part of Yom Tov, was glorious. As we drove down the Carmel mountains, the sunlight glinted off of the waves crashing on the seashore below. A magical picture; but the bubble burst as we heard the news of the <i>Pigua</i> – the attack. My stomach clenched. How bad? How many dead? On a more pragmatic note, I asked my sister, Jessica, "where will we go grocery shopping now in Jerusalem?" We discussed the options and settled on shopping at her local strip of stores – more expensive but hopefully more secure. Of course, within a few days we were back at the local Hyperneto, just parking at the back entrance and holding our breath if got to crowded at the front where we had to wait to have our bags checked before going in.</p>
+<p>These were the kind of discussions that I had over and over with different people during my trip. Meet for coffee? Sure, not along hip Emek Refaim though, where a bombing had been averted a week earlier by an alert waiter at the café Cafit. We could go to Shraga, the neighborhood hangout around the corner from Jessica's apartment. That was deemed safe, although the first time, Jessica positioned herself so that she could look everyone in the eye as they entered and gave me strict instructions on how to run for the back entrance with Akiva if she gave me the look. We got free tickets to a basketball game – Hapoel Yerushalayim against Hapoel Haifa – my middle son Gabe, was beside himself with excitement. After an exhaustive analysis with my mother, who was against the plan, we went. We figured we would get there late – we had to drive from Rosh Ha'ayin where my sister Sarah lives, to the game and that would mean a better chance of avoiding any unpleasantness. I pointed out to my mother that she and my father were still planning to have blood tests at a local lab downtown at the corner of Agrippas and King George and that was surely a more dangerous plan than a basketball game at a small stadium in a suburb of Jerusalem. </p>
+<p>Last week, my brother in law Michael planned us a lovely one day <i>tiyul</i> – a trip in the region south of Beit Shemesh, with a view from a church said to be the burial place of Rabban Gamliel, and a short hike from a place called Mitzpeh Masuah. Absolutely not, decided my brother, too isolated, no one is hiking anyway these days. My mother had already nixed the plan, as expected. The day dawned cloudy and rainy like the one before it and didn't seem like a hiking day anyway, so we went to the museum instead and everyone was content. I commented to my sister Jessica that not only would she get some work done when we would leave and have a quiet, clean house but she would also relax from the strain of feeling responsible for our personal safety.</p>
+<p>As the news worsened the rains increased, casting a sort of wet pall on everyone. No one had seen so much rain on Pessach, ever. It even hailed during Shabbat Hol Ha'moed. We recited Yizkor on the last day of Yom Tov while it absolutely poured outside. The Ba'al Tefilah led us with real soulfulness as he recited the Kel Maleh Rahamim – the prayer for all who have died but it was his recitation of the prayer for the soldiers who have died fighting for Israel that brought the community to tears. By this date, 30,000 reservists had been called up. My husband Ira and I had seen them by the busloads at the grocery store near my brother's house a few days earlier, stocking up on the extras that a guy might need when serving – some snacks, good tea bags, tissues and the like. I chatted with one guy, an American. I asked him where he was going – he told me Tulkarm. I inquired how he felt about being called up – he said he wasn't surprised and he was ok with it. I told him to stay safe and walked away feeling rather inadequate. A day later on a family outing to the Kibbutz Yad Mordechai, which was run over by the Egyptians in 1948, we stopped for ice cream on the way home. Our stop was at a busy gas station with a burger joint, food shop and ice cream stand, all Kosher for Passover. There were a couple of tank carriers parked outside and a bunch of reservists sitting in the Burger King eating burgers on Kosher Le'Pesach rolls. My sister in law Barbara remarked, these guys are like us. They're our age and they're sitting in uniform eating burgers and then it's off to drive tanks. One of the tank carriers was festooned with a large Israeli flag and Barbara pointed this out to all of the kids, saying, "look at this and remember it." We drove home to my brother's house passing army vehicle after army vehicle and tank after tank after tank. To Ira especially, who had never really seen the Israeli army so on the move, the scene was both amazing and discomforting, bringing home the truth of what the Israeli army was embarked on. My 14-year-old niece Elisheva said, it made her glad that her country has tanks.</p>
+<p>There was palpable sense of disgust, outrage and depression with the way things were going during our visit. Only a little over two years ago, Israelis were enjoying the fruits of the Oslo years: economic prosperity, foreign investment and a general feeling that peace was on the way. In the last year and a half, my brother has seen his successful commercial real estate business falter with profits down from half of what they were a year ago. My brother in law, who works in a family business serving the food service industry, took a pay cut along with the rest of the office last summer. </p>
+<p>Israelis are outraged although not surprised by the world's lack of response to suicide bombings and a mounting Jewish death toll and the Israeli governments' decision to respond in what most consider to be an appropriate fashion. A poll taken last week in Israel showed that most Israelis would still support giving up land for peace and favor getting out of large portions of the West Bank and Gaza. But, many feel, not now when they've been kicked in the teeth with bombing after bombing. Even the name of Sharon doesn't bring such a rise to people lately. No one is convinced that any Israeli leader would be any better at dealing with the current mess. I heard the most support for building a wall – some sort of obvious demarcation line that would somehow separate Israelis from the Palestinians. Cross the wall and at least it would be legal to kill the perpetrator. </p>
+<p>People felt tired of being kept from their favorite hangouts, tired from not sleeping well – whether from being awakened by bad dreams of terrorists breaking into their homes or by strange booming sounds in the night and army helicopters passing overhead . They felt depressed – deprived of their right to ride the busses comfortably, hike in the Galilee during the Pesach break or walk down the Midrachov – the pedestrian street mall in Jerusalem—without looking over their shoulders. I walked with my brother through the lushly blooming streets of his suburban enclave of Kochav Yair, and he gestured off to the hills beyond and said, "Look at this place, if there was peace it would be paradise." I asked him if there would be a lasting bitterness on the part of Israelis that would hold them back from making business with Palestinians again and he replied, exactly as my right-wing father had, "Israelis won't hold a grudge. They'll go right back to doing business, investing in Palestinian and other Arab interests."</p>
+<p>For five years, my sister met with Palestinian businessmen and reported on the burgeoning Palestinian economy . She met a brewer in the town of Taibe who returned to Israel from the US after the Oslo accords were signed. He came to be a part of the beginning of peace in the region. She also became friendly with a restaurateur in Abu Gosh, who won 17million in the Chicago lottery and came home and opened a restaurant and poured his own money into his community. We ate there some years ago. A beautiful place with great food, excellent humous and about 19 different varieties of eggplant salad. She was convinced at that time, of the possibility of continuing economic development and real relationships developing between Arabs and Israelis. </p>
+<p>I sat with a group of her friends at the Shabbat table and listened to this well-educated, basically liberal group in their late 20's and early 30's mull over their feelings about the present situation. One friend described them as representative of what has become a large middle percent of the Israeli population politically. He said, "you figure 25% sit to the far right and 25% to the far left. The left and the right are scrambling to figure out how to woo us back to their side." But the saddest commentary of the day came from another reporter friend of Jessica's, a Brit who's been in the country for a few years but can't, as she put it, "even remember what it used to be like; before the suicide bombings and daily attacks on civilians."</p>
+<p>Between the wringing of hands, though, and the nervous emails back and forth to friends and relatives in the States, I had a lovely Yomtov with my family. After 20 years apart, we celebrated a seder together, all 19 of us – three generations together retelling that great tale of Jewish travail and rebirth. We laughed and talked for hours, catching up on the news of the past year since we had all seen each other. Given the "matzav" or the "situation" as it is called in Israel, and the fact that it was Pesach, we ate altogether too much but a couple of pounds didn't seem that critical at the moment. I was proud of my family. My brother will mark his 20th year in Israel next year, my sister her 18th, my parents their 10th and my younger sister, her 8th year. Quite an accomplishment for an average Jewish family growing up in America in the 60's and 70's. My father's Zionist dream of seeing his family live in Israel had come to fruition for at least a good percentage of the family. </p>
+<p>One of the last days of our trip, we visited an indoor/outdoor family play space at Kibbutz Tzuva, not far from Jerusalem. Like everything else we visited on our trip, it was fairly empty – few tourists and no Israeli school groups, "too scared to come," reported the guy who checked our bags as we entered. He was in a chatty mood, an American who has been in Israel on the Kibbutz since 1971. "A lifer," he said with a laugh. The kibbutz, he said, did well financially with the play space but their real money maker was, interestingly enough, producing bulletproof glass for cars and busses. Their biggest accounts? Providing for the armored buses and cars needed for Jews living on the West Bank. I listened to him talk and envied him. 30 years in Israel. Think of what he's seen and encountered. He's been a part of something huge – because even with all of the craziness, Israel is a great place to live and to visit and to experience. Jews all over America and the rest of the free world deny themselves the opportunity, the sheer euphoria that it is to go and visit Israel , or even to live there. You have to be there to part of the dream – to celebrate and support – to discuss and even disagree. It just doesn't make sense until you walk down the street in downtown Jerusalem or Tel Aviv and look around you and listen to Hebrew being spoken and realize that hey, this has been going on for 54 years and I have not paid enough attention.</p>
+<p>On that day of the Haifa bombing, riding in my sister's car, we listened to an interview on the radio. The speaker, a resident of the northern town of Kiryat Shemona talked about their closeness to the events of the day. She said, "It may be quiet for us here now, but we feel connected to it no matter where it happens." She added, "Listen, back when there was more action here, people thought we must spend our lives underground all of the time, living in fear. But, we didn't, <i>a'seenu hayim</i>, we lived our daily lives, we managed." And in a tone clearly meant to calm and quietly inspire, she continued, "when this war is over, we will celebrate and remember from Yerushalayim to Tel Aviv, from Hadera to Netanya. We'll have a new kind of hero to remember and honor, civilians who gave their lives." I was struck by the simplicity of her statement. It wasn't about politics, it was about life –coping and looking for the best way of dealing with an increasingly untenable situation. This was the real lesson of my month in Israel – people going about their daily lives—shopping, cooking, eating, arguing, talking, reading the newspaper, listening to the radio, hoping for peace. Maybe this year will be the turning point , when peace will finally be forged and a brighter future will dawn from the rubble of a terrible and bloody 18 months. Our need for solidarity with Israel is stronger than ever. </p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="../emailarticle_ArticleID_53363/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="../emailarticle_ArticleID_53363/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(53363,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(53363,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - A Month in Israel";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Jessica B. Smith, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

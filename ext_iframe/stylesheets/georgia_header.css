@@ -1,0 +1,83 @@
+.headline1
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 12px;
+    font-weight: bold;
+	line-height: 13px;
+	margin-bottom: 2px;
+}
+
+.headline2
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 14px;
+	font-weight: bold;
+	line-height: 15px;
+	margin-bottom: 2px;
+}
+
+
+.headline3
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 16px;
+	font-weight: bold;
+	line-height: 17px;
+	margin-bottom: 3px;
+}
+
+.headline4
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 18px;
+	font-weight: bold;
+	line-height: 19px;
+	margin-bottom: 4px;
+}
+
+.headline5
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 24px;
+	font-weight: bold;
+	line-height: 26px;
+	margin-bottom: 6px;
+}
+
+.headline6
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 30px;
+	font-weight: bold;
+	line-height: 32px;
+    margin-bottom: 6px;
+}
+
+.headline7
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 36px;
+	font-weight: bold;
+	line-height: 38px;
+    margin-bottom: 6px;
+}
+
+.helpheader4
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size : 18px;
+	font-weight: bold;
+	line-height: 19px;
+	margin-bottom: 4px;
+	color: #FFFFFF;
+}
+
+.calendarheader1
+{
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 13px;
+	margin-bottom: 2px;
+	color: #FFFFFF;
+}

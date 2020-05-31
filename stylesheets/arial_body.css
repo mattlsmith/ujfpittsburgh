@@ -1,0 +1,163 @@
+body, td {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+
+.body1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.boldbody1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.body2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+.boldbody2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.body3
+{
+
+}
+
+.body4
+{
+
+}
+
+.body5
+{
+
+}
+
+.body6
+{
+
+}
+
+.body7
+{
+
+}
+
+.caption1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.comp
+{
+	margin-top: 0px;
+}
+
+.page1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.footer1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+.formheader2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+.formerror2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #FF0000;
+}
+
+.form
+{
+	font-family: monospace;
+	font-size: 13px;
+}
+
+.error2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #FF0000;
+}
+
+.errordetail2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FF0000;
+}
+
+.forum2
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.path1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+.calendarcontent1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+.calendarhebrewdate1
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+}
+
+.minicalwhite
+{
+	font-family: Verdana, Helvetica, Arial, Geneva;
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.minicalblack
+{
+	font-family: Verdana, Helvetica, Arial, Geneva;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.smallfont1 
+{  
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 10px; 
+}

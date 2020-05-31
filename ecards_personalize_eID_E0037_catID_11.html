@@ -1,0 +1,579 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>E-Greetings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<!-- begin header -->
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_11220/">2005 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?67379">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?67378">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_980/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Operation Promise</div></a></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_116865/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_168262/">i-connect Teen Trip</a></li><li><a class="submenu" href="../content_display_ArticleID_163049/">Mission Atidim</a></li><li><a class="submenu" href="../content_display_ArticleID_158106/">Family Missions</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?67378">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?67379" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_165640/" target="_self"><img src="../getimage.asp_id_70237.jpg" width="112" height="112" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<div id="contentarea">
+<script language="javascript">
+function GotoPage(strPage)
+{
+	document.frmECard.strArgs.value = strPage;
+	document.frmECard.submit();
+	return 0;
+}
+</script>
+<!-- nested body table start -->
+<table width="576" cellpadding="0" cellspacing="0" border="0">
+<!-- spacer row -->
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">E-Greetings</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../ecards_home/">E-Greetings</a>&nbsp;&gt;&nbsp;<a href="../ecards_category_catID_11/">Thank You</a>&nbsp;&gt;&nbsp;Personalize & Send E-Card</font></td>
+</tr>
+</table>
+</td>
+<td align="right"></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<!-- begin content area -->
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td colspan="3" valign="top">
+<!-- nested ecard closeup table -->
+<table width="564" cellpadding="0" cellspacing="0" border="0">
+<!-- spacer row -->
+<tr>
+<td width="82"><img src="../images_main/dot_clr.gif" width="82" height="1" alt=""></td>
+<td width="400"><img src="../images_main/dot_clr.gif" width="400" height="1" alt=""></td>
+<td width="82"><img src="../images_main/dot_clr.gif" width="82" height="1" alt=""></td>
+</tr>
+<!-- line row -->
+<tr bgcolor="#000000">
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="20" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td align="center" colspan="3"></td></tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td>
+<br>
+<font class="bolbody2" size="2"><b>Dear Recipient</b></font><br>
+<img src="../images_main/dot_clr.gif" width="1" height="12" alt="">
+<br>
+<font class="body2" size="2">
+This is where your personal message will appear. Type your message below, and click on the &quot;Send this E-Card&quot; button to send your card. Click on the &quot;Preview this Card&quot; button to preview your card before sending.<br>
+<img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+From,<br>
+Your Name</font>
+<br>
+<br>
+</td>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<!-- line row -->
+<tr bgcolor="#000000">
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="15" alt=""></td>
+</tr>
+</table>
+<!-- end nested ecard closeup table -->
+<form name="frmECard" action="../ecards_personalize_eID_E0037_catID_11/" method="post">
+<!-- begin nested personalize ecard table -->
+<table width="564" cellpadding="0" cellspacing="0" border="0" class="boxbackground">
+<!-- spacer row -->
+<tr>
+<td width="12"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td width="192"><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+<td width="360"><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td colspan="2"><font class="headline5" size="5">Personalize Your E-Card</font><br>
+<img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<font class="body1" size="1"><font color="#FF0000">*</font> Mandatory Field</font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2">Greeting:</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><input name="strGreeting" type="text" size="45" maxlength="50" value="Dear"></font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2"><font color="#FF0000">*</font> Recipient's Name(s):</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><input name="strRecipientName" type="text" size="45" maxlength="50" value=""></font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2"><font color="#FF0000">*</font> Recipient's E-mail&nbsp;&nbsp;<br>
+Address(es):</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><input name="strRecipientEmail" type="text" size="45" maxlength="500" value=""></font><br>
+<img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br>
+<font class="formheader1" size="1">(separate addresses with commas)</font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2"><font color="#FF0000">*</font> Message:</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><textarea name="strMessage" cols="38" rows="5"></textarea></font><br>
+<img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br>
+<font class="formheader1" size="1">(500 characters maximum, including spaces)</font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2">Closing:</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><input name="strClosing" type="text" size="45" maxlength="50" value="From,"></font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2"><font color="#FF0000">*</font> Your Name(s):</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><input name="strSenderName" type="text" maxlength="50" size="45" value=""></font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2"><font color="#FF0000">*</font> Your E-mail:</font>&nbsp;&nbsp;</td>
+<td><font class="form" size="2"><input name="strSenderEmail" type="text" size="45" maxlength="50" value=""></font></td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr align="legft" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2">Background Color:</font>&nbsp;&nbsp;</td>
+<td>
+<!-- begin nested color swatch table -->
+<table width="360" cellpadding="0" cellspacing="0" border="0">
+<!-- spacer row -->
+<tr>
+<td align="center"><img src="../images_main/ecard_swatch_white.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#ffffff" checked></td>
+<td align="center"><img src="../images_main/ecard_swatch_blue.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#e7f3ff"></td>
+<td align="center"><img src="../images_main/ecard_swatch_green.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#ceffce"></td>
+<td align="center"><img src="../images_main/ecard_swatch_orange.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#f8e8b8"></td>
+<td align="center"><img src="../images_main/ecard_swatch_pink.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#ffe7e7"></td>
+<td align="center"><img src="../images_main/ecard_swatch_purple.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#e7e7ff"></td>
+<td align="center"><img src="../images_main/ecard_swatch_yellow.gif" width="33" height="33" alt="" border="0"><br>
+<input type="radio" name="strBGColor" value="#ffffce"></td>
+</td>
+</tr>
+</table>
+<!-- end nested color swatch table -->
+</td>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2">Font:</font>&nbsp;&nbsp;</td>
+<td>
+		<input type="radio" name="strFont" value="Arial, sans-serif" checked>
+		&nbsp;<font face="Arial, sans-serif">Arial</font><br>
+		<input type="radio" name="strFont" value="Times New Roman, serif">
+		&nbsp;<font face="Times New Roman, serif">Times New Roman</font><br>
+		<input type="radio" name="strFont" value="Courier">
+		&nbsp;<font face="Courier">Courier</font><br>
+		<input type="radio" name="strFont" value="Verdana">
+		&nbsp;<font face="Verdana">Verdana</font>
+		<font class="formheader1" size="1"> (not 
+		available on all machines)</font><br>
+		<input type="radio" name="strFont" value="Comic Sans">
+		&nbsp;<font face="Comic Sans">Comic Sans</font>
+		<font class="formheader1" size="1"> (not 
+		available on all machines)</font><br>
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2">Music:</font>&nbsp;&nbsp;</td>
+<td><select name="selMusic" id="selMusic" onchange="javascript:playmusic()">
+<option name="selMusic" value="No Music" selected>No Music</option>
+<option value="Bashana.mid">Bashana</option>
+<option value="Dayenu.mid">Dayenu</option>
+<option value="Dreidel.mid">Dreidel</option>
+<option value="Hatikvah.mid">Hatikvah</option>
+<option value="Hava_Nagila.mid">Hava Nagila</option>
+<option value="LChaim-To_Life.mid">LChaim-To Life</option>
+<option value="Mayim.mid">Mayim</option>
+<option value="Shabbat_Shalom.mid">Shabbat Shalom</option>
+</select>&nbsp;&nbsp;<font class="formheader2" size="2">
+<!--<a href="javascript:playmusic()">Listen to this song</a>-->
+<span id="oData"></span>
+</font></td>
+</tr>
+<script language="javascript">
+	function playmusic(){
+		oData.innerHTML = ""
+		if  (document.frmECard.selMusic.value != 'No Music') {
+			var strVal = 'ecard_sounds/' + document.frmECard.selMusic.value
+			var oAnchor = document.createElement("A")
+			eval("oAnchor.innerText='Listen to this song'");
+			oAnchor.href = strVal
+			//alert(oAnchor.href)
+			oData.appendChild(oAnchor)
+		}
+	}
+</script>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<!--<tr align="left" valign="top">
+<td><img src="images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td align="right"><font class="formheader2" size="2">When to send:</font>&nbsp;&nbsp;</td>
+<td><select name="selWhenToSend">
+<option Selected>Today</option>
+</select></td>
+</tr>-->
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="30" alt=""></td>
+</tr>
+<tr align="left" valign="top">
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""></td>
+<td><a href="http://Javascript:GotoPage('preview')"><img src="../style_images/v2bl/images_body/butn_previewecard_box.gif" alt="Preview This E-Card" border="0"></a>&nbsp;&nbsp;<a href="http://Javascript:GotoPage('send')"><img src="../style_images/v2bl/images_body/butn_sendecard_box.gif" alt="Send This E-Card" border="0"></a></td>
+<input type="hidden" name="strArgs" value="">
+<input type="hidden" name="hidSentEcardID" value="">
+<input type="hidden" name="nTopicID" value="">
+<input type="hidden" name="nImageID" value="">
+<input type="hidden" name="strText" value="">
+</tr>
+<tr>
+<td colspan="3"><img src="../images_main/dot_clr.gif" width="1" height="15" alt=""></td>
+</tr>
+</form>
+</table>
+<!-- end nested personalize ecard table -->
+</td>
+</tr>
+</table>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Jessica B. Smith, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

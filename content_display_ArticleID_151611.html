@@ -1,0 +1,568 @@
+<script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["1","Major Gifts"],["8","National Young Leadership"]];
+arySubCat[10]=[["7","Test Department"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - Heartland Mission Itinerary</title>
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script>
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i];
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  ');
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_168262/">i-connect Teen Trip</a></li><li><a class="submenu" href="../content_display_ArticleID_163049/">Mission Atidim</a></li><li><a class="submenu" href="../content_display_ArticleID_158106/">Family Missions</a></li></ul></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?59326">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li><li><a class="submenu" href="../getfile_id_11220/">2005 Annual Report</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_116865/">Shalom Baby</a></li><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?59326">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?59327">DONATE NOW!</a></li></ul></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_980/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Operation Promise</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="https://secure.ujcfederations.org/servertransfer.html?59327" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="../content_display_ArticleID_165640/" target="_self"><img src="../getimage.asp_id_70237.jpg" width="112" height="112" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<script language="JavaScript" src="../includes/print_functions.js"></script>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Missions</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;<a href="../section_display_id_17/">Missions</a>&nbsp;&gt;&nbsp;Heartland Mission Itinerary</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_17/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="11" alt=""></td>
+</tr>
+</table>
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="blue">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="564" height="1" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><font class="headline6" size="6" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Heartland Mission Itinerary<br></font><img src="../images_main/dot_clr.gif" width="564" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><p align="center"><strong><font size="3">Pittsburgh Lev Society Mission<br>May 5-13, 2005</font></strong></p>
+<p><br>Day One: Thursday, May 5, 2005<br>Yom HaZikaron l’Shoa u’l’Gvurah:&nbsp; Holocaust Remembrance Day</p>
+<p>8:10 am<br>Arrival on LY 028</p>
+<p>9:30 am<br>Proceed to Jerusalem</p>
+<p>10:30 am<br>In the middle of the Martyrs Forest planted by the B'nai Brith&nbsp; where trees have been planted to remember the 6 million who died during the Holocaust, there is a monument by Natan Rapaport called the “Scrolls of Fire”.&nbsp;This stands as a memorial all of those who died in the Holocaust as well as those who have fallen while creating and preserving the State of Israel. The sculpture itself&nbsp; is a huge hollow metal scroll with carvings depicting scenes, and battles, from different eras of Jewish history all the way back to Biblical days.&nbsp;The carvings go all of the way around, so that it is necessary to view both sides of the scrolls.</p>
+<p>The Shehecheyanu prayer reminds us that is God who grants us the privilege of giving us new experiences and the ability to savor new things.&nbsp;For some of us, being in Israel is a new experience; others have been here before.&nbsp;But, each time one returns to Eretz Yisrael, one thanks God for being allowed to be here.&nbsp;By saying this prayer in this place on this day, we recognize that out of tragedy has come renewal.</p>
+<p>12:00 pm<br>Check-in hotel.&nbsp; Dairy buffet lunch served.</p>
+<p>Time for rest and relaxation</p>
+<p>Optional:<br>2:30 pm<br>Proceed to the Old City</p>
+<p>Tour the Jewish Quarter of the Old City and uncover the layers of Jewish history from the time of the First Temple until the present day.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>During the time of Herod, the "Upper City" of the present day Jewish Quarter was populated by the wealthy of the City. This included the priestly aristocracy and successful merchants.&nbsp; A tour through the Wohl Archaeology Museum, popularly called the "Herodian Mansion" reveals in part the high level of living the tenants of the Herodian quarter were used to.&nbsp; It also helps the modern visitor to understand the practical application of Jewish law.<br><br>Aelia Capitolina (the Roman name for Jerusalem)&nbsp; was modeled on the structure of Roman cities, in which main thoroughfares cross the urban grid lengthwise and widthwise. According to the ancient sources ( in particular the Byzantine church floor in Madaba that was a mosaic depiction of the Holy Land) the Cardo began at the northern gate (today's Damascus Gate) and traversed the city in a straight line from north to south, ending at the southern gate. The broad thoroughfare was flanked by rows of columns and shops. Archaeological excavations have found remnants of street paving and many pillars. Probably the Cardo's northern section was built in the second century CE and it was extended southward in the sixth century. The southern section was uncovered by an archaeological expedition led by Prof. Nahman Avigad, and partially reconstructed. </p>
+<p><br>5:30 pm<br>Return to the hotel</p>
+<p>6:00 pm<br>"Songs Hand-Hammered in Copper" is a musical tribute by Arik and Aviv Livnat to traditional Jewish music and Yiddish culture using melodies and music from Eastern Europe fused with jazz and soul music while their Holocaust survivor grandfather's copper reliefs are projected on a large screen behind them.&nbsp; </p>
+<p>7:30 pm<br>Dinner at the hotel.</p>
+<p>Overnight: Inbal Hotel, Jerusalem</p>
+<p><br>Day Two: Friday, May 6, 2005<br>&nbsp;<br>7:45 am<br>Boker tov – good morning! As you will each morning during the mission, enjoy a sumptuous “Israeli-style” breakfast, a rich spread of fresh breads and rolls, cheeses, eggs, vegetables, smoked fish and more.</p>
+<p>8:30 am<br>Proceed to Yad Vashem</p>
+<p>9:00 am<br>A solemn morning is to be spent at Yad Vashem, Israel’s national Holocaust memorial. A visit through the powerful exhibits in the complex of building includes the historical museum, the labyrinthine memorial in the Valley of Jewish Communities and Yad LaYeled, the chilling memorial to the one and a half million children who perished during the Shoah.</p>
+<p>12:30 pm<br>Lunch at Shipudei HaGefen</p>
+<p>Optional:<br>Machane Yehuda is Jerusalem's colorful outdoor market. We will can stroll through the “shuk” and use all our senses: the variety of familiar and exotic smells; audio and visual observation of the ethnic mosaic of people who populate the market; tasting and feeling the fresh fruits and vegetables as Jerusalemites preparing for Shabbat.<br>or<br>Return to the hotel.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>6:00 pm<br>We take the time to reflect and meditate at the Western Wall – Ha Kotel Ha’Ma’aravi or simply HaKotel.&nbsp; Over generations, Jews came to pray here, as it was the closest they could come to the Holy of Holies on the Temple Mount. When you see the Wall, you aren't just seeing it with your eyes - there is so much more. There are thousands of years and the weight of millions of Jews there.&nbsp;Your eyes may just see giant bricks and people praying, but your heart sees infinitely more.&nbsp;What does being here mean to each of us individually and as part of the Jewish people?<br><br>6:48 pm<br>It is considered a great mitzvah and responsibility to honor the Sabbath by lighting candles before sunset on Friday evening. This unique commandment is rich with meaning and purpose. In a world so full of darkness, the candles lit by Jews&nbsp; bring light, joy and holiness. A little light, our sages say, dispels much darkness.&nbsp;"Shabbat Shalom u'mevorach".&nbsp; We perform the mitzvah of lighting the Shabbat candles as indivduals who make up a community..<br><br>8:00 pm<br>Take part in Shabbat dinner – a celebratory evening of food, ritual and song symbolizing the joy and special indulgences of the Day of Rest and the continuation of the Jewish people’s age-old traditions.&nbsp;Another Pittsburgh mission and Deputy Minister of Education, MK Rabbi Michael Melchior, will join us, <br>Overnight: Inbal Hotel, Jerusalem</p>
+<p><br>Day Three: Saturday, May 7, 2005</p>
+<p>Shabbat is a day of rest and reflection, Shabbat morning in Jerusalem is filled with the sounds of Jews praying together but yet in distinctive communities which reflect centuries old ethnic traditions as well as new innovations in spirituality.&nbsp;This Shabbat morning, participants will have a chance to compare and contrast the worship at in different Jerusalem synagogues.&nbsp; </p>
+<p>Optional:<br>Proceed to the Dead Sea</p>
+<p>Ascend Masada and tour King Herod’s historic hilltop fortress, where a small band of Jewish zealots took refuge after the Roman destruction of the Second Temple in 70 BCE, resisting a prolonged siege by the Roman army. Today, Masada is a source of self-reflection for Israelis and Jews around the world: Is there any price too high for religious freedom? Is martyrdom a Jewish value? Now, over 50 years after the establishment of the State of Israel, what does Masada mean to the Jewish people?</p>
+<p>At 1,300 feet below sea level, the Dead Sea is the lowest point on earth. But you can make this visit a high point by venturing into the waters for a “float,” swimming suspended by the high concentrations of salts and minerals.&nbsp;Lunch and relaxation time at a Hod Hotel.</p>
+<p>Return to Jerusalem.<br>OR<br>Visit the unique collections and expansive grounds of the Israel Museum, the country’s national museum. Linger over the renowned international and Israeli art, the world’s most complete Judaica collections and the charming Billy Rose Sculpture Garden.&nbsp;You can also visit the newly restructured Shrine of the Book, home to the exceptional archaeological finds of the Dead Sea Scrolls and other rare ancient manuscripts.The dome covers a structure which is two-thirds below the ground, and is reflected in a pool of water that surrounds it.&nbsp; The striking juxtaposition of the white dome and black basalt wall, precise and opposing geometrical shapes, creates a monumental effect and contributes an extraordinary phenomenon in the Israeli landscape. <br><br>8:03 pm<br>Havdalah means separation.&nbsp;The Havdalah prayers mark the end of Shabbat thereby distinguishing it from the rest of the week. A multi-wicked candle is used to signify the "flames of fire".&nbsp;Fragrant spices are passed around in order to cheer us up with the last whiff of Shabbat as we leave it for our mundane activities and the wine we use flows over the rim of the cup, symbolizing the "overflowing&nbsp; blessing" we expect in the next week.<br>&nbsp;<br>Evening and dinner at leisure</p>
+<p>Optional:<br>11:20 pm<br>For a different perspective on the history of Jerusalem, head underneath the Old City’s chaotic maze of buildings to the Western Wall Tunnel. The extension of the retaining wall built 2,000 years ago by Herod the Great to support the massive compound where the Temple stood, the recently excavated tunnel is one of the city’s most phenomenal sites. </p>
+<p><br>Overnight: Inbal Hotel, Jerusalem</p>
+<p><br>Day Four: Sunday, May 8, 2005</p>
+<p>7:30 am<br>Breakfast</p>
+<p>8:00 am<br>Proceed to the Israel Democracy Institute<br>Theme: Jerusalem: the Eternal Capital of Israel</p>
+<p>8:30 am<br>Introduction to the Israel Democracy Institute and greetings.<br>Hardly a day goes by that Israel, a country with a small land mass and population, isn't mentioned in the international media.&nbsp;What is really happening here?&nbsp;Nachman Shai will brief us on Israel Today - the issues that concern the Israelis from an Israeli viewpoint.<br><br>10:00 am<br>Proceed to the JDC site visits<br><br>10:30 am<br>JDC-Israel has a commitment to enhance the social fabric of society focusing on the development of solutions in addressing the needs of Israel's disadvantaged populations.<br><br>&nbsp;“B’Seva Tova”– The President’s Initiative for Poor Elderly&nbsp; <br>Officially launched in March 2003, Besevah Tova (a Hebrew phrase meaning a ripe old age) aims to ease the burden of poverty for poor elderly while improving their living conditions.&nbsp;The program offers a range of services to impoverished elderly in the areas of health, medical care, and housing in a manner that allows them to maintain their dignity.&nbsp;Beseva Tova has been instituted as a pilot project in eight communities and will serve an estimated 15,000 elderly in 2003.&nbsp; The program is a partnership between JDC-ESHEL, the Ministry of Labor and Social Affairs, the IDF, the Israel Prison Service, and the Israel Manufacturers’ Association. Partners provide support in the form of volunteering time, donations of equipment and funding.</p>
+<p>12:00 pm<br>JDC briefing with specific mention of Pittsburgh funded projects and lunch at Ramat Rachel.<br>Speakers:&nbsp;Alan Gill, Director of International Relations (JDC)<br>&nbsp;&nbsp;Yossi Tamir, Former Head of National Insurance Institute</p>
+<p><br>2:00 pm<br>Depart for a special tour of Jerusalem and view neighborhoods on the seam line which have been the scene of recent conflict with the Palestinian Authority.&nbsp;Accompanying us will be representatives from the IDF Spokesperson’s Office.</p>
+<p>3:30 pm<br>Leisure afternoon</p>
+<p>6:00 pm<br>Dinner at the Taverna restaurant with soldiers from the JAFI supported NATIV (conversion program) many of whom are also hayalim boddedim, soldiers without family in Israel. Rachel Shilo will be introducing the program for JAFI.<br>Overnight: Inbal Hotel, Jerusalem</p>
+<p><br>Day Five: Monday, May 9, 2005</p>
+<p>7:30 am<br>Breakfast&nbsp;<br><br>&nbsp;8:15 am<br>Proceed to Mevasseret Zion</p>
+<p>8:45 am<br>The in-gathering of the exiles is one of the foundations upon which the State of Israel was built. In order to allow new arrivals to get adjusted, resident absorption centers have been created by JAFI to gradually integrate immigrants into mainstream Israeli life. At the Mevasseret Absorption Center, we will hear how this system works and meet with people who have "come home".<br>Ze’ev Schwartz, Director of Ethiopia in India will be presenting the program for JAFI.</p>
+<p>10:00 am<br>Proceed to Hadera</p>
+<p>11:00 am<br>The goal of the Ethiopian National Project is to facilitate the successful absorption of Ethiopian olim in all spheres of Israeli society.&nbsp;ENP is a strategic, comprehensive, integrated response designed to empower both individuals and communities. The most exciting part of this approach is the ability of the Ethiopian community to take the lead now. Ten years ago, even five, this would not have been possible. But today, there are devoted leaders within the Ethiopian community that want to give back to their community. They embrace the responsibility to effect change for their people, their community, their country.&nbsp;This afternoon we will meet with the leadership of the Ethiopian Jewish community and Negiste Mengeshe of the Ethiopian National Project.<br><br>We begin with a welcome and overview of the ENP and introduction of our hosts&nbsp; by Grace Rodnitzki, ENP Director of International Relations .&nbsp;Negiste Mengeshe, ENP Director-General will then discuss&nbsp; “ENP: Empowering a Community”&nbsp; and Vered Mor, National SPACE Coordinator,&nbsp; will speak about ENP’s SPACE Scholastic Assistance Program.&nbsp;Following these brief introductions, we will break up into 6 smaller groups&nbsp; for&nbsp; “What’s in a Name:&nbsp; small group discussions and activity with SPACE youth coordinators and youth participants.&nbsp; When we reconvene, there will be time for questions and closing statements.</p>
+<p>1:00 pm<br>Lunch TBA</p>
+<p>2:00 pm<br>Tour the seam line area in the Sharon or Emek Hefer region at the narrowest strip of the State of Israel where Jewish cities and settlements are adjacent to Area A Palestinian towns and villages, such as Tul Karm, Kalkilya, etc. There was no real border between these two areas - a situation that enabled terrorists to infiltrate without hindrance. Learn about the challenges Israel is facing along this seam line and see the controversial security fence.</p>
+<p>4:30 pm<br>Check-in hotel</p>
+<p>5:30 pm<br>Travel to Misgav<br>The Women’s group will travel with us to and from Misgav for this night only.</p>
+<p>6:30 pm<br>Participate in a festive dinner and the 10th anniversary of Partnership 2000 (P2K) celebration in Karmiel.</p>
+<p>Overnight: Cana’an Spa, Safed</p>
+<p><br>Day Six: Tuesday, May 10, 2005<br>Erev Yom HaZikharon</p>
+<p>7:15 am<br>Breakfast</p>
+<p>8:00 am<br>Proceed to Karmiel<br>&nbsp;<br>9:15 am<br>Arrive in Region and meet at the Senior Center for the dedication of the Disabled Senior Employment Center with the Mayor of Karmiel </p>
+<p>10:00 am<br>Educational bus tour of Karmiel to include statues at entrance of city, Pitts/Baltimore Promenade, the Ethiopian Matnas and Yad Sarah initiatives that were funded via Pittsburgh.<br>&nbsp;<br>11:30 am<br>Dedication of the fire truck in the new Firehouse in Misgav with the Mayor of Misgav. We will also get an overview on geo-political situation in the region and how our Israel Emergency Appeal resources have made a difference.</p>
+<p>1:00 pm<br>Tour of Strauss Factory with Ran Ackerman, CFO and volunteer member of the Partnership 2000 steering committee. <br>&nbsp;<br>2:00 pm<br>Lunch at the Strauss Factory</p>
+<p>3:30 pm<br>Tree Planting Ceremony at Gilon Village<br>&nbsp;<br>4:30 pm<br>Dedication of the soldiers home in Kefar Hayeladim (possibly with the mayor of Karmiel)</p>
+<p>6:00 pm<br>Meet rest of the guests from Pittsburgh in Manof for dinner and the Yom Hazikaron ceremony. </p>
+<p>8:00 pm<br>Yom HaZikaron ceremony <br>Overnight: Ca’anan Spa, Safed</p>
+<p><br>Day Seven: Wednesday, May 11, 2005</p>
+<p>Yom HaZikaron l’Hallelei Tzahal: Memorial Day</p>
+<p>7:30 am<br>Breakfast</p>
+<p>8:15 am<br>Safed, pronounced Tzfat in Hebrew, sits at a higher altitude than any other city in Israel and has been known since the 16th century as a major center of Kabbala, Jewish mysticism. Safed’s mystical aura adds to its special status as one of Israel’s four holy cities, along with Jerusalem, Tiberias and Hebron. The old synagogues, narrow alleyways and artists’ studios add to the hilltop city’s unmistakable charm.<br><br>In modern times, the liberation of Safed was one of the most dramatic episodes in the 1948 War of Independence.&nbsp; When the British withdrew from Safed in 1948 and handed the Citadel over to the Arabs, the remaining Jewish residents, backed by reinforcements from the Hagana held off the Arab forces and kept the city a part of the new state of Israel.<br>This morning we will concentrate on sites that connect us to those trying times in <br>Safed.<br>Binny Shalev, Director of Tzfat Foundation,&nbsp; will meet with us at approximately 9:00 am with the ZAKA Moped.</p>
+<p>10:15 am<br>Proceed to Karmiel</p>
+<p>11:00 am<br>Yom HaZikaron Siren</p>
+<p>12:00 pm <br>Lunch in the Twins Restaurant in Misgav</p>
+<p>2:00 pm<br>Caesarea, built by Herod, was the Roman capital of Palestine for nearly 600 years. The extensive seaside ruins here date back to Roman, Byzantine and Crusader times. Explore the 2,000-year-old Roman amphitheater, Crusader harbor and 12th-century ramparts. Recently two additional tourist attractions have been opened.&nbsp;These attractions consist of virtual, audio-visual presentations of the harbor, depicting the way the harbor was constructed, its operation during its hey days and the process of its gradual demise. The first virtual tour is a self-operated interactive “hands on” computer game, using a series of TV screens situated in the “Harbor’s Citadel” which overviews the harbor site from an elevated building located on the ancient southern mole, while a camera surveys in real time the harbor both above and below the water. The second presentation is the Visitors’ Center where various artifacts from the excavations are on display.&nbsp; There is also a small indoor theater situated next to the dive shop where a variety of documentaries are screened telling the story of the city, its harbor and the recent archaeological excavations.</p>
+<p>Check-in hotel</p>
+<p>7:30 pm<br>Dinner at Shirat HaYam </p>
+<p>Participate in Yom HaAtzmaut festivities in Tel Aviv</p>
+<p>Overnight: Carlton Hotel, Tel Aviv</p>
+<p><br>Day Eight: Thursday, May 12, 2005<br>&nbsp;&nbsp; <br>Breakfast<br>Yom HaAtzmaut: Independence Day<br>* Pack bags in morning to be ready for early check-in at 5:30 p.m.</p>
+<p>8:30 am<br>Briefing: Social historian Paul Liptz:&nbsp; Israel in I948 – Israel in 2005: An Episodic Historical Overview.</p>
+<p>10:30 am<br>The Israel Defense Force (IDF) is Israel’s military.&nbsp;The task of the IDF is to not only defend Israel but also to act as an educational and social force imbuing love of and commitment to the State.&nbsp;Today, Israel’s Independence&nbsp; we will visit the Tel Nof Air Force base. </p>
+<p>11:30 am<br>Proceed to Kibbutz Sa’ad.</p>
+<p>12:30 pm<br>In the only building which remains from the original Kibbutz Sa’ad following the shelling and bombardment during the 1948 War of Independence, the kibbutz presents a unique exhibit dedicated to the 3 religious kibbutzim whose bravery against the Egyptian attack helped determine the State of Israel’s current southwestern border.&nbsp; “Ma’oz Mul Aza” – the “Stronghold Near Gaza” historic site has original photographs and memorabilia, an a.v. presentation describing the role played by the isolated Negev settlements as they held their ground against the heavily armed Arab troops in Gaza. One can sense the drama of those early days when the first pipelines brought water and hope to the Negev while veteran pioneers and Holocaust survivors teamed together to build a new homeland. From the rooftop of the building, one of the original Sa’ad members will describe the view and how it compares to the scenes witnessed years ago as enemy tanks and airplanes approached. Today there is only amazement at how a barren desert became the flourishing green oasis.</p>
+<p>1:30 pm<br>Lunch Kibbutz Sa’ad</p>
+<p>The mission is almost over. Now is your opportunity to reflect on the time you’ve spent in the Land of Israel and to share the experiences, sites and people you’ll want to remember most after you’ve returned home. Many past participants agree that this time for reflection and evaluation will be one of your cherished mission highlights.<br>The discussion will be at Sa’ad.</p>
+<p>Return to Tel Aviv</p>
+<p>3:00 pm<br>Leisure time</p>
+<p>5:30 p.m. <br>El Al check-in at the hotel.</p>
+<p>7:00 pm<br>Farewell dinner at&nbsp; “Relais Jaffa”</p>
+<p>Proceed to Ben Gurion International Airport</p>
+<p>Day Nine: Friday, May 13, 2005<br>&nbsp;&nbsp; <br>12:05 am<br>Return to USA on LY 027</p><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br><hr width="100%" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="../emailarticle_ArticleID_151611/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_emailfriend.gif"></a>
+			 <a href="../emailarticle_ArticleID_151611/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">E-mail this Page to a Friend</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><a href="javascript:doPrinterFriendly(151611,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img border="0" align="middle" src="../images_main/icon_printableversion.gif"></a>
+			 <a href="javascript:doPrinterFriendly(151611,1);" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com">Printer-Friendly Page</a><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="12" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><img src="../images_main/dot_clr.gif" width="1" height="15" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}" xmlns:xw="http://xworld.com"><br><br></td>
+</tr>
+</table>
+<script>
+try
+{
+	WT.cg_n = "Pittsburgh - Heartland Mission Itinerary";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2006&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Jessica B. Smith, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>

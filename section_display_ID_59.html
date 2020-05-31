@@ -1,0 +1,798 @@
+<script language="JavaScript">
+// CLIENT-SIDE CODE to handle the ticker movement
+// Some globals
+//scroller's width
+var Ticker_swidth=174;
+//scroller's height
+var Ticker_sheight=80;
+// global  speed
+var Ticker_sspeed = 1;
+var Ticker_restart = Ticker_sspeed;
+// Keeps track of our different tickers
+var aTickerProps = new Array();
+// Starts the scrolling
+// uses ID to determine what DIV to start
+function Ticker_Start( sID )
+{
+	aTickerProps[sID] = new Array();
+	aTickerProps[sID].SSpeed = Ticker_sspeed;
+	if (document.all)
+	{
+		aTickerProps[sID].Div = eval( "iens6div" + sID );
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_IEScroll(sID);
+	}
+	else if (document.getElementById)
+	{
+		aTickerProps[sID].Div = document.getElementById('iens6div' + sID);
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+		Ticker_NS6Scroll(sID);
+	}
+}
+// Scrolls a div within a div
+// In IE version we use pixelTop
+// ALSO must update the style.display property to work in MAC IE5
+function Ticker_IEScroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( aTickerProps[sID].Div.style.pixelTop > 0 && aTickerProps[sID].Div.style.pixelTop <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.pixelTop=0;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	if( aTickerProps[sID].Div.style.pixelTop >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.pixelTop -= aTickerProps[sID].SSpeed;
+		aTickerProps[sID].Div.style.display = '';
+		setTimeout("Ticker_IEScroll(" + sID + ")",100);
+	}
+	else
+	{	
+		aTickerProps[sID].Div.style.pixelTop = Ticker_sheight;
+		aTickerProps[sID].Div.style.display = '';
+	}
+}
+// Netscape version of above function
+function Ticker_NS6Scroll(sID)
+{
+	aTickerProps[sID].Sizeup=aTickerProps[sID].Div.offsetHeight;
+	if( parseInt(aTickerProps[sID].Div.style.top) > 0 && parseInt(aTickerProps[sID].Div.style.top) <= aTickerProps[sID].SSpeed)
+	{
+		aTickerProps[sID].Div.style.top=0;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	if ( parseInt(aTickerProps[sID].Div.style.top) >= aTickerProps[sID].Sizeup * -1 )
+	{
+		aTickerProps[sID].Div.style.top = parseInt(aTickerProps[sID].Div.style.top) - aTickerProps[sID].SSpeed;
+		setTimeout("Ticker_NS6Scroll(" + sID + ")",100);
+	}
+	else
+	{
+		aTickerProps[sID].Div.style.top = Ticker_sheight;
+	}
+}
+</script><script language="JavaScript">
+function refresh_page( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[1643]=[["2721","Conservative"],["2722","Orthodox"],["2724","Other"],["2723","Reconstructionist"],["2720","Reform"]];
+	for (i=1;i<frmForm.subcategory.options.length;i++)
+	{
+		frmForm.subcategory.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.category.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.subcategory.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script><script language="JavaScript">
+function refreshpage( frmForm )
+{
+var arySubCat = new Array();
+arySubCat[9]=[["10","Communal Advancement"]];
+arySubCat[10]=[["39","Communications"]];
+arySubCat[22]=[["17","Conferences and Meetings"]];
+arySubCat[23]=[["26","Copy Center"]];
+arySubCat[9]=[["40","Development"]];
+arySubCat[22]=[["18","Domestic Affairs"]];
+arySubCat[26]=[["36","Education and Training"]];
+arySubCat[14]=[["41","Executive Office"]];
+arySubCat[22]=[["42","Federation Services"]];
+arySubCat[23]=[["24","Finance"]];
+arySubCat[27]=[["52","Finance & Administration"]];
+arySubCat[23]=[["38","Finance and Administration"]];
+arySubCat[9]=[["11","General Assembly"]];
+arySubCat[23]=[["27","Human Resources"],["28","Information Technologies"]];
+arySubCat[24]=[["44","Israel/Overseas Pillar"]];
+arySubCat[25]=[["45","Jewish Renaissance & Renewal Pillar"]];
+arySubCat[23]=[["25","Legal, Risk Management and Estates"],["29","Mailing List"]];
+arySubCat[9]=[["1","Major Gifts"]];
+arySubCat[26]=[["46","Mandel Center For Leadership Excellence"]];
+arySubCat[27]=[["49","Missions"]];
+arySubCat[23]=[["30","Missions Administration"]];
+arySubCat[9]=[["12","National Women's Philanthropy"],["8","National Young Leadership"],["13","Network of Independent Communities"]];
+arySubCat[23]=[["31","Office Services"]];
+arySubCat[24]=[["35","Overseas Programs/Missions"]];
+arySubCat[23]=[["54","Payroll"]];
+arySubCat[9]=[["14","Planned Giving and Endowments"]];
+arySubCat[22]=[["55","Planning"]];
+arySubCat[27]=[["48","Planning & Development"]];
+arySubCat[22]=[["19","Planning/National Agency Relations"],["20","Public Policy/Government Affairs"]];
+arySubCat[23]=[["32","Reception/Security"]];
+arySubCat[26]=[["37","Recruitment and Placement"]];
+arySubCat[22]=[["21","Research and Analysis"]];
+arySubCat[9]=[["15","Speakers Bureau"]];
+arySubCat[23]=[["33","Stockroom/Services"],["34","Switchboard"]];
+arySubCat[27]=[["51","UIA"]];
+arySubCat[22]=[["22","UJC Consulting, Large/Large Intermediate Team"],["43","UJC Consulting, Small Intermediate Team"],["23","UJC Direct"]];
+arySubCat[27]=[["47","UJC Israel Office"]];
+arySubCat[22]=[["56","UJC Washington"]];
+arySubCat[9]=[["16","United Israel Appeal"]];
+arySubCat[27]=[["53","VIP Department"],["50","VIP Department, Speakers Bureau"]];
+	for (i=1;i<frmForm.selDepartment.options.length;i++)
+	{
+		frmForm.selDepartment.options[i] = null;
+	}
+	var OptionID, OptionValue;
+	var intParentID = frmForm.selDivision.value;
+	if (arySubCat[intParentID])
+	{
+		var arySubCatList = arySubCat[intParentID];
+		for (i=0;i<arySubCatList.length;i++)
+		{
+			OptionID = arySubCatList[i][0];
+			OptionValue = arySubCatList[i][1];
+			frmForm.selDepartment.options[i+1] = new Option ( OptionValue, OptionID );
+		}
+	}
+	else
+	{
+	}
+}
+</script>
+<html>
+<head>
+<title>Pittsburgh - Israel</title>
+<style type="text/css">
+<!--
+p {margin: 0px;}
+//-->
+</style>
+<link rel="stylesheet" href="../stylesheets/forms.css" type="text/css">
+<script language="javascript" src="../Classes/ImageRotator.js"></script>
+<script language="javascript">
+<!--//
+function localSubmit()
+{
+	var regVal = document.frmRegions.id.options.value;
+	if(regVal != '')
+	{
+		document.frmRegions.submit();
+	}
+	else
+	{
+		return;
+	}
+	/*
+	var stateVal=document.states.state.options.value;
+	if ((stateVal!="")&&(stateVal!="United States")&&(stateVal!="Canada")&&(stateVal!="US Territories"))
+	{
+		document.states.submit();
+	}
+	else
+	{
+		return;
+	}
+	*/
+}
+function CapWiz()
+{
+	//this function will pop a new window for the capwiz component
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = 'width=435,height=500,status=no,menubar=no,toolbar=no,scrollbar=no,directories=no,location=no,resizable=no,';
+	var newWin = window.open("../capwiz/","CapWiz",windowParameters);
+}
+function popCampaignSurvey()
+{
+	//this function will pop a new window for the cfrd campaign survey
+	// author: Brian Gomori
+	var windowParameters;
+	windowParameters = "width=790,height=550,status=no,menubar=no,toolbar=yes,scrollbars=yes,directories=no,location=no,resizable=yes";
+	var newWin2 = window.open("../cfrd_forms/index/","",windowParameters);
+}
+var MM_contentVersion = 4;
+var plugin = (navigator.mimeTypes && navigator.mimeTypes["application/x-shockwave-flash"]) ? navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin : 0;
+if ( plugin ) {
+		var words = navigator.plugins["Shockwave Flash"].description.split(" ");
+	    for (var i = 0; i < words.length; ++i)
+	    {
+		if (isNaN(parseInt(words[i])))
+		continue;
+		var MM_PluginVersion = words[i]; 
+	    }
+	var MM_FlashCanPlay = MM_PluginVersion >= MM_contentVersion;
+}
+else if (navigator.userAgent && navigator.userAgent.indexOf("MSIE")>=0 
+   && (navigator.appVersion.indexOf("Win") != -1)) {
+	document.write('<SCR' + 'IPT LANGUAGE=VBScript\> \n'); //FS hide this from IE4.5 Mac by splitting the tag
+	document.write('on error resume next \n');
+	document.write('MM_FlashCanPlay = ( IsObject(CreateObject("ShockwaveFlash.ShockwaveFlash." & MM_contentVersion)))\n');
+	document.write('</SCR' + 'IPT\> \n');
+}
+function getFlashPlayer(flashID,fWidth,fHeight,imageID,iWidth,iHeight,iBorder)
+{
+	if ( MM_FlashCanPlay ) {
+		document.write('<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"');
+		document.write('  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" ');
+		document.write(' ID="'+flashID+'" WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" ALIGN="">');
+		document.write(' <PARAM NAME=movie VALUE="/flashmovie.html?ID='+flashID+'"> <PARAM NAME=menu VALUE=false> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent> <PARAM NAME=bgcolor VALUE=#FFFFFF>  '); 
+		document.write(' <EMBED src="/flashmovie.html?ID='+flashID+'" menu=false quality=high wmode=transparent bgcolor=#FFFFFF  ');
+		document.write(' swLiveConnect=FALSE WIDTH="'+fWidth+'" HEIGHT="'+fHeight+'" NAME="flashcomp'+flashID+'" ALIGN=""');
+		document.write(' TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">');
+		document.write(' </EMBED>');
+		document.write(' </OBJECT>');
+	} else{
+		document.write('<IMG SRC="/getImage.asp?id='+imageID+'" WIDTH="'+iWidth+'" HEIGHT="'+iHeight+'" BORDER="'+iBorder+'">');
+	}
+}
+//-->
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/v2_bl_menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/menu.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_header.css" type="text/css"/>
+<link rel="stylesheet" href="../stylesheets/arial_body.css" type="text/css"/>
+<script language="javascript">
+// set global variables
+var gImages = new Array;
+var gIndex = 0;
+var gDomain = 'internal.ujcfedweb.org';
+//var gDomain = 'sdc.ujcfedweb.org';
+var gDcsId = 'dcsd1donoetrv9gvke5v2qndk_4y3t';
+// set global objects
+var DCS = new Object();
+var WT = new Object();
+var DCSext = new Object();
+// optional parameters for use with PDFs
+function dcsVar(uri, query)
+{
+	var dCurrent = new Date();
+	WT.tz = dCurrent.getTimezoneOffset()/60*-1;
+	if(WT.tz==0)
+	{
+		WT.tz="0";
+	}
+	WT.bh=dCurrent.getHours();
+	WT.ul=navigator.appName=="Netscape"?navigator.language:navigator.userLanguage;
+	if (typeof(screen)=="object")
+	{
+		WT.cd=screen.colorDepth;
+		WT.sr=screen.width+"x"+screen.height;
+	}
+	if (typeof(navigator.javaEnabled())=="boolean")
+	{
+		WT.jo=navigator.javaEnabled()?"Yes":"No";
+	}
+	if (document.title)
+	{
+		WT.ti=document.title;
+	}
+	WT.js="Yes";
+	if (typeof(gVersion)!="undefined")
+	{
+		WT.jv=gVersion;
+	}
+	DCS.dcsdat=dCurrent.getTime();
+	DCS.dcssip=window.location.hostname;
+	if (typeof(uri)!="undefined")
+	{
+		DCS.dcsuri=uri;
+		DCS.dcsqry=query;
+		DCS.dcsref=window.location.pathname; // make the pdfs referrer the uri of the page of its link
+	}
+	else
+	{
+		DCS.dcsuri=window.location.pathname;
+		DCS.dcsqry=window.location.search;
+		if ((window.document.referrer!="")&&(window.document.referrer!="-"))
+		{
+			if (!(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)<4))
+			{
+				DCS.dcsref=window.document.referrer;
+				DCSext.referrer = DCS.dcsref; // make page referrer available for reporting
+			}
+		}
+	}
+}
+function A(N,V)
+{
+	return "&"+N+"="+dcsEscape(V);
+}
+function dcsEscape(S)
+{
+	if (typeof(RE)!="undefined")
+	{
+		var retStr = new String(S);
+		for (R in RE)
+		{
+			retStr = retStr.replace(RE[R],R);
+		}
+		return retStr;
+	}
+	else
+	{
+		return escape(S);
+	}
+}
+function dcsCreateImage(dcsSrc)
+{
+	//document.write(dcsSrc);
+	if (document.images)
+	{
+		gImages[gIndex]=new Image;
+		gImages[gIndex].src=dcsSrc;
+		gIndex++;
+	}
+	else
+	{
+		document.write('<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="'+dcsSrc+'">');
+	}
+}
+function dcsTag()
+{
+	//use next line when ssl installed
+	var P="http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	//use next line when ssl not installed
+	//var P="http"+(window.location.protocol.indexOf('https:')==0?'':'')+"://"+gDomain+(gDcsId==""?'':'/'+gDcsId)+"/dcs.gif?";
+	for (N in DCS)
+	{
+		if (DCS[N])
+		{
+			P+=A(N,DCS[N]);
+		}
+	}
+	for (N in WT)
+	{
+		if (WT[N])
+		{
+			P+=A("WT."+N,WT[N]);
+		}
+	}
+	for (N in DCSext)
+	{
+		if (DCSext[N])
+		{
+			P+=A(N,DCSext[N]);
+		}
+	}
+	if (P.length>2048&&navigator.userAgent.indexOf('MSIE')>=0)
+	{
+		P=P.substring(0,2040)+"&WT.tu=1";
+	}
+	dcsCreateImage(P);
+	// DURING TESTING ONLY!!!
+	//dcsPrintVariables();
+}
+function dcsExternal(uri, query)
+{
+	dcsVar(uri, query);
+	dcsTag();
+}
+function dcsMultiTrack()
+{
+	for (var i=0;i<arguments.length;i++)
+	{
+		if (arguments[i].indexOf('WT.')==0)
+		{
+			WT[arguments[i].substring(3)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCS.')==0)
+		{
+			DCS[arguments[i].substring(4)]=arguments[i+1];i++;
+		}
+		if (arguments[i].indexOf('DCSext.')==0)
+		{
+			DCSext[arguments[i].substring(7)]=arguments[i+1];i++;
+		}
+	}
+	var dCurrent=new Date();
+	DCS.dcsdat=dCurrent.getTime();
+	dcsTag();
+}
+function dcsPrintVariables()
+{
+	var tagVariables="\nDomain = "+gDomain;
+	tagVariables+="\nDCSId = "+gDcsId;
+	for (N in DCS)
+	{
+		tagVariables+="\nDCS."+N+" = "+DCS[N];
+	}
+	for (N in WT)
+	{
+		tagVariables+="\nWT."+N+" = "+WT[N];
+	}
+	for (N in DCSext)
+	{
+		tagVariables+="\nDCSext."+N+" = "+DCSext[N];
+	}
+	window.alert(tagVariables);
+}
+dcsVar();
+</script><script language="javascript">
+function ViewShow(MMSID)
+{
+	if(MMSID != 0)
+	{
+		window.open("/MultiMediaShow/frames.html?ID="+MMSID+"&isPreview=0&Chapter=1","","toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=770,height=515,left=255,top=222.5");
+	}
+}
+</script>
+<script language="JavaScript" src="../includes/v2_layout.js"></script>
+<script language="javascript">
+function helpPopup()
+{
+	var w=window.open("../help/frames/","webhelp","width=600,height=432,top=100,left=100,status=no,menubar=no,toolbar=no,resizeable=no"); 
+}
+function adjustLayout()
+{
+	//get natural heights
+	var lHeight = xHeight("LeftNavigation");
+	var cHeight = xHeight("contentarea");
+	//find the max height
+	var maxHeight = Math.max(lHeight,cHeight);
+	//assign max height to all columns
+	if(lHeight > cHeight)
+	{
+		xHeight("LeftNavigation",maxHeight);
+		xHeight("contentarea",maxHeight);
+	}
+	//display the content area
+	xShow("contentarea");
+}
+</script>
+</head>
+<body>
+<div id="header"><div id="topcolor"><div id="leftblock"></div><img src="../images_main/dot_clr.gif" width="16" height="1" alt=""/><a href="/"><img src="../local_includes/logo.gif" border="0" alt="United Jewish Federation of Greater Pittsburgh"/></a><div id="memfunctions"><a href="../login/" class="headerlinks">Login/Register</a>&nbsp;&nbsp; <a href="../contact_us/" class="headerlinks">Contact Us</a> &nbsp;&nbsp; <a href="javascript:helpPopup(118)" class="headerlinks">Help</a></div>
+<div id="username"></div><div id="searchbox"><form name="search" action="../search/" method="get"><input name="search" type="image" src="../style_images/v2bl/images_nav/butn_search_tnav.gif" alt="Search" class="searchbutton"/><input type="text" name="searchTerm" size="15" maxlength="255" class="search"/></form></div></div></div>
+<div id="contentblock">
+<div id="LeftNavigation">
+<script language="javascript">
+startList = function()
+{
+	if (document.all&&document.getElementById)
+	{
+		navRoot = document.getElementById("sidenav");
+		for (i=0; i<navRoot.childNodes.length; i++)
+		{
+			node = navRoot.childNodes[i];
+			if (node.nodeName == "LI")
+			{
+				node.onmouseover = function()
+				{
+					this.className += " over";
+				}
+				node.onmouseout = function()
+				{
+					this.className = this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+</script>
+<?xml version="1.0"?><img src="../images_main/dot_clr.gif" width="128" height="1" alt="" xmlns:xw="http://xworld.com"/><br xmlns:xw="http://xworld.com"/><ul class="navBar" id="sidenav" xmlns:xw="http://xworld.com"><li class="navItem"><a href="../section_display_ID_31/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Who We Are</div></a><ul class="subNav"><li><a class="submenu" href="../getfile_id_15558/">2006 Annual Report</a></li><li><a class="submenu" href="../content_display_ArticleID_84629/">2002 Community Study</a></li><li><a class="submenu" href="../contact_us/">Contact Us</a></li></ul></li><li class="navItem"><a href="../section_display_ID_283/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Ways to Give</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?369678">DONATE NOW!</a></li><li><a class="submenu" href="../section_display_ID_1297/">Israel Emergency Campaign</a></li><li><a class="submenu" href="../section_display_ID_283/">Learn About the Annual Campaign</a></li><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?369679">Send a Tribute/Memory Card</a></li></ul></li><li class="navItem"><a href="../section_display_ID_5/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Community Resources</div></a><ul class="subNav"><li><a class="submenu" href="http://pittsburgh.planitjewish.com/jp/home?location=home" target="_blank">Pittsburgh Jewish Community Calendar</a></li><li><a class="submenu" href="../section_display_ID_5/">Community Resource Directory</a></li><li><a class="submenu" href="../ir_category_listing_id_1643/">Synagogues</a></li></ul></li><li class="navItem"><a href="../section_display_ID_3/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">News</div></a></li><li class="navItem"><a href="../section_display_ID_282/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Get Involved</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_393/">UJF Women</a></li><li><a class="submenu" href="../content_display_ArticleID_161193/">Attorneys</a></li><li><a class="submenu" href="../content_display_ArticleID_161194/">Physicians</a></li><li><a class="submenu" href="../content_display_ArticleID_168950/">Israeli Division</a></li><li><a class="submenu" href="../content_display_ArticleID_185772/">CPAC</a></li><li><a class="submenu" href="../content_display_ArticleID_193780/">Blue Knot Pittsburgh</a></li></ul></li><li class="navItem"><a href="../section_display_ID_244/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Young Adults</div></a><ul class="subNav"><li><a class="submenu" href="../section_display_ID_244/">Young Adult Division</a></li><li><a class="submenu" href="../section_display_ID_345/">Shalom Pittsburgh</a></li><li><a class="submenu" href="../content_display_ArticleID_187483/">Shalom Baby</a></li></ul></li><li class="navItem"><a href="../section_display_ID_1297/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel Emergency Campaign</div></a></li><li class="navItem"><a href="../section_display_ID_254/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">UJF Foundation</div></a></li><li class="navItem"><a href="../section_display_ID_560/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Film Festival</div></a></li><li class="navItem"><a href="../section_display_ID_16/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Jewish Life</div></a></li><li class="navItem"><a href="../section_display_ID_17/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Missions</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_200924/">Mission Aviv</a></li></ul></li><li class="navItem"><a href="../section_display_ID_59/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Israel</div></a><ul class="subNav"><li><a class="submenu" href="../content_display_ArticleID_146590/">Partnership 2000</a></li><li><a class="submenu" href="../content_display_ArticleID_161977/">i-connect</a></li></ul></li><li class="navItem"><a href="../section_display_ID_29/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">World Jewry</div></a></li><li class="navItem"><a href="../section_display_ID_395/"><img src="../images_main/dot_clr.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">Holocaust Center</div></a></li><li class="navItem"><a href="../ecards_home/"><img src="../style_images/v2bl/images_nav/nav_arrow.gif" width="7" height="7" alt="" border="0" align="right" vspace="3"/><div id="MainNavLink">E-Greetings</div></a><ul class="subNav"><li><a class="submenu" href="https://secure.ujcfederations.org/servertransfer.html?369677">Send a Tribute/Memory Card</a></li><li><a class="submenu" href="../ecards_home/">Send an e-card</a></li></ul></li></ul><br clear="all" xmlns:xw="http://xworld.com"/><br/>
+<p id="navbadges" class="badges">
+<a href="../content_display_ArticleID_206139/" target="_self"><img src="../getimage.asp_id_117148.jpg" width="112" height="37" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<a href="https://secure.ujcfederations.org/servertransfer.html?369678" target="_self"><img src="../getimage.asp_id_10914.jpg" width="112" height="78" alt="" border="0"></a><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<img src="../getimage.asp_id_108504.jpg" width="112" height="109" alt="" border="0"><br><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""><br>
+<br/>
+<a href="http://www.ujcweb.org/" target="_blank"><img src="../style_images/v2bl/images_nav/badge_fedweb_v2-bl.gif" width="110" height="51" border="0" alt=""></a><br>
+</p></div>
+<!-- <div id="contentarea" style="visibility: hidden;"> -->
+<div id="contentarea">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="1" alt=""><img src="../images_main/dot_clr.gif" width="11" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="360" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="192" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="4">
+<table width="576" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
+<tr valign="top">
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="headertext">Israel</font></td>
+</tr>
+</table>
+<table width="380" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td><font class="path1" size="1"><a href="/">Home</a>&nbsp;&gt;&nbsp;Israel</font></td>
+</tr>
+</table>
+</td>
+<td align="right"><a href="../search_sectionID_59/"><img src="../style_images/v2bl/images_body/icon_advancedsearch.gif" width="54" height="48" border="0" alt="Advanced Search"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="4"><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td>
+<td valign="top" colspan="3"><table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td align="center"><a href="../section_display_ID_1297/" target="_self"><img src="../getimage.asp_id_101147.jpg" border="1" width="550" height="125" alt="" align="center"></a></td>
+</tr>
+</table><br><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/></td></tr><tr><td><img src="../images_main/dot_clr.gif" width="1" height="12" alt=""></td><td valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td align="center"><a href="" target="_self"><img hspace="0" src="../getimage.asp_id_49758.jpg" border="0" align="center" width="349" alt=""></a><br clear="all"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br></td>
+</tr>
+<tr>
+<td>
+<font class="headline6" size="6"><b><headline>Pittsburgh and Israel: An Historic Bond</headline></b><br></font><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br><font class="body2" size="2" color="#000000"><p>The Jewish community of Pittsburgh has a historic obligation to the people of Israel. Since its rebirth as the Jewish state in 1948, Israel has been the fulfillment of the dreams of the Jewish people serving as a refuge for the persecuted, oppressed and those facing economic hardship. </p>
+<p> </p>
+<p>Support for Israel is a central component of the Federation's mission. Israel is at the core of Jewish identity and serves as a unifying force within the Jewish community of Pittsburgh. Through the UJF's Annual Community Campaign and the Israel Emergency Appeal vital health and human services are provided to the Israeli people. The UJF delivers those services through its overseas partners, the Jewish Agency for Israel and the American Jewish Joint Distribution Committee. </p>
+<p> </p>
+<p>Beyond developing ongoing financial resources to meet the critical needs of the Israeli people, the UJF supports advocacy efforts on behalf of the Israeli people and Israeli institutions that promote pluralism and democracy. UJF also provides a direct linkage between the people of Pittsburgh and Israel at many different levels. These include Partnership 2000; missions; i-connect; and the Shlichim programs. 
+    </font><br clear="all"></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="100%" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td align="center"></td>
+</tr>
+<tr>
+<td>
+<font class="headline6" size="6"><b><headline>News from Israel</headline></b><br></font><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br><font class="body2" size="2" color="#000000"> 
+    </font><br clear="all"></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="100%" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td align="center"><a href="http://www.ujfpittsburgh.org/content_display.html?ArticleID=207669" target="_self"></a><br clear="all"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br><font class="body2" size="2" color="#000000">JERUSALEM, Jan. 29 (JTA) -- No protesters appeared on a recent cold, sunny day when Israeli bulldozers began wrecking about a dozen illegally erected barriers in a remote community in northern Israel. The demolition site wasn't some Jewish outpost in the West Bank or a cluster of Arab homes built on disputed land. 
+    <a type="" href="http://www.ujfpittsburgh.org/content_display.html?ArticleID=207669" target="_self" linkname="Holy Land Grab: Development Changing Face of Jewish State">more</a></font><br clear="all"></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="32" cellpadding="0" cellspacing="0" border="0" align="left" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td valign="top"><a href="../content_display_ArticleID_116609/" target="_self"><img src="../getimage.asp_id_2075.jpg" border="0" align="left" width="56" alt="Israel Consulate News"></a></td>
+<td><img src="../images_main/dot_clr.gif" width="4" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""></td>
+</tr>
+</table>
+<font class="headline4" size="4" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><b><headline>Israeli Consulate News</headline></b><br></font>
+<font class="body2" size="2" color="#000000" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br><p>February 6&nbsp;-- On Tuesday evening, the cabinet unanimously approved the appointment of Daniel Friedman at the position of Israel’s new Minister of Justice replacing Haim Ramon in office...
+	 <a type="" href="../content_display_ArticleID_116609/" target="_self" linkname="Israeli Consulate News">read more from the Israeli Consulate</a></font><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="32" cellpadding="0" cellspacing="0" border="0" align="left" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td valign="top"><a href="http://www.ujfpittsburgh.org/content_display.html?ArticleID=208118" target="_self"></a></td>
+<td><img src="../images_main/dot_clr.gif" width="4" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""></td>
+</tr>
+</table>
+<font class="headline4" size="4" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><b><headline>JCPA Middle East Briefing: Iran's Nuclear Weapons: The Optimistic Scenario</headline></b><br></font>
+<font class="body2" size="2" color="#000000" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br>A few years ago I ran a simulation game for a European military command. At the start, I gave the premise of the exercise as being that Iran had just obtained nuclear weapons. Then I asked the U.S. "leader" how his country would respond. He explained that he would first...
+	 <a type="" href="http://www.ujfpittsburgh.org/content_display.html?ArticleID=208118" target="_self" linkname="JCPA Middle East Briefing: Iran's Nuclear Weapons: The Optim...">click here for more</a></font><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="100%" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td><font class="headline4" size="4"><b><headline>Vegetarian Village Celebrates Jubilee</headline></b><br></font>
+<font class="body2"><em><byline>by Yaffa Raziel</byline></em><br></font><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""><br><div class="body2" style="margin-top:0px; padding:0px;">Here’s a reason to celebrate: fifty years of eating lettuce and other vegetables at Amirim, the vegetarian and vegan village in the east of the Upper Galilee. 
+		<a type="" href="http://www.ujfpittsburgh.org/content_display.html?ArticleID=207671" target="_self" linkname="Ynetnews.com: Vegetarian Village Celebrates Jubilee">click here for more</a></div>
+</td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/></td><td valign="top"><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td><td valign="top"><table width="32" cellpadding="0" cellspacing="0" border="0" align="left" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td valign="top"><a href="http://www.jta.org/" target="_blank"><img src="../getimage.asp_ID_46264.jpg" border="0" align="left" width="56" height="56" alt="JTA News at a Glance"></a></td>
+<td><img src="../images_main/dot_clr.gif" width="4" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""></td>
+</tr>
+</table>
+<font class="headline3" size="3" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><b><headline>News at a Glance</headline></b><br></font><img src="../images_main/dot_clr.gif" width="1" height="4" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><font class="body1" size="1" color="#000000" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">Billionaire Sheldon Adelson pledged $25 million to birthright israel. The money will allow the organization to double the number of free trips to Israel that it offers Jewish youth this summer, bringing the total to 20,000.
+	 <a type="" href="../content_display_ArticleID_165523/" target="_self" linkname="News at a Glance">read more News at a Glance</a></font><br clear="all" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><img src="../images_main/dot_clr.gif" width="1" height="6" alt="" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><br xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}"><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="192" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td valign="middle" class="headerfill" bgcolor="E9E9E9"><img src="../images_main/dot_clr.gif" width="1" height="20" alt=""></td>
+<td valign="middle" class="headerfill" bgcolor="E9E9E9"><font class="headline2" size="2"><b><list_title>Israeli Division</list_title></b></font></td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="3" alt=""></td>
+</tr>
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="12" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="180" height="1" alt=""></td>
+</tr>
+<tr>
+<td valign="top"><img src="../images_main/bullet.gif" width="12" height="12" alt=""></td>
+<td>
+<font class="body1" size="1" color="#000000"><a href="../content_display_ArticleID_168950/" target="_self">Click here to view The Israeli Division</a></font>
+</td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="6" alt=""></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><a href="../content_display_ArticleID_146590/" target="_self"><img src="../getimage.asp_id_16676.jpg" border="1" width="190" height="174" alt="click for more"></a><br><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><a href="../content_display_ArticleID_143147/" target="_self"></a><br><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><a href="../content_display_ArticleID_143148/" target="_self"><img src="../getimage.asp_id_49746.jpg" border="1" width="192" height="47" alt=""></a><br><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="192" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="174" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topleft.gif"><img src="../images_main/dot_clr.gif" width="9" height="20" alt=""></td>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_top.gif" style="line-height:14px;">
+<font size="2" class="callout1" valign="middle" style="text-decoration: none;"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br>Shlichim Programs<br><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br></font>
+</td>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topright.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_left.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_body.gif"><img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br><font class="body1" size="1" color="#000000"><p>Shlichim, which is Hebrew for emissary, are Israel community representatives that serve in Jewish communities throughout the world and serve as a cultural and educational link between the people in local communities and the people of Israel.  <a href="http://www.ujf.net/content_display.html?ArticleID=143208" type="internal">Read more about shlichim programs.</a>
+	 <br clear="all"></font>
+</td>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_right.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" colspan="3" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_bottom.gif"><img src="../images_main/dot_clr.gif" width="1" height="9" alt=""></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="192" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="174" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topleft.gif"><img src="../images_main/dot_clr.gif" width="9" height="20" alt=""></td>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_top.gif" style="line-height:14px;">
+<font size="2" class="callout1" valign="middle" style="text-decoration: none;"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br>About Israel<br><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br></font>
+</td>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topright.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_left.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_body.gif"><img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br><table width="32" cellpadding="0" cellspacing="0" border="0" align="left">
+<tr>
+<td valign="top"><a href="" target="_self"><img src="../getimage.asp_id_2295.jpg" border="0" align="left" width="56" alt=""></a></td>
+<td><img src="../images_main/dot_clr.gif" width="4" height="1" alt=""></td>
+</tr>
+<tr>
+<td colspan="2"><img src="../images_main/dot_clr.gif" width="1" height="4" alt=""></td>
+</tr>
+</table>
+<font class="body1" size="1" color="#000000"><a href="http://www.ujf.net/content_display.html?ArticleID=143209" type="internal">Click here</a> for fast facts and statistics about Israel.
+	 <br clear="all"></font>
+</td>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_right.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" colspan="3" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_bottom.gif"><img src="../images_main/dot_clr.gif" width="1" height="9" alt=""></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><a href="../section_display_ID_17/" target="_self"></a><br><img src="../images_main/dot_clr.gif" height="16" width="1"/><br/><table width="192" cellpadding="0" cellspacing="0" border="0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:example="uuid:{D3B28627-934D-41bc-8B7A-0549A8802FE4}">
+<tr>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="174" height="1" alt=""></td>
+<td><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topleft.gif"><img src="../images_main/dot_clr.gif" width="9" height="20" alt=""></td>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_top.gif" style="line-height:14px;">
+<font size="2" class="callout1" valign="middle" style="text-decoration: none;"><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br>Israel Links<br><img src="../images_main/dot_clr.gif" width="1" height="3" alt="" border="0"><br></font>
+</td>
+<td class="callouttop" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_topright.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_left.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_body.gif"><img src="../images_main/dot_clr.gif" width="1" height="3" alt=""><br><font class="body1" size="1" color="#000000"><p><strong>Israeli Government Sites:</strong></p>
+<p><a href="http://www.israelemb.org/" target="_new" type="external">Embassy of Israel</a> (Washington, D.C.)</p>
+<p><a href="http://www.mfa.gov.il/mfa/home.asp" target="_new" type="external">Israel Ministry of Foreign Affairs</a></p>
+<p></p>
+<p><a href="http://www.idf.il/english/news/main.stm" target="_new" type="external">Israel Defense Forces</a></p>
+<p></p>
+<p><a href="http://www.tourism.gov.il/" target="_new" type="external">Israel Ministry of Tourism</a></p>
+<p><a href="http://www/moia.gov.il/english/index_en.asp" target="_new" type="external">Israel Ministry of Immigrant Absorption</a></p>
+<p><a href="http://www.knesset.gov.il/" target="_new" type="external">Knesset of Israel</a></p>
+<p><strong>Israeli Non-Profit Agencies:</strong></p>
+<p><a href="http://www.jafi.org.il/" target="_new" type="external">The Jewish Agency for Israel</a> </p>
+<p>
+<p><a href="http://www.jazo.org.il/"><u><font color="#0000ff"></u></font></a></p>
+<p></p><a href="http://www.bh.org/" target="_new" type="external">Diaspora Museum</a> 
+<p></p>
+<p></p>
+<p><a href="http://www.yadvashem.org/" target="_new" type="external">Yad Vashem Holocaust Authority</a> </p>
+<p><strong>Israeli Media:</strong></p>
+<p><a href="http://www/haaretzdaily.com/" target="_new" type="external">Ha’aretz</a></p>
+<p></p>
+<p><a href="http://www/jpost.com" target="_new" type="external">Jerusalem Post </a></p>
+<p></p>
+<p><a href="http://www.jrep.com/" target="_new" type="external">Jerusalem Report </a></p>
+<p></p>
+<p><a href="http://www.maarivintl.com/index/cfm" target="_new" type="external">Maariv</a></p>
+<p><strong>Information on Aliyah:</strong></p>
+<p><a href="http://www.jazo.org.il/aliyah" target="_new" type="external">Jewish Agency for Israel- Aliyah Department</a></p>
+<p><a href="http://www.jcpa.org/" target="_new" type="external">Jerusalem Center of Public Affairs</a><u><font color="#0000ff"></p></u></font>
+<p><a href="http://www.nbn.org.il/" target="_new" type="external">"Nefesh B'enefesh" Help in the Process of Aliyah</a></p>
+<p><a href="http://www.tehilla.com/" target="_new" type="external">"Tehilah" Help in the Process of Aliyah</a><u><font color="#0000ff"></p></u></font>
+<p><a href="http://overseas.huji.ac.il/" target="_new" type="external">Rothberg International School, Hebrew University</a> 
+<p><strong>Israel Travel Programs:</strong> 
+<p><a href="http://www.israelexperience.com/" target="_new" type="external">Israel Experience</a><u><font color="#0000ff"></p></u></font>
+<p><a href="http://www.usy.org/" target="_new" type="external">USY Program In Israel ( United Synagogue Youth)</a><u><font color="#0000ff"></p></u>
+<p><a href="http://www.wujs-arad.org/" target="_new" type="external">Educational Program in Arad Israel</a><u></p></u>
+<p><a href="http://www.birthrightisrael.com/" target="_new" type="external">Birthright Israel</a><u></p></u>
+<p><a href="http://www.projectotzma.com/" target="_new" type="external">Project Otzma</a><u></u>
+	 <br clear="all"></font>
+</td>
+<td class="calloutback" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_right.gif"><img src="../images_main/dot_clr.gif" width="9" height="1" alt=""></td>
+</tr>
+<tr>
+<td class="calloutback" colspan="3" background="http://www.ujfpittsburgh.org/style_images/v2bl/images_body/ctile_bottom.gif"><img src="../images_main/dot_clr.gif" width="1" height="9" alt=""></td>
+</tr>
+</table>
+<img src="../images_main/dot_clr.gif" height="16" width="1"/><br/></td>
+</tr>
+</table>
+<!-- nested body table end -->
+<script>
+try
+{
+	WT.cg_n = "Israel";
+}
+catch(e)
+{}
+</script>
+</div>
+<!-- end content area -->
+</div>
+<!-- end content block -->
+<!-- begin footer -->
+<div id="footer"><font size="1" class="footer1">Copyright &copy; 2001 - 2007&#160;United Jewish Communities. All Rights Reserved<br>
+<a href="../privacy_policy/">Privacy Policy</a> and <a href="../terms_of_use/">Terms of Use</a><br></font>
+<p align="center">For&nbsp;site questions or comments, contact <a href="mailto:UJFInformation.manager@UJFpittsburgh.org" type="email">UJFInformation.manager@UJFpittsburgh.org</a></p>
+<p align="center">234 McKee Place</p>
+<p align="center">Pittsburgh, PA 15213</p>
+<p align="center">412-681-8000</p>
+<p align="center">Rachel Mondale, Site Administrator</p>
+<br>
+</div>
+<!-- end footer -->
+<script language="javascript">
+window.onload = function()
+{
+	adjustLayout();
+	startList();
+}
+try
+{
+	WT.sp = "118";
+	dcsTag();
+}
+catch(e) {}
+</script>
+</body>
+</html>
